@@ -4,7 +4,8 @@
 
 ## 预览
 
-<img src="./docs/assets/qui-flow.jpg" width="300"/>
+<img src="https://qapp-ui.github.io/qapp-ui/docs/assets/qui-flow.jpg" width="300"/>
+
 ## 依赖接口
 
 无依赖

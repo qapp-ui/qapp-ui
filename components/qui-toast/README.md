@@ -3,7 +3,8 @@
 > toast组件，支持常规的文本toast和带图标的toast
 
 ## 预览
-<img src="./docs/assets/qui-toast.gif" width="300"/>
+<img src="https://qapp-ui.github.io/qapp-ui/docs/assets/qui-toast.gif" width="300"/>
+
 ## 依赖接口
 
 无依赖

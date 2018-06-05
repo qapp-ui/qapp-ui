@@ -3,7 +3,8 @@
 > 索引列表组件, 可以通过索引快速定位
 
 ## 预览
-<img src="./docs/assets/qui-indexlist.gif" width="300"/>
+<img src="https://qapp-ui.github.io/qapp-ui/docs/assets/qui-indexlist.gif" width="300"/>
+
 ## 依赖接口
 
 无依赖

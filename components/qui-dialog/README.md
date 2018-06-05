@@ -3,7 +3,8 @@
 > 对话框组件，支持自定义标题、正文内容、按钮。依赖qui-overlay，qui-button组件
 
 ## 预览
-<img src="./docs/assets/qui-dialog.gif" width="300"/>
+<img src="https://qapp-ui.github.io/qapp-ui/docs/assets/qui-dialog.gif" width="300"/>
+
 ## 依赖接口
 
 无依赖

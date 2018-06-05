@@ -4,7 +4,7 @@
 
 ## 预览
 
-<img src="./docs/assets/qui-button.jpeg" width="300"/>
+<img src="https://qapp-ui.github.io/qapp-ui/docs/assets/qui-button.jpeg" width="300"/>
 
 ## 依赖接口
 

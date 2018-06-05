@@ -3,7 +3,8 @@
 > 操作选择列表，支持android和ios的风格，依赖qui-overlay组件。
 
 ## 预览
-<img src="./docs/assets/qui-action.gif" width="300"/>
+<img src="https://qapp-ui.github.io/qapp-ui/docs/assets/qui-action.gif" width="300"/>
+
 ## 依赖接口
 
 无依赖

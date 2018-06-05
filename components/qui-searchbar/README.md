@@ -3,7 +3,7 @@
 > 搜索框组件
 
 ## 预览
-<img src="./docs/assets/qui-searchbar.gif" width="300"/>
+<img src="https://qapp-ui.github.io/qapp-ui/docs/assets/qui-searchbar.gif" width="300"/>
 
 
 ## 依赖接口

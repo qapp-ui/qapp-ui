@@ -3,7 +3,8 @@
 > 加载提示组件，依赖qui-overlay组件
 
 ## 预览
-<img src="./docs/assets/qui-loading.gif" width="300"/>
+<img src="https://qapp-ui.github.io/qapp-ui/docs/assets/qui-loading.gif" width="300"/>
+
 ## 依赖接口
 
 无依赖
