@@ -61,7 +61,7 @@
 
 ```
 
-更详细代码可以参考[qui-flow demo]()
+更详细代码可以参考[qui-flow demo](https://github.com/qapp-ui/qapp-ui/blob/master/src/Flow/index.ux)
 
 ## 参数
 

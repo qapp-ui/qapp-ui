@@ -70,7 +70,7 @@
 </script>
 ```
 
-更详细代码可以参考[qui-action demo]()
+更详细代码可以参考[qui-action demo](https://github.com/qapp-ui/qapp-ui/blob/master/src/Action/index.ux)
 
 ## 参数
 

@@ -55,7 +55,7 @@ export default {
 </script>
 ```
 
-更详细代码可以参考 [qui-titlebar demo]()
+更详细代码可以参考 [qui-titlebar demo](https://github.com/qapp-ui/qapp-ui/blob/master/src/Titlebar/index.ux)
 
 ### 参数 option
 

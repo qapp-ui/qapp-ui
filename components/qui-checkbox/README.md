@@ -51,7 +51,7 @@
 </script>
 ```
 
-更详细代码可以参考 [qui-checkbox demo]()
+更详细代码可以参考 [qui-checkbox demo](https://github.com/qapp-ui/qapp-ui/blob/master/src/Checkbox/index.ux)
 
 ### 参数option
 

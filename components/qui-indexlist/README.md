@@ -80,7 +80,7 @@
 
 ```
 
-更详细代码可以参考[qui-indexlist demo]()
+更详细代码可以参考[qui-indexlist demo](https://github.com/qapp-ui/qapp-ui/blob/master/src/Indexlist/index.ux)
 
 ## 参数
 

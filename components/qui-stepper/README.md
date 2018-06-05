@@ -38,7 +38,7 @@
 </script>
 ```
 
-更详细代码可以参考 [qui-stepper demo]()
+更详细代码可以参考 [qui-stepper demo](https://github.com/qapp-ui/qapp-ui/blob/master/src/Stepper/index.ux)
 
 ### 参数 option
 

@@ -51,7 +51,7 @@
 </script>
 ```
 
-更详细代码可以参考 [qui-cell demo]()
+更详细代码可以参考 [qui-cell demo](https://github.com/qapp-ui/qapp-ui/blob/master/src/Cell/index.ux)
 
 ### 参数 option
 

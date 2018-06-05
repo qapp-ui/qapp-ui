@@ -40,7 +40,7 @@
 </script>
 ```
 
-更详细代码可以参考 [qui-switch demo]()
+更详细代码可以参考 [qui-switch demo](https://github.com/qapp-ui/qapp-ui/blob/master/src/Switch/index.ux)
 
 ### 参数option
 

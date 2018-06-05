@@ -25,7 +25,7 @@
 </qui-mask>
 ```
 
-更详细代码可以参考 [qui-mask demo]()
+更详细代码可以参考 [qui-mask demo](https://github.com/qapp-ui/qapp-ui/blob/master/src/Mask/index.ux)
 
 ### 参数 option
 

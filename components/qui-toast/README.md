@@ -35,7 +35,7 @@
 </script>
 ```
 
-更详细代码可以参考[qui-toast demo]()
+更详细代码可以参考[qui-toast demo](https://github.com/qapp-ui/qapp-ui/blob/master/src/Toast/index.ux)
 
 ## 参数
 

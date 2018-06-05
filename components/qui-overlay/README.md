@@ -40,7 +40,7 @@
 </script>
 ```
 
-更详细代码可以参考[qui-overlay demo]()
+更详细代码可以参考[qui-overlay demo](https://github.com/qapp-ui/qapp-ui/blob/master/src/Overlay/index.ux)
 
 ## 参数
 

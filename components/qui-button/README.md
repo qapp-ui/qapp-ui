@@ -22,7 +22,7 @@
 </template>
 ```
 
-更详细代码可以参考 [qui-button demo]()
+更详细代码可以参考 [qui-button demo](https://github.com/qapp-ui/qapp-ui/blob/master/src/Button/index.ux)
 
 ### 参数 option
 

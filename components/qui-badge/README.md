@@ -58,7 +58,7 @@
 
 ```
 
-更详细代码可以参考 [qui-badge demo]()
+更详细代码可以参考 [qui-badge demo](https://github.com/qapp-ui/qapp-ui/blob/master/src/Badge/index.ux)
 
 ### 参数 option
 

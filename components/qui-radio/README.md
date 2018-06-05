@@ -56,7 +56,7 @@
 </script>
 ```
 
-更详细代码可以参考 [qui-radio demo]()
+更详细代码可以参考 [qui-radio demo](https://github.com/qapp-ui/qapp-ui/blob/master/src/Radio/index.ux)
 
 ### 参数option
 
