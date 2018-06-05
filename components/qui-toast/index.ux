@@ -1,0 +1,126 @@
+<template>
+  <stack>
+    <stack class="qui-toast" if="queue.length">
+      <div class="{{$item.className}}" for="queue" tid="id">
+        <image if="$item.src" src="{{$item.src}}"></image>
+        <text style="color:{{$item.type==='warning'?'#FF4F4F':'#ffffff'}}">{{$item.text}}</text>
+      </div>
+    </stack>
+  </stack>
+</template>
+
+<style>
+  @keyframes quitoastenter {
+    0% {
+      opacity: 0;
+    }
+
+    100% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes quitoastleave {
+    0% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+
+  .qui-toast-enter {
+    animation-name: quitoastenter;
+  }
+
+  .qui-toast-leave {
+    animation-name: quitoastleave;
+  }
+
+  .qui-toast {
+    position: fixed;
+    bottom: 300px;
+    left: 200px;
+    right: 200px;
+    justify-content: center;
+    align-items: flex-end;
+  }
+
+  .qui-toast > div {
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 27px;
+    border-radius: 24px;
+    background-color: rgba(71, 71, 71, .8);
+    animation-duration: 500ms;
+    animation-fill-mode: forwards;
+  }
+
+  .qui-toast image {
+    margin: 20px 0 24px;
+    width: 100px;
+  }
+
+  .qui-toast text {
+    color: #ffffff;
+    font-size: 36px;
+  }
+</style>
+
+<script>
+  /**
+   * option = {
+   *   type: 'success|warning|error|customsrc', //toast类型或者自定义图标的src
+   *   duration: 3000,  //显示时长
+   *   text: 'xxxx'   //显示文本
+   * }
+   */
+  import { SUCCESS_ICON, ERROR_ICON, WARNING_ICON } from './image'
+
+  export default {
+    data() {
+      return {
+        number: 0,    //toast唯一id
+        queue: [],    //toast队列
+        icon: {
+          success: SUCCESS_ICON,
+          error: ERROR_ICON,
+          warning: WARNING_ICON
+        }
+      }
+    },
+    show(option) {
+      let id = this.number++
+
+      this.queue.push({
+        id,
+        className: 'qui-toast-enter',
+        type: option.type,
+        src: this.icon[option.type] || option.type,
+        text: option.text,
+        duration: option.duration || 3000   //默认显示3s
+      })
+      setTimeout(() => {
+        //根据id找到要消失的toast的索引
+        let index = this.queue.findIndex(function (item) {
+          if (item.id === id) {
+            item.className = 'qui-toast-leave'
+
+            return true
+          }
+        })
+
+        //重新给queue赋值来更新dom
+        this.queue = [...this.queue.slice(0, index), this.queue[index], ...this.queue.slice(index + 1)]
+        //移除toast
+        setTimeout(() => {
+          this.queue.splice(this.queue.findIndex(function (item) {
+            if (item.id === id) {
+              return true
+            }
+          }), 1)
+        }, 500)
+      }, (option.duration || 3000) + 500)
+    }
+  }
+</script>

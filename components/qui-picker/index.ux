@@ -1,0 +1,229 @@
+<import name="qui-overlay" src="../qui-overlay/index"></import>
+
+<template>
+  <div>
+    <qui-overlay option="{{overlay}}" @qui-overlay-click="overlayClick">
+      <div show="{{visible}}" class="qui-picker-box {{animationClass}}" style="animation-duration: {{animationDuration}}ms;">
+        <div class="bar">
+          <text class="cancel" @click="cancelClick">{{option.cancelText}}</text>
+          <text class="confirm" @click="confirmClick">{{option.confirmText}}</text>
+        </div>
+        <div class="list-box">
+          <list class="list" for="(index, data) in dataList" id="list{{index}}">
+            <list-item class="list-item" type="listitem" for="{{data}}" @click="setItems($idx, index)">
+              <text class="list-item-text {{selIndexs[index] === $idx ? 'text-selected':''}}">{{$item}}</text>
+            </list-item>
+          </list>
+        </div>
+      </div>
+    </qui-overlay>
+  </div>
+</template>
+
+<style>
+.qui-picker-box {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 1080px;
+  height: 886px;
+  animation-fill-mode: forwards;
+  background-color: #ffffff;
+  flex-direction: column;
+}
+.pickerenter{
+  animation-name: pickerenter;
+}
+.pickerleave {
+  animation-name: pickerleave;
+}
+
+.bar {
+  width: 100%;
+  height: 156px;
+  justify-content: space-between;
+  align-items: center;
+  border-color: #E6E6E6;
+  border-style: solid;
+  border-bottom-width: 2px;
+}
+.cancel {
+  padding: 48px;
+  font-size: 42px;
+  color: #666666;
+}
+.confirm {
+  padding: 48px;
+  font-size: 42px;
+  color: #00ACFF;
+}
+
+.list-box {
+  flex: 1;
+  width: 100%;
+  justify-content: space-between;
+}
+.list {
+  flex-direction: column;
+  align-items: center;
+}
+.list-item {
+  height: 130px;
+  align-items: center;
+  justify-content: center;
+}
+.list-item-text {
+  font-size: 42px;
+  lines: 1;
+  text-overflow: ellipsis;
+}
+.text-selected {
+  color: #00ACFF;
+}
+
+@keyframes pickerenter {
+  0% {
+    transform: translateY(886px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+@keyframes pickerleave {
+  0% {
+    transform: translateY(0px);
+  }
+  100% {
+    transform: translateY(886px);
+  }
+}
+</style>
+
+<script>
+  export default {
+    props:['option'],
+    data() {
+      return {
+        visible: this.option.show,
+        animationClass: '',
+        animationDuration: 600,
+        dataList: [],
+        selIndexs: [],
+        overlay: {
+          show: false,
+          autoClose: false,
+          background: ''
+        },
+         defaultData: {
+          show: false,
+          autoClose: true,
+          cancelText: '取消',
+          confirmText: '确定',
+          background: 'rgba(0,0,0,0.4)',
+          type: '',
+          list: [],
+          selIndexs: []
+        }
+      }
+    },
+    onInit() {
+      this.setDefault()
+      this.setDataList()
+      this.setOverlayBg()
+      this.toggleShow(this.option.show)
+    },
+    setDefault() {
+      Object.keys(this.defaultData).forEach(key => {
+        if (!this.option.hasOwnProperty(key)) {
+          this.$set(`option.${key}`, this.defaultData[key])
+        }
+        if (key === 'show') {
+          this.$watch(`option.${key}`, 'toggleShow')
+        } else if (key === 'background') {
+          this.$watch(`option.${key}`, 'setOverlayBg')
+        }
+      })
+    },
+    setDataList() {
+      let selIndexs = []
+      if (this.option.type === '') {
+        // 非联动模式
+        this.option.list.forEach((item, idx) => {
+          const datatype = Object.prototype.toString.call(item)
+          if (datatype === '[object Array]') {
+            this.dataList.push(item)
+            selIndexs.push(0)
+          }
+        })
+      } else if (this.option.type === 'chain') {
+        // 多级联动模式
+        this.setChainList(0, this.option.list, this.option.selIndexs, selIndexs)
+      }
+      if (this.option.selIndexs.length) {
+        this.selIndexs = this.option.selIndexs
+      } else {
+        this.selIndexs = selIndexs
+      }
+    },
+    setChainList(idx, list, defaultIndexs, selIndexs){
+      if (!list.length) return
+
+      this.dataList[idx] = []
+      list.forEach((item, index) => {
+        const datatype = Object.prototype.toString.call(item)
+        if (datatype === '[object Object]') {
+          this.dataList[idx].push(item.name)
+          if ((defaultIndexs[idx] || 0) === index) {
+            selIndexs[idx] = index
+            this.setChainList(idx + 1, item.children || [], defaultIndexs, selIndexs)
+          }
+        }
+      })
+    },
+    toggleShow(show) {
+      if (this.timeoutId) clearTimeout(this.timeoutId)
+
+      this.option.show = show
+      this.overlay.show = show
+      if (show) {
+        this.visible = true
+        this.animationClass = 'pickerenter'
+      } else {
+        this.animationClass = 'pickerleave'
+        this.timeoutId = setTimeout(() => {
+          this.visible = false
+        }, this.animationDuration - 200)
+      }
+    },
+    setItems(subidx, idx) {
+      let selIndexs =  this.selIndexs
+      if (selIndexs[idx] === subidx) return
+      selIndexs[idx] = subidx
+      this.selIndexs = [...this.selIndexs]
+
+      if (this.option.type === 'chain') {
+        // 多级联动模式
+        this.setChainList(0, this.option.list, this.selIndexs, [])
+        this.dataList = [...this.dataList]
+      }
+    },
+    setOverlayBg() {
+      this.overlay.background = this.option.background
+    },
+    cancelClick() {
+      this.option.show = false
+      this.$emit('quiCancelClick')
+    },
+    confirmClick() {
+      this.option.show = false
+      this.$emit('quiConfirmClick', { selIndexs: this.selIndexs })
+    },
+    overlayClick() {
+      if (this.option.autoClose) {
+        this.option.show = false
+      }
+      this.$emit('quiOverlayClick')
+    }
+  }
+</script>

@@ -1,0 +1,195 @@
+<template>
+  <text class="qui-badge-circle-bg {{badge_anim}} "
+        style="width: {{option.width}};height:{{option.height}};
+        border-radius: {{(option.borderRadius)}};font-size:{{option.fontSize}};
+        font-weight:{{option.fontStyle}};background-color:{{option.background}};color:{{option.textColor}}">
+    {{option.badge}}
+  </text>
+</template>
+
+<style>
+  .qui-badge {
+    flex: 1;
+    align-items: center;
+  }
+
+  .qui-badge-circle-bg {
+    border-radius: 80px;
+    font-size: 44px;
+    background-color: #d00000;
+    text-align: center;
+    color: #ffffff;
+    font-weight: bold;
+    width: 80px;
+    height: 80px;
+    animation-fill-mode: forwards;
+  }
+
+  .qui-badge-fade-hide {
+    animation-name: FadeAnimationHide;
+    animation-duration: 500ms;
+  }
+
+  @keyframes FadeAnimationHide {
+    0% {
+      opacity: 1;
+    }
+
+    100% {
+      opacity: 0;
+    }
+  }
+
+  .qui-badge-fade-show {
+    animation-name: FadeAnimationShow;
+    animation-duration: 750ms;
+  }
+
+  @keyframes FadeAnimationShow {
+    0% {
+      opacity: 0;
+    }
+
+    30% {
+      opacity: 0;
+    }
+
+    100% {
+      opacity: 1;
+    }
+  }
+
+  .qui-badge-pop-hide {
+    animation-name: PopAnimationHide;
+    animation-duration: 500ms;
+  }
+
+  @keyframes PopAnimationHide {
+    0% {
+      transform: scale(1);
+    }
+
+    100% {
+      transform: scale(0);
+    }
+  }
+
+  .qui-badge-pop-show {
+    animation-name: PopAnimationShow;
+    animation-duration: 750ms;
+  }
+
+  @keyframes PopAnimationShow {
+    0% {
+      transform: scale(0);
+    }
+
+    30% {
+      transform: scale(0);
+    }
+
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  .qui-badge-slide-hide {
+    animation-name: SlideAnimationHide;
+    animation-duration: 500ms;
+  }
+
+  @keyframes SlideAnimationHide {
+    0% {
+      transform: translateY(0px);
+      opacity: 1;
+    }
+
+    100% {
+      transform: translateY(80px);
+      opacity: 0;
+    }
+  }
+
+  .qui-badge-slide-show {
+    animation-name: SlideAnimationShow;
+    animation-duration: 750ms;
+  }
+
+  @keyframes SlideAnimationShow {
+    0% {
+      transform: translateY(80px);
+      opacity: 0;
+    }
+
+    30% {
+      transform: translateY(80px);
+      opacity: 0;
+    }
+
+    100% {
+      transform: translateY(0px);
+      opacity: 1;
+    }
+  }
+</style>
+
+<script>
+  const anim_map = {
+    'pop': ['qui-badge-pop-hide', 'qui-badge-pop-show'],
+    'fade': ['qui-badge-fade-hide', 'qui-badge-fade-show'],
+    'slide': ['qui-badge-slide-hide', 'qui-badge-slide-show']
+  }
+  export default {
+    prop: ['option'],
+    data: {
+      defaultData: {
+        fontStyle: 'bold',
+        background: '#d00000',
+        textColor: '#ffffff',
+        animationType: 'none',
+        badge: 0,
+        height: '80px',
+        width: '80px',
+        borderRadius: '80px',
+        fontSize: '44px'
+      },
+      badge_anim: ''
+    },
+    onInit: function () {
+      this.option = this.option || {}
+      Object.keys(this.defaultData).forEach((key) => {
+        if (!this.option.hasOwnProperty(key)) {
+          this.$set(`option.${key}`, this.defaultData[key])
+        }
+      })
+      this.$watch('option.badge', 'badgeChange')
+    },
+    addDelta(delta) {
+      let ref = this
+      let action = function () {
+        ref.option.badge += delta
+      }
+      let playAnim = false
+      if (anim_map.hasOwnProperty(this.option.animationType)) {
+        playAnim = true
+      }
+      if (playAnim) {
+        const [hide, show] = anim_map[this.option.animationType]
+        this.playAnim(hide, show, action)
+        return
+      }
+      action()
+    },
+    playAnim(hide, show, action) {
+      this.badge_anim = hide
+      setTimeout(() => {
+        action()
+        this.badge_anim = show
+      }, 500)
+    },
+    badgeChange: function () {
+      this.$emit('quiBadgeChange', {value: this.option.badge})
+    }
+  }
+</script>
+

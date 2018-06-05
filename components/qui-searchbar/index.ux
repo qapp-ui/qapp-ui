@@ -1,0 +1,146 @@
+<template>
+  <div class="qui-search-box">
+    <div class="searchbar" style="{{barStyle}}" show="{{option.show}}">
+      <!-- fix input bug -->
+      <input style="width: 0px;height: 0px;" />
+      <div class="search-content" style="{{contentStyle}}" >
+        <div class="search-icon"><image src="{{searchIcon}}" /></div>
+        <input id="search-input" class="search-input" type="text" value='{{searchValue}}' placeholder="{{option.placeholder}}"
+        disabled="{{option.disabled}}" @focus="onfocus" @blur="onblur" @change="onchange" />
+        <div class="clear-icon" @click="clearClick" style="opacity:{{showClear ? '1':'0'}};"><image src="{{clearIcon}}" /></div>
+      </div>
+      <text class="search-btn" style="color:{{option.searchBtnColor}};" @click="searchClick">搜索</text>
+    </div>
+  </div>
+</template>
+
+<style>
+.searchbar {
+  align-items: center;
+  padding-left: 42px;
+  padding-right: 22px;
+  width: 1080px;
+  height: 144px;
+  background-color: #FFFFFF;
+}
+.search-content {
+  flex: 1;
+  align-items: center;
+  padding: 12px 21px;
+  border-radius: 18px;
+}
+.search-input {
+  margin: 0 10px;
+  height: 72px;
+  flex: 1;
+}
+.search-icon {
+  width: 72px;
+  height: 72px;
+  align-items: center;
+  justify-content: center;
+}
+.search-icon image{
+  width: 48px;
+  height: 48px;
+  resize-mode: contain;
+}
+.clear-icon {
+  width: 60px;
+  height: 60px;
+  align-items: center;
+  justify-content: center;
+}
+.clear-icon image{
+  width: 33px;
+  height: 33px;
+  resize-mode: contain;
+}
+.search-btn {
+  font-size: 42px;
+  font-weight: bold;
+  margin-left: 22px;
+  padding: 10px 20px;
+}
+</style>
+
+<script>
+  import { CLEAR_ICON, SEARCH_ICON } from './image'
+
+  export default {
+    props: ['option'],
+    data() {
+      return {
+        searchValue: '',
+        searchIcon: SEARCH_ICON,
+        clearIcon: CLEAR_ICON,
+        showClear: false,
+        barStyle: {},
+        contentStyle: {},
+        defaultData: {
+          show: true,
+          placeholder: '搜索',
+          disabled: false,
+          barBackground: '#FFFFFF',
+          inputBackground: '#E5E5E5',
+          searchBtnColor: '#0988F0',
+          width: '1080px',
+        }
+      }
+    },
+    onInit() {
+      this.setDefault()
+      this.setStyle()
+    },
+    setDefault() {
+      Object.keys(this.defaultData).forEach(key => {
+        if (!this.option.hasOwnProperty(key)) {
+          this.$set(`option.${key}`, this.defaultData[key])
+        }
+      })
+    },
+    setStyle() {
+      this.barStyle = {
+        width: this.option.width,
+        backgroundColor: this.option.barBackground,
+      }
+      this.contentStyle = {
+        backgroundColor: this.option.inputBackground,
+        opacity: this.option.disabled ? '0.4': '1'
+      }
+    },
+    onchange(e) {
+      this.searchValue = e.value
+      if (this.searchValue) {
+        this.showClear = true
+      } else {
+        this.showClear = false
+      }
+    },
+    onfocus() {
+      this.$emit('quiSearchFocus', { value: this.searchValue })
+    },
+    onblur() {
+      this.$emit('quiSearchBlur', { value: this.searchValue })
+    },
+    clearClick() {
+      this.searchValue = ''
+      this.showClear = false
+      this.$emit('quiSearchClear')
+    },
+    searchClick() {
+      this.blur()
+      this.$emit('quiSearchClick', { value: this.searchValue })
+    },
+    focus() {
+      this.$element("search-input").focus({
+        focus: true
+      })
+    },
+    blur() {
+      this.$element("search-input").focus({
+        focus: false
+      })
+    }
+  }
+</script>

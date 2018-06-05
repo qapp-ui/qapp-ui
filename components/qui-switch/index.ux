@@ -1,0 +1,103 @@
+<!-- Created by yzhangbao on 18/04/03. -->
+<!-- qui-switch -->
+
+<template>
+  <div>
+    <div class="qui-switch-box">
+      <label if="option.isLeft && option.label" style="margin-right: {{option.labelMargin}};font-size: {{option.labelFontSize}};color: {{option.labelColor}}" target="{{option.id}}" class="name name-left">{{option.label}}</label>
+      <stack class="checkbox {{option.disabled ? 'disabled' : ''}}" style="background-color: {{option.value ? option.checkedColor : option.checkColor}}" id="{{option.id}}" @click="evtAction">
+        <div class="thumb {{option.value ? 'open' : 'close'}}" style="background-color: {{option.value ? option.thumbCheckedColor : option.thumbCheckColor}}"></div>
+      </stack>
+      <label if="!option.isLeft && option.label" style="margin-left: {{option.labelMargin}};font-size: {{option.labelFontSize}};color: {{option.labelColor}}" target="{{option.id}}" class="name">{{option.label}}</label>
+    </div>
+  </div>
+</template>
+
+<style>
+  .qui-switch-box{
+    align-items: center;
+  }
+  .checkbox {
+    width: 156px;
+    height: 76px;
+    border-radius: 38px;
+  }
+  .disabled {
+    opacity: .5;
+  }
+  .thumb{
+    margin: 4px;
+    width: 68px;
+    height: 68px;
+    border-radius: 34px;
+  }
+  @keyframes open {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(80px);
+    }
+  }
+  .open {
+    animation-name: open;
+    animation-duration: 200ms;
+    animation-fill-mode: forwards;
+  }
+  @keyframes close {
+    from {
+      transform: translateX(80px);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+  .close {
+    animation-name: close;
+    animation-duration: 200ms;
+    animation-fill-mode: forwards;
+  }
+</style>
+
+<script>
+  export default {
+    props: ['option'],
+    data: {
+      defaultData: {
+        disabled: false,
+        value: false,
+        id: '',
+        label: '',
+        labelMargin: '30px',
+        labelFontSize: '44px',
+        labelColor: '#000000',
+        isLeft: false,
+        checkColor: '#C1C1C1',
+        checkedColor: '#2998F9',
+        thumbCheckColor: '#FFFFFF',
+        thumbCheckedColor: '#FFFFFF'
+      }
+    },
+    onInit() {
+      this.setDefault()
+    },
+    onReady() {
+      this.$watch('option.value', 'change')
+    },
+    setDefault() {
+      for (var key in this.defaultData) {
+        if (this.defaultData[key] !== undefined && this.option && this.option[key] === undefined) {
+          this.$set(`option.${key}`, this.defaultData[key])
+        }
+      }
+    },
+    evtAction() {
+      if (!this.option.disabled) {
+        this.option.value = !this.option.value
+      }
+    },
+    change() {
+      this.$emit('quiSwitchChange', {id: this.option.id, value: this.option.value})
+    }
+  }
+</script>

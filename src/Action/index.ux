@@ -1,0 +1,87 @@
+<import name="qui-action" src="@qapp-ui/qui-action/index"></import>
+<import name="qui-toast" src="@qapp-ui/qui-toast/index"></import>
+
+<template>
+  <div class="page">
+    <input type="button" value="显示（ios风格）" @click="switchIos">
+    <input type="button" value="显示(android风格)" @click="switchAndroid">
+    <input type="button" value="添加内容" @click="switchList">
+    <qui-action option="{{option}}" @qui-overlay-click="hide" @qui-select="select" @qui-cancel="cancel"></qui-action>
+    <qui-toast id="qui-toast"></qui-toast>
+  </div>
+</template>
+
+<style>
+  .page {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .page input {
+    width: 800px;
+    height: 100px;
+    background-color: #0F8DE8;
+    margin-bottom: 100px;
+    color: #ffffff;
+  }
+</style>
+
+<script>
+  export default {
+    private: {
+      option: {
+        background: 'rgba(0,0,0,.6)',
+        options: [
+          'item1item1item1item1item1item1item1item1item1item1item1item1item1',
+          'action2',
+          'action3'
+        ]
+      }
+    },
+    onInit() {
+      this.$page.setTitleBar({ text: 'Action' })
+    },
+    onReady() {
+      this.toast = this.$child('qui-toast')
+    },
+    onBackPress() {
+      if (this.option.show) {
+        this.option.show = false
+
+        return true
+      }
+    },
+    switchIos() {
+      this.option.iosStyle = true
+      this.option.cancel = '取消'
+      this.option.show = true
+    },
+    switchAndroid() {
+      this.option.iosStyle = false
+      this.option.cancel = '取消'
+      this.option.show = true
+    },
+    switchList() {
+      this.option.options = [...this.option.options, ...this.option.options]
+    },
+    show() {
+      this.option.show = true
+    },
+    hide() {
+      this.option.show = false
+    },
+    select(event) {
+      this.toast.show({
+        type: 'success',
+        text: `选择的第${event.detail.index + 1}个选项`
+      })
+    },
+    cancel() {
+      this.option.show = false
+      this.toast.show({
+        text: '取消'
+      })
+    }
+  }
+</script>

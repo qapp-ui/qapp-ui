@@ -1,0 +1,54 @@
+<import name="qui-flow" src="@qapp-ui/qui-flow/index"></import>
+
+<template>
+  <div class="page">
+    <qui-flow option="{{flow}}"></qui-flow>
+  </div>
+</template>
+
+<style>
+  .page {
+    flex-direction: column;
+    margin: 50px 50px 0 0;
+    background-color: #ffffff;
+  }
+</style>
+
+<script>
+  export default {
+    private: {
+      flow: {
+        line: '#0F8DE8',
+        background: '#ffffff',
+        border: '#0F8DE8',
+        highlightTitle: '#0F8DE8',
+        highlightBackground: '#ffffff',
+        highlightBorder: '#0F8DE8',
+        list: [{
+          'time': '2017-05-24 21:10:29',
+          'desc': '',
+          'highlight': true,
+          'title': '方案已确认'
+        }, {
+          'highlight': true,
+          'title': '方案已更新'
+        }, {
+          'highlight': true,
+          'time': '2017-05-24 19:49:03',
+          'desc': '测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试',
+          'title': '测试标题测试标题测试标题测试标题测试标题测试标题测试标题测试标题测试标题测试标题测试标题测试标题测试标题'
+        }, {
+          'desc': '您以确定了方案',
+          'title': '方案已上传'
+        }, {
+          'time': '2017-05-24 19:49:03',
+          'desc': '商家会在2个工作小时内电话联系您',
+          'title': '商家已接单'
+        }]
+      }
+    },
+    onInit() {
+      this.$page.setTitleBar({ text: 'Flow' })
+    }
+  }
+</script>

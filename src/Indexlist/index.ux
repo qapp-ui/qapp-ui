@@ -1,0 +1,728 @@
+<import name="qui-indexlist" src="@qapp-ui/qui-indexlist/index"></import>
+<import name="qui-toast" src="@qapp-ui/qui-toast/index"></import>
+
+<template>
+  <div class="page">
+    <div class="box">
+      <qui-indexlist option="{{indexlist}}" @qui-click="click"></qui-indexlist>
+    </div>
+    <qui-toast id="qui-toast"></qui-toast>
+  </div>
+</template>
+
+<style>
+  .page {
+    flex-direction: column;
+  }
+
+  .box {
+    width: 100%;
+    height: 100%;
+    background-color: #0000FF;
+  }
+</style>
+
+<script>
+  let data = {
+    hotList: [
+      {name: '北京', key: 'beijing', py: 'bj', desc: 'BJS'},
+      {name: '上海', key: 'shanghai', py: 'sh', desc: 'BJS'},
+      {name: '天津', key: 'tianjin', py: 'tj', desc: 'BJS'},
+      {name: '青岛', key: 'qingdao', py: 'qd', desc: 'BJS'},
+      {name: '南京', key: 'nanjing', py: 'nj', desc: 'BJS'},
+      {name: '杭州', key: 'hangzhou', py: 'hz', desc: 'BJS'},
+      {name: '厦门', key: 'xiamen', py: 'xm', desc: 'BJS'},
+      {name: '成都', key: 'chengdu', py: 'cd', desc: 'BJS'},
+      {name: '深圳', key: 'shenzhen', py: 'sz', desc: 'BJS'},
+      {name: '广州', key: 'guangzhou', py: 'gz', desc: 'BJS'},
+      {name: '沈阳', key: 'shenyang', py: 'sy', desc: 'BJS'},
+      {name: '武汉', key: 'wuhan', py: 'wh', desc: 'BJS'}
+    ],
+    normalList: [
+      {
+        name: '安徽',
+        desc: 'AH',
+        key: 'ahui',
+        py: 'ah',
+        hot: true,
+        location: true,
+        icon: true
+      }, {
+        name: '北京',
+        desc: 'BJS',
+        key: 'beijing',
+        py: 'bj',
+        hot: true
+      },
+      {
+        name: '包头',
+        desc: 'BAV',
+        key: 'baotou',
+        py: 'bt',
+        location: true
+      },
+      {
+        name: '宝鸡',
+        key: 'baoji',
+        py: 'bj',
+        location: true,
+        icon: true
+      },
+      {
+        name: '成都',
+        key: 'chengdu',
+        py: 'cd'
+      },
+      {
+        name: '重庆',
+        key: 'chongqing',
+        py: 'cq'
+      },
+      {
+        name: '长沙',
+        key: 'changsha',
+        py: 'cs'
+      },
+      {
+        name: '长春',
+        key: 'changchun',
+        py: 'cc'
+      },
+      {
+        name: '常州',
+        key: 'changzhou',
+        py: 'cz'
+      },
+      {
+        name: '常德',
+        key: 'changde',
+        py: 'cd'
+      },
+      {
+        name: '沧州',
+        key: 'cangzhou',
+        py: 'cz',
+        hot: true
+      },
+      {
+        name: '承德',
+        key: 'chengde',
+        py: 'cd'
+      },
+      {
+        name: '长治',
+        key: 'changzhi',
+        py: 'cz'
+      },
+      {
+        name: '滁州',
+        key: 'chuzhou',
+        py: 'cz'
+      },
+      {
+        name: '大连',
+        key: 'dalian',
+        py: 'dl',
+        hot: true
+      },
+      {
+        name: '东莞',
+        key: 'dongguan',
+        py: 'dg'
+      },
+      {
+        name: '大同',
+        key: 'datong',
+        py: 'dt'
+      },
+      {
+        name: '达州',
+        key: 'dazhou',
+        py: 'dz',
+        hot: true
+      },
+      {
+        name: '鄂尔多斯',
+        key: 'eerduosi',
+        py: 'eeds'
+      },
+      {
+        name: '恩施',
+        key: 'enshi',
+        py: 'es',
+        hot: true
+      },
+      {
+        name: '福州',
+        key: 'fuzhou',
+        py: 'fz'
+      },
+      {
+        name: '佛山',
+        key: 'foshan',
+        py: 'fs'
+      },
+      {
+        name: '抚顺',
+        key: 'fushun',
+        py: 'fs'
+      },
+      {
+        name: '抚州',
+        key: 'fuzhou',
+        py: 'fz'
+      },
+      {
+        name: '防城港',
+        key: 'fangchenggang',
+        py: 'fcg'
+      },
+      {
+        name: '广州',
+        key: 'guangzhou',
+        py: 'gz'
+      },
+      {
+        name: '贵阳',
+        key: 'guiyang',
+        py: 'gy'
+      },
+      {
+        name: '桂林',
+        key: 'guilin',
+        py: 'gl'
+      },
+      {
+        name: '广元',
+        key: 'guangyuan',
+        py: 'gy'
+      },
+      {
+        name: '广安',
+        key: 'guangan',
+        py: 'ga'
+      },
+      {
+        name: '杭州',
+        key: 'hangzhou',
+        py: 'hz'
+      },
+      {
+        name: '哈尔滨',
+        key: 'haerbin',
+        py: 'heb'
+      },
+      {
+        name: '合肥',
+        key: 'hefei',
+        py: 'hf'
+      },
+      {
+        name: '呼和浩特',
+        key: 'huhehaote',
+        py: 'hhht'
+      },
+      {
+        name: '海口',
+        key: 'haikou',
+        py: 'hk'
+      },
+      {
+        name: '黄山',
+        key: 'huangshan',
+        py: 'hs'
+      },
+      {
+        name: '呼伦贝尔',
+        key: 'hulunbeier',
+        py: 'hlbe'
+      },
+      {
+        name: '邯郸',
+        key: 'handan',
+        py: 'hd'
+      },
+      {
+        name: '衡阳',
+        key: 'hengyang',
+        py: 'hy'
+      },
+      {
+        name: '汉中',
+        key: 'hanzhong',
+        py: 'hz'
+      },
+      {
+        name: '济南',
+        key: 'jinan',
+        py: 'jn'
+      },
+      {
+        name: '济宁',
+        key: 'jining',
+        py: 'jn'
+      },
+      {
+        name: '九江',
+        key: 'jiujiang',
+        py: 'jj'
+      },
+      {
+        name: '景德镇',
+        key: 'jingdezhen',
+        py: 'jdz'
+      },
+      {
+        name: '吉林',
+        key: 'jilin',
+        py: 'jl'
+      },
+      {
+        name: '江门',
+        key: 'jiangmen',
+        py: 'jm'
+      },
+      {
+        name: '晋城',
+        key: 'jincheng',
+        py: 'jc'
+      },
+      {
+        name: '嘉峪关',
+        key: 'jiayuguan',
+        py: 'jyg'
+      },
+      {
+        name: '酒泉',
+        key: 'jiuquan',
+        py: 'jq'
+      },
+      {
+        name: '昆明',
+        key: 'kunming',
+        py: 'km'
+      },
+      {
+        name: '克拉玛依',
+        key: 'kelamayi',
+        py: 'klmy'
+      },
+      {
+        name: '兰州',
+        key: 'lanzhou',
+        py: 'lz'
+      },
+      {
+        name: '丽江',
+        key: 'lijiang',
+        py: 'lj'
+      },
+      {
+        name: '洛阳',
+        key: 'luoyang',
+        py: 'ly'
+      },
+      {
+        name: '柳州',
+        key: 'liuzhou',
+        py: 'lz'
+      },
+      {
+        name: '泸州',
+        key: 'luzhou',
+        py: 'lz'
+      },
+      {
+        name: '拉萨',
+        key: 'lasa',
+        py: 'ls'
+      },
+      {
+        name: '临汾',
+        key: 'linfen',
+        py: 'lf'
+      },
+      {
+        name: '乐山',
+        key: 'leshan',
+        py: 'ls'
+      },
+      {
+        name: '聊城',
+        key: 'liaocheng',
+        py: 'lc'
+      },
+      {
+        name: '丽水',
+        key: 'lishui',
+        py: 'ls'
+      },
+      {
+        name: '绵阳',
+        key: 'mianyang',
+        py: 'my'
+      },
+      {
+        name: '梅州',
+        key: 'meizhou',
+        py: 'mz'
+      },
+      {
+        name: '眉山',
+        key: 'meishan',
+        py: 'ms'
+      },
+      {
+        name: '南昌',
+        key: 'nanchang',
+        py: 'nc'
+      },
+      {
+        name: '南京',
+        key: 'nanjing',
+        py: 'nj'
+      },
+      {
+        name: '南宁',
+        key: 'nanning',
+        py: 'nn'
+      },
+      {
+        name: '宁波',
+        key: 'ningbo',
+        py: 'nb'
+      },
+      {
+        name: '南通',
+        key: 'nantong',
+        py: 'nt'
+      },
+      {
+        name: '南充',
+        key: 'nanchong',
+        py: 'nc'
+      },
+      {
+        name: '内江',
+        key: 'neijiang',
+        py: 'nj'
+      },
+      {
+        name: '萍乡',
+        key: 'pingxiang',
+        py: 'px'
+      },
+      {
+        name: '攀枝花',
+        key: 'panzhihua',
+        py: 'pzh'
+      },
+      {
+        name: '青岛',
+        key: 'qingdao',
+        py: 'qd'
+      },
+      {
+        name: '泉州',
+        key: 'quanzhou',
+        py: 'qz'
+      },
+      {
+        name: '上海',
+        key: 'shanghai',
+        py: 'sh'
+      },
+      {
+        name: '深圳',
+        key: 'shenzhen',
+        py: 'sz'
+      },
+      {
+        name: '沈阳',
+        key: 'shenyang',
+        py: 'sy'
+      },
+      {
+        name: '石家庄',
+        key: 'shijiazhuang',
+        py: 'sjz'
+      },
+      {
+        name: '苏州',
+        key: 'suzhou',
+        py: 'sz'
+      },
+      {
+        name: '三亚',
+        key: 'sanya',
+        py: 'sy'
+      },
+      {
+        name: '汕头',
+        key: 'shantou',
+        py: 'st'
+      },
+      {
+        name: '上饶',
+        key: 'shangrao',
+        py: 'sr'
+      },
+      {
+        name: '遂宁',
+        key: 'suining',
+        py: 'sn'
+      },
+      {
+        name: '宿迁',
+        key: 'suqian',
+        py: 'sq'
+      },
+      {
+        name: '天津',
+        key: 'tianjin',
+        py: 'tj'
+      },
+      {
+        name: '太原',
+        key: 'taiyuan',
+        py: 'ty'
+      },
+      {
+        name: '台州',
+        key: 'taizhou',
+        py: 'tz'
+      },
+      {
+        name: '唐山',
+        key: 'tangshan',
+        py: 'ts'
+      },
+      {
+        name: '铁岭',
+        key: 'tieling',
+        py: 'tl'
+      },
+      {
+        name: '武汉',
+        key: 'wuhan',
+        py: 'wh'
+      },
+      {
+        name: '无锡',
+        key: 'wuxi',
+        py: 'wx'
+      },
+      {
+        name: '温州',
+        key: 'wenzhou',
+        py: 'wz'
+      },
+      {
+        name: '乌鲁木齐',
+        key: 'wulumuqi',
+        py: 'wlmq'
+      },
+      {
+        name: '威海',
+        key: 'weihai',
+        py: 'wh'
+      },
+      {
+        name: '渭南',
+        key: 'weinan',
+        py: 'wn'
+      },
+      {
+        name: '西安',
+        key: 'xian',
+        py: 'xa'
+      },
+      {
+        name: '厦门',
+        key: 'xiamen',
+        py: 'xm'
+      },
+      {
+        name: '香港',
+        key: 'xianggang',
+        py: 'xg'
+      },
+      {
+        name: '徐州',
+        key: 'xuzhou',
+        py: 'xz'
+      },
+      {
+        name: '西宁',
+        key: 'xining',
+        py: 'xn'
+      },
+      {
+        name: '襄阳',
+        key: 'xiangyang',
+        py: 'xy'
+      },
+      {
+        name: '新余',
+        key: 'xinyu',
+        py: 'xy'
+      },
+      {
+        name: '许昌',
+        key: 'xuchang',
+        py: 'xc'
+      },
+      {
+        name: '信阳',
+        key: 'xinyang',
+        py: 'xy'
+      },
+      {
+        name: '银川',
+        key: 'yinchuan',
+        py: 'yc'
+      },
+      {
+        name: '宜昌',
+        key: 'yichang',
+        py: 'yc'
+      },
+      {
+        name: '烟台',
+        key: 'yantai',
+        py: 'yt'
+      },
+      {
+        name: '扬州',
+        key: 'yangzhou',
+        py: 'yz'
+      },
+      {
+        name: '宜宾',
+        key: 'yibin',
+        py: 'yb'
+      },
+      {
+        name: '运城',
+        key: 'yuncheng',
+        py: 'yc'
+      },
+      {
+        name: '榆林',
+        key: 'yulin',
+        py: 'yl'
+      },
+      {
+        name: '盐城',
+        key: 'yancheng',
+        py: 'yc'
+      },
+      {
+        name: '岳阳',
+        key: 'yueyang',
+        py: 'yy'
+      },
+      {
+        name: '延安',
+        key: 'yanan',
+        py: 'ya'
+      },
+      {
+        name: '鹰潭',
+        key: 'yingtan',
+        py: 'yt'
+      },
+      {
+        name: '永州',
+        key: 'yongzhou',
+        py: 'yz'
+      },
+      {
+        name: '郑州',
+        key: 'zhengzhou',
+        py: 'zz'
+      },
+      {
+        name: '珠海',
+        key: 'zhuhai',
+        py: 'zh'
+      },
+      {
+        name: '张家界',
+        key: 'zhangjiajie',
+        py: 'zzj'
+      },
+      {
+        name: '中山',
+        key: 'zhongshan',
+        py: 'zs'
+      },
+      {
+        name: '遵义',
+        key: 'zunyi',
+        py: 'zy'
+      },
+      {
+        name: '湛江',
+        key: 'zhanjiang',
+        py: 'zj'
+      },
+      {
+        name: '株洲',
+        key: 'zhuzhou',
+        py: 'zz'
+      },
+      {
+        name: '肇庆',
+        key: 'zhaoqing',
+        py: 'zq'
+      },
+      {
+        name: '枣庄',
+        key: 'zaozhuang',
+        py: 'zz'
+      },
+      {
+        name: '舟山',
+        key: 'zhoushan',
+        py: 'zs'
+      },
+      {
+        name: '自贡',
+        key: 'zigong',
+        py: 'zg'
+      },
+      {
+        name: '资阳',
+        key: 'ziyang',
+        py: 'zy'
+      },
+      {
+        name: '张掖',
+        key: 'zhangye',
+        py: 'zy'
+      }
+    ]
+  };
+
+  export default {
+    private: {
+      indexlist: {
+        list: data.normalList,
+        locationType: 'group',
+        hotType: 'group'
+      }
+    },
+    onInit() {
+      this.$page.setTitleBar({ text: 'Indexlist' })
+    },
+    onReady() {
+      this.toast = this.$child('qui-toast')
+    },
+    click(evt) {
+      this.toast.show({
+        text: JSON.stringify(evt.detail)
+      })
+    }
+  }
+</script>

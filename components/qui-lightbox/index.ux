@@ -1,0 +1,120 @@
+<template>
+  <div class="qui-light-box">
+    <swiper show="{{visible}}" class="qui-light-swiper {{animationClass}}" indicator="{{option.showIndicator}}" style="{{swiperStyle}}">
+      <div class="swiper-item" for="{{option.imageList}}" @click="closeClick">
+        <image class="swiper-image" src="{{$item}}" />
+      </div>
+    </swiper>
+  </div>
+</template>
+
+<style>
+  .qui-light-swiper {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0,0,0,0.4);
+    animation-fill-mode: forwards;
+  }
+  .lightboxenter {
+    animation-name: lightboxenter;
+  }
+  .lightboxleave {
+    animation-name: lightboxleave;
+  }
+
+  .swiper-item {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .swiper-image {
+    width: 100%;
+    resize-mode: contain;
+  }
+  @keyframes lightboxenter {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  @keyframes lightboxleave {
+    0% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+</style>
+
+<script>
+  export default {
+    props: ['option'],
+    data() {
+      return {
+        visible: this.option.show,
+        animationClass: '',
+        animationDuration: 600,
+        swiperStyle: {},
+        defaultData: {
+          show: true,
+          showIndicator: true,
+          indicatorColor: 'rgba(0, 0, 0, 0.5)',
+          indicatorSelectedColor: '#33b4ff',
+          indicatorSize: '20px',
+          imageList: []
+        }
+      }
+    },
+    onInit() {
+      this.setDefault()
+      this.setStyle()
+      this.toggleShow(this.option.show)
+    },
+     setDefault() {
+      Object.keys(this.defaultData).forEach(key => {
+        if (!this.option.hasOwnProperty(key)) {
+          this.$set(`option.${key}`, this.defaultData[key])
+        }
+        if (key === 'show') {
+          this.$watch(`option.${key}`, 'toggleShow')
+        }
+      })
+    },
+    setStyle() {
+      this.swiperStyle = {
+        indicatorColor: this.option.indicatorColor,
+        indicatorSelectedColor: this.option.indicatorSelectedColor,
+        indicatorSize: this.option.indicatorSize,
+        animationDuration : this.animationDuration
+      }
+    },
+    toggleShow(show) {
+      if (this.timeoutId) clearTimeout(this.timeoutId)
+
+      this.option.show = show
+      if (show) {
+        this.visible = true
+        this.animationClass = 'lightboxenter'
+      } else {
+        this.animationClass = 'lightboxleave'
+        this.timeoutId = setTimeout(() => {
+          this.visible = false
+        }, this.animationDuration - 100)
+      }
+    },
+    closeClick() {
+      this.option.show = false
+      this.$emit('quiCloseClick')
+    }
+  }
+</script>

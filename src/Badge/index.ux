@@ -1,0 +1,123 @@
+<import name='qui-badge' src='@qapp-ui/qui-badge/index'></import>
+
+<template>
+  <div class="page-doc">
+    <div class="badge-box">
+      <text class="text">不带动画的Badge</text>
+      <div class="qui-badge-page-item">
+        <text class="btn" @click="addDelta('qui-badge-1',1)"> +1</text>
+        <qui-badge option="{{badgeData1}}" id="qui-badge-1" @qui-badge-change="change"></qui-badge>
+        <text class="btn" @click="addDelta('qui-badge-1', -1)"> -1</text>
+      </div>
+    </div>
+
+    <div class="badge-box">
+      <text class="text">带Pop动画的Badge</text>
+      <div class="qui-badge-page-item">
+        <text class="btn" @click="addDelta('qui-badge-2',1)"> +1</text>
+        <qui-badge option="{{badgeData2}}" id="qui-badge-2"></qui-badge>
+        <text class="btn" @click="addDelta('qui-badge-2', -1)"> -1</text>
+      </div>
+    </div>
+
+    <div class="badge-box">
+      <text class="text">带Slide动画的Badge</text>
+      <div class="qui-badge-page-item">
+        <text class="btn" @click="addDelta('qui-badge-4',1)"> +1</text>
+        <qui-badge option="{{badgeData3}}" id="qui-badge-4"></qui-badge>
+        <text class="btn" @click="addDelta('qui-badge-4', -1)"> -1</text>
+      </div>
+    </div>
+
+    <div class="badge-box">
+      <text class="text">带Fade动画的Badge(自定义样式)</text>
+      <div class="qui-badge-page-item">
+        <text class="btn" @click="addDelta('qui-badge-3',1)"> +1</text>
+        <qui-badge option="{{badgeData4}}" id="qui-badge-3"></qui-badge>
+        <text class="btn" @click="addDelta('qui-badge-3', -1)"> -1</text>
+      </div>
+    </div>
+  <div>
+</template>
+
+<style>
+
+  .page-doc {
+    flex: 1;
+    flex-direction: column;
+    background-color: #eeeeee;
+  }
+
+  .badge-box {
+    justify-content: center;
+    margin-bottom: 80px;
+    flex-direction: column;
+  }
+
+  .qui-badge-page-item {
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .text {
+    flex: 1;
+    text-align: center;
+    margin-bottom: 10px;
+    background-color: #ffffff;
+    font-size: 40px;
+  }
+
+  .btn {
+    padding: 20px;
+    margin: 20px;
+    font-size: 40px;
+    background-color: #808080;
+    border-radius: 15px;
+  }
+</style>
+
+
+<script>
+  import prompt from '@system.prompt'
+
+  export default {
+
+    data: {
+      badgeData1: {
+        animationType: 'none'
+      },
+      badgeData2: {
+        animationType: 'pop'
+      },
+      badgeData3: {
+        animationType: 'slide'
+      },
+      badgeData4: {
+        animationType: 'fade',
+        height: '100',
+        width: '150',
+        borderRadius: '100',
+        fontSize: '50',
+        fontStyle: 'bold',
+        background: '#0F8DE8',
+        textColor: '#ffffff',
+        badge: 1,
+      }
+    },
+
+    onInit() {
+      this.$page.setTitleBar({text: 'Badge'})
+    },
+
+    addDelta(id, delta) {
+      this.$child(id).addDelta(delta)
+    },
+    change(data) {
+      prompt.showToast({
+        message: JSON.stringify(data.detail)
+      })
+    }
+  }
+</script>
+

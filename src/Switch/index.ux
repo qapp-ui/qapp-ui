@@ -1,0 +1,134 @@
+<import name='qui-switch' src='@qapp-ui/qui-switch/index'></import>
+
+<template>
+    <div class="page-doc">
+      <text class="console">当前switch的id:{{text}}</text>
+      <div class="item-box">
+        <div class="item no-bor">
+          <text class="item-dt">选项 {{data1.value}}</text>
+          <qui-switch option="{{data1}}" @qui-switch-change="callback"></qui-switch>
+        </div>
+        <div class="item">
+          <text class="item-dt">选项 {{data2.value}}</text>
+          <qui-switch option="{{data2}}" @qui-switch-change="callback"></qui-switch>
+        </div>
+        <div class="item">
+          <text class="item-dt">选项 {{data3.value}} - 不可用</text>
+          <qui-switch option="{{data3}}"></qui-switch>
+        </div>
+        <div class="item">
+          <text class="item-dt">选项 {{data4.value}} - 不可用</text>
+          <qui-switch option="{{data4}}"></qui-switch>
+        </div>
+      </div>
+      <div class="item-box">
+          <div class="item no-bor">
+            <qui-switch option="{{data5}}" @qui-switch-change="callback"></qui-switch>
+            <text class="item-dt" @click="checkStatus(0)">点我关闭</text>
+          </div>
+          <div class="item">
+            <qui-switch option="{{data6}}" @qui-switch-change="callback"></qui-switch>
+            <text class="item-dt" @click="checkStatus(1)">点我打开</text>
+          </div>
+          <div class="item">
+            <qui-switch option="{{data7}}"></qui-switch>
+            <label class="item-dt" target="isDefault">默认开关(自定义样式)</label>
+          </div>
+      </div>
+    <div>
+</template>
+
+<style>
+  .page-doc {
+    flex: 1;
+    flex-direction: column;
+    background-color: #eeeeee;
+  }
+  .console {
+    padding: 30px 40px;
+    font-size: 32px;
+  }
+  .item-box {
+    flex-direction: column;
+    border-color: #bbbbbb;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    background-color: #ffffff;
+    margin-bottom: 60px;
+  }
+  .item {
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 20px;
+    padding: 30px 40px 30px 20px;
+    border-color: #bbbbbb;
+    border-top-width: 1px;
+  }
+  .no-bor{
+    border-top-width: 0;
+  }
+  .item-dt {
+    font-size: 44px;
+    color: #333333;
+  }
+</style>
+
+<script>
+  export default {
+    data: {
+      text: '空值',
+      data1: {
+        disabled: false,
+        value: false
+      },
+      data2: {
+        disabled: false,
+        value: true
+      },
+      data3: {
+        disabled: true,
+        value: false
+      },
+      data4: {
+        disabled: true,
+        value: true
+      },
+      data5: {
+        disabled: false,
+        value: true,
+        id: 'remember0',
+        label: '记住我',
+        labelMargin: '20px'
+      },
+      data6: {
+        disabled: false,
+        value: false,
+        id: 'remember1',
+        label: '记住我',
+        labelMargin: '20px',
+        isLeft: true
+      },
+      data7: {
+        disabled: false,
+        value: false,
+        id: 'isDefault',
+        checkedColor: 'red'
+      }
+    },
+    onInit() {
+      this.$page.setTitleBar({ text: 'Switch' })
+    },
+    callback(data) {
+      this.text = data.detail.id || '空值'
+      // console.log(JSON.stringify(data.detail), data.detail.value)
+    },
+    checkStatus(type) {
+      if (type === 0) {
+        this.data5.value = false
+      }
+      else {
+        this.data6.value = true
+      }
+    }
+  }
+</script>

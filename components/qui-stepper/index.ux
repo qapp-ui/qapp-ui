@@ -1,0 +1,124 @@
+<template>
+  <div class="qui-stepper-box">
+    <div class="stepper-content">
+      <div class="stepper-minus {{minClass}}" onclick="minusClicked" disabled="{{option.disabled}}">
+        <text class="stepper-icon">-</text>
+      </div>
+      <input style="width:0px;height:0px" />
+      <input id="stepper-input" class="stepper-input {{option.disabled || option.readOnly ? 'stepper-disabled' : ''}}" type="number"
+        value="{{stepperValue}}" onchange="onChange" disabled="{{option.disabled || option.readOnly}}"/>
+      <div class="stepper-minus {{maxClass}}" onclick="plusClicked" disabled="{{option.disabled}}">
+        <text class="stepper-icon">+</text>
+      </div>
+    </div>
+  </div>
+</template>
+
+<style>
+  .stepper-content {
+    height: 90px;
+    flex-direction: row;
+    align-items: center;
+  }
+  .stepper-minus {
+    width: 90px;
+    height: 100%;
+    background-color: rgb(210, 210, 210);
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+  }
+  .stepper-disabled {
+    opacity: 0.4;
+  }
+  .stepper-icon {
+    font-size: 45px;
+    color: rgb(102, 102, 102);
+    font-weight: bold;
+  }
+  .stepper-input {
+    text-align: center;
+    width: 120px;
+    height: 100%;
+    padding-top: 20px;
+  }
+</style>
+
+<script>
+  export default {
+    props: ['option'],
+    data() {
+      return {
+        stepperValue: '',
+        currentValue: '',
+        minClass: '',
+        maxClass: '',
+        defaultData: {
+          defaultValue: 1,
+          step: 1,
+          min: 1,
+          max: 100,
+          disabled: false,
+          readOnly: false
+        }
+      }
+    },
+    onInit() {
+      this.setDefault()
+    },
+    setDefault() {
+      Object.keys(this.defaultData).forEach(key => {
+        if (!this.option.hasOwnProperty(key)) {
+          this.$set(`option.${key}`, this.defaultData[key])
+        }
+      })
+      this.stepperValue = this.option.defaultValue
+      this.currentValue = this.option.defaultValue
+    },
+    onChange(e) {
+      this.stepperValue = e.value
+    },
+    minusClicked() {
+      let currentVal = Number(this.currentValue)
+      if (this.stepperValue > this.option.min && this.stepperValue < this.option.max) {
+        currentVal = Number(this.stepperValue)
+      }
+      currentVal -= Number(this.option.step)
+
+      if (currentVal < this.option.min) {
+        this.minClass = 'stepper-disabled'
+        this.$emit('quiMinOver', { value: currentVal })
+      } else {
+        this.minClass = ''
+        this.maxClass = ''
+        this.stepperValue = currentVal
+        this.currentValue = currentVal
+      }
+      this.$emit('quiValueChanged', { value: currentVal })
+      this.$element("stepper-input").focus({
+        focus: false
+      })
+    },
+    plusClicked() {
+      let currentVal = Number(this.currentValue)
+      if (this.stepperValue > this.option.min && this.stepperValue < this.option.max) {
+        currentVal = Number(this.stepperValue)
+      }
+      currentVal += Number(this.option.step)
+
+      if (currentVal > this.option.max) {
+        this.maxClass = 'stepper-disabled'
+        this.$emit('quiMaxOver', { value: currentVal })
+      } else {
+        this.minClass = ''
+        this.maxClass = ''
+        this.stepperValue = currentVal
+        this.currentValue = currentVal
+      }
+      this.$emit('quiValueChanged', { value: currentVal })
+      this.$element("stepper-input").focus({
+        focus: false
+      })
+    }
+  }
+</script>

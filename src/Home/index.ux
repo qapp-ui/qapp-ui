@@ -1,0 +1,226 @@
+<template>
+  <div class="doc-page">
+    <text class="introduce">以下将展示QAPP-UI组件使用示例，具体属性参数详见对应组件说明文档</text>
+    <div class="item-container">
+      <text class="item-title-detail {{list.compoLayout}}-txt" onclick="selectConFn('compoLayout')">基础组件</text>
+      <div class="item-content {{list.compoLayout}}">
+        <div class="item-li" onclick="detail('Button')">
+          <text class="item-li-detail">button</text>
+          <image class="item_arrow_img" src="/Common/img/arrow_right.webp"/>
+        </div>
+        <div class="item-li" onclick="detail('Checkbox')">
+          <text class="item-li-detail">checkbox</text>
+          <image class="item_arrow_img" src="/Common/img/arrow_right.webp" />
+        </div>
+        <div class="item-li" onclick="detail('Radio')">
+          <text class="item-li-detail">radio</text>
+          <image class="item_arrow_img" src="/Common/img/arrow_right.webp" />
+        </div>
+        <div class="item-li" onclick="detail('Switch')">
+          <text class="item-li-detail">switch</text>
+          <image class="item_arrow_img" src="/Common/img/arrow_right.webp" />
+        </div>
+        <div class="item-li" onclick="detail('Cell')">
+          <text class="item-li-detail">cell</text>
+          <image class="item_arrow_img" src="/Common/img/arrow_right.webp" />
+        </div>
+      </div>
+    </div>
+
+    <div class="item-container">
+      <text class="item-title-detail {{list.compoNav}}-txt" onclick="selectConFn('compoNav')">导航</text>
+      <div class="item-content {{list.compoNav}}">
+        <div class="item-li" onclick="detail('Titlebar')">
+          <text class="item-li-detail">titlebar</text>
+          <image class="item_arrow_img" src="/Common/img/arrow_right.webp"/>
+        </div>
+      </div>
+    </div>
+
+    <div class="item-container">
+      <text class="item-title-detail {{list.compoFeedback}}-txt" onclick="selectConFn('compoFeedback')">反馈</text>
+      <div class="item-content {{list.compoFeedback}}">
+        <div class="item-li" @click="detail('Overlay')">
+          <text class="item-li-detail">overlay</text>
+          <image class="item_arrow_img" src="/Common/img/arrow_right.webp"/>
+        </div>
+        <div class="item-li" @click="detail('Popup')">
+          <text class="item-li-detail">popup</text>
+          <image class="item_arrow_img" src="/Common/img/arrow_right.webp"/>
+        </div>
+        <div class="item-li" @click="detail('Toast')">
+          <text class="item-li-detail">toast</text>
+          <image class="item_arrow_img" src="/Common/img/arrow_right.webp"/>
+        </div>
+        <div class="item-li" @click="detail('Loading')">
+          <text class="item-li-detail">loading</text>
+          <image class="item_arrow_img" src="/Common/img/arrow_right.webp"/>
+        </div>
+        <div class="item-li" @click="detail('Mask')">
+          <text class="item-li-detail">mask</text>
+          <image class="item_arrow_img" src="/Common/img/arrow_right.webp"/>
+        </div>
+        <div class="item-li" @click="detail('Action')">
+          <text class="item-li-detail">action</text>
+          <image class="item_arrow_img" src="/Common/img/arrow_right.webp"/>
+        </div>
+        <div class="item-li" @click="detail('Dialog')">
+          <text class="item-li-detail">dialog</text>
+          <image class="item_arrow_img" src="/Common/img/arrow_right.webp"/>
+        </div>
+        <div class="item-li" @click="detail('Lightbox')">
+          <text class="item-li-detail">lightbox</text>
+          <image class="item_arrow_img" src="/Common/img/arrow_right.webp"/>
+        </div>
+      </div>
+    </div>
+
+    <div class="item-container">
+      <text class="item-title-detail {{list.compoFrom}}-txt" onclick="selectConFn('compoFrom')">数据输入</text>
+      <div class="item-content {{list.compoFrom}}">
+        <div class="item-li" onclick="detail('Searchbar')">
+          <text class="item-li-detail">searchbar</text>
+          <image class="item_arrow_img" src="/Common/img/arrow_right.webp" />
+        </div>
+        <div class="item-li" onclick="detail('Stepper')">
+          <text class="item-li-detail">stepper</text>
+          <image class="item_arrow_img" src="/Common/img/arrow_right.webp" />
+        </div>
+      </div>
+    </div>
+
+    <div class="item-container">
+      <text class="item-title-detail {{list.compoDataShow}}-txt" onclick="selectConFn('compoDataShow')">数据展示</text>
+      <div class="item-content {{list.compoDataShow}}">
+        <div class="item-li" onclick="detail('Picker')">
+          <text class="item-li-detail">picker</text>
+          <image class="item_arrow_img" src="/Common/img/arrow_right.webp" />
+        </div>
+        <div class="item-li" onclick="detail('Flow')">
+          <text class="item-li-detail">flow</text>
+          <image class="item_arrow_img" src="/Common/img/arrow_right.webp" />
+        </div>
+        <div class="item-li" onclick="detail('Indexlist')">
+          <text class="item-li-detail">indexlist</text>
+          <image class="item_arrow_img" src="/Common/img/arrow_right.webp" />
+        </div>
+        <div class="item-li" onclick="detail('Badge')">
+          <text class="item-li-detail">badge</text>
+          <image class="item_arrow_img" src="/Common/img/arrow_right.webp" />
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<style>
+  .doc-page {
+    background-color: #fbf9fe;
+    flex: 1;
+    flex-direction: column;
+  }
+
+  .introduce {
+    color: #999999;
+    font-size: 46px;
+    font-weight: bold;
+    padding-left: 80px;
+    padding-right: 80px;
+    margin-bottom: 100px;
+    margin-top: 60px;
+  }
+
+  .item-container {
+    margin-left: 30px;
+    margin-right: 30px;
+    background-color: #ffffff;
+    flex-direction: column;
+    margin-bottom: 30px;
+  }
+
+  .item-title-detail {
+    padding: 40px;
+    color: #000000;
+    font-size: 48px;
+    text-align: center;
+  }
+
+  .item-content {
+    flex-direction: column;
+    padding: 30px;
+    display: none;
+  }
+
+  .item-li {
+    border-color: #bbbbbb;
+    border-bottom-width: 1px;
+    align-items: center;
+  }
+
+  .item-li-detail {
+    padding-top: 30px;
+    padding-bottom: 30px;
+    color: #000000;
+    flex: 1;
+    font-size: 44px;
+    margin-left: 30px;
+  }
+
+  .item_arrow_img {
+    height: 40px;
+    width: 20px;
+    margin-right: 30px;
+    resize-mode: contain;
+  }
+
+  .tab-text {
+    text-align: center;
+  }
+
+  .tab-text:active {
+    color: #0faeff;
+  }
+
+  .show {
+    display: flex;
+  }
+
+  .show-txt {
+    color: #cccccc;
+  }
+</style>
+
+<script>
+  import router from '@system.router'
+
+  module.exports = {
+    data: {
+      list: {
+        compoLayout: '',
+        compoNav: '',
+        compoFeedback: '',
+        compoFrom: '',
+        compoDataShow: ''
+      }
+    },
+    activeF: function (list, target, addClass) {
+      var obj = list
+      if (obj[target] == addClass) {
+        obj[target] = ''
+        return
+      }
+      for (var a in obj) {
+        obj[a] = ''
+        if (target == a) {
+          obj[a] = addClass
+        }
+      }
+    },
+    selectConFn: function (e) {
+      this.activeF(this.list, e, 'show')
+    },
+    detail: function (src) {
+      router.push({uri: src})
+    }
+  }
+</script>

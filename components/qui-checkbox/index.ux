@@ -1,0 +1,167 @@
+<!-- Created by yzhangbao on 18/04/08. -->
+<!-- qui-checkbox -->
+
+<template>
+  <div class="qui-checkbox-box">
+    <block for="(index, row) in option.options">
+      <div if="!(index === 0) && option.isBorder" class="border-top"></div>
+      <div class="item {{option.isRight ? 'is-right' : ''}} {{row.disabled ? 'disabled' : ''}}" @click="clickAction(row)">
+        <text class="name" if="option.isRight" style="font-size: {{option.labelFontSize}};color: {{option.labelColor}}">{{row.label || row}}</text>
+        <stack class="checkbox" style="background-color: {{option.checked[index] ? option.checkedColor : option.checkColor}};border-color: {{option.checked[index] ? option.checkedBorderColor : option.checkBorderColor}}">
+          <div class="thumb {{option.checked[index] ? 'open' : 'close'}}" style="border-color: {{option.checked[index] ? option.thumbCheckedColor : option.thumbCheckColor}}"></div>
+        </stack>
+        <text class="name" if="!option.isRight" style="margin-left: {{option.labelMargin}};font-size: {{option.labelFontSize}};color: {{option.labelColor}}">{{row.label || row}}</text>
+      </div>
+    </block>
+  </div>
+</template>
+
+<style>
+  .qui-checkbox-box{
+    flex-direction: column;
+    background-color: #ffffff;
+  }
+  .border-top {
+    margin-left: 20px;
+    height: 1px;
+    background-color: #bbbbbb;
+  }
+  .item {
+    padding: 30px 40px;
+  }
+  .is-right {
+    justify-content: space-between;
+  }
+  .disabled .checkbox {
+    opacity: .5;
+  }
+  .checkbox {
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 30px;
+    border-width: 4px;
+  }
+  .thumb {
+    border-right-width: 4px;
+    border-bottom-width: 4px;
+    width: 15px;
+    height: 30px;
+    transform: rotate(45deg);
+    margin-top: -8px;
+  }
+  @keyframes open {
+    from {
+      transform: scale(0);
+    }
+    to {
+      transform: scale(1);
+    }
+  }
+  .open {
+    animation-name: open;
+    animation-duration: 0ms;
+    animation-fill-mode: forwards;
+  }
+  @keyframes close {
+    from {
+      transform: scale(1);
+    }
+    to {
+      transform: scale(0);
+    }
+  }
+  .close {
+    animation-name: close;
+    animation-duration: 0ms;
+    animation-fill-mode: forwards;
+  }
+</style>
+
+<script>
+  export default {
+    props: ['option'],
+    data: {
+      defaultData: {
+        values: [],
+        checked: [],
+        options: [],
+        labelMargin: '30px',
+        labelFontSize: '44px',
+        labelColor: '#000000',
+        isRight: false,
+        isBorder: true,
+        checkColor: '#FFFFFF',
+        checkedColor: '#2998F9',
+        checkBorderColor: '#CACBCC',
+        checkedBorderColor: '#2998F9',
+        thumbCheckColor: 'transparent',
+        thumbCheckedColor: '#FFFFFF'
+      }
+    },
+    onInit() {
+      this.setDefault()
+      this.$on('evtCast', this.updateArr)
+    },
+    onReady() {
+      this.$watch('option.values', 'change')
+      this.$watch('option.values', 'updateChecked')
+    },
+    setDefault() {
+      for (var key in this.defaultData) {
+        if (this.defaultData[key] !== undefined && this.option && this.option[key] === undefined) {
+          this.$set(`option.${key}`, this.defaultData[key])
+        }
+      }
+      this.updateChecked()
+    },
+    clickAction(data) {
+      if (typeof data === 'object') {
+        if (!data.disabled) {
+          this.updateArr(data.value)
+        }
+      }
+      else {
+        this.updateArr(data)
+      }
+    },
+    updateChecked() {
+      for (let i = 0, a = this.option.options.length; i < a; i++) {
+        this.option.checked.splice(i, 1, false)
+        for (let j = 0, b = this.option.values.length; j < b; j++) {
+          let val = this.option.options[i].value || this.option.options[i]
+          if (b > 0 && val === this.option.values[j]) {
+            this.option.checked.splice(i, 1, true)
+            break
+          }
+        }
+      }
+    },
+    updateArr(params) {
+      let data = typeof params === 'object' ? params.detail.params : params
+      if (this.checkInArr(this.option.values, data)) {
+        this.option.values.forEach( (val, idx)=> {
+          if (val === data) {
+            this.option.values.splice(idx, 1)
+          }
+        })
+      }
+      else {
+        this.option.values.push(data)
+      }
+    },
+    checkInArr(arr, data) {
+      let isExist = false
+      for (var i=0,len=arr.length; i<len; i++){
+        if (arr[i]===data) {
+          isExist = true
+        }
+      }
+      return isExist
+    },
+    change() {
+      this.$emit('quiCheckboxChange', {values: this.option.values})
+    }
+  }
+</script>

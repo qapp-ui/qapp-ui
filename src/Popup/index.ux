@@ -1,0 +1,143 @@
+<import name="qui-popup" src="@qapp-ui/qui-popup/index"></import>
+
+<template>
+  <div class="page-doc">
+    <input class="input-button" type="button" value="点击弹出底部弹层" onclick="showpopup('bottom')" />
+    <input class="input-button" type="button" value="点击弹出顶部弹层" onclick="showpopup('top')" />
+    <input class="input-button" type="button" value="点击弹出左侧弹层" onclick="showpopup('left')" />
+    <input class="input-button" type="button" value="点击弹出右侧弹层" onclick="showpopup('right')" />
+    <qui-popup option="{{popupData1}}" @qui-overlay-click="overlayClick">
+      <div class="mask">
+        <text class="mask-title">快应用</text>
+        <text class="mask-txt">快应用是一套以前端开发技术栈为主进行应用开发的框架，采用流行的前端开发模式，贴合主流前端开发者的思维习惯，同时大幅提升应用的性能，提供大量前端环境无法使用的系统能力，以及很多第三方服务的对接能力。</text>
+      </div>
+    </qui-popup>
+
+    <qui-popup option="{{popupData2}}" @qui-overlay-click="overlayClick">
+      <div class="mask">
+        <text class="mask-title">快应用</text>
+        <text class="mask-txt">快应用是一套以前端开发技术栈为主进行应用开发的框架，采用流行的前端开发模式，贴合主流前端开发者的思维习惯，同时大幅提升应用的性能，提供大量前端环境无法使用的系统能力，以及很多第三方服务的对接能力。</text>
+      </div>
+    </qui-popup>
+
+    <qui-popup option="{{popupData3}}" @qui-overlay-click="overlayClick">
+      <div class="mask2">
+        <text class="mask-title">快应用</text>
+        <text class="mask-txt">快应用是一套以前端开发技术栈为主进行应用开发的框架，采用流行的前端开发模式，贴合主流前端开发者的思维习惯，同时大幅提升应用的性能，提供大量前端环境无法使用的系统能力，以及很多第三方服务的对接能力。</text>
+      </div>
+    </qui-popup>
+
+    <qui-popup option="{{popupData4}}" @qui-overlay-click="overlayClick">
+      <div class="mask2">
+        <text class="mask-title">快应用</text>
+        <text class="mask-txt">快应用是一套以前端开发技术栈为主进行应用开发的框架，采用流行的前端开发模式，贴合主流前端开发者的思维习惯，同时大幅提升应用的性能，提供大量前端环境无法使用的系统能力，以及很多第三方服务的对接能力。</text>
+      </div>
+    </qui-popup>
+  </div>
+</template>
+
+<style>
+.page-doc {
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #eeeeee;
+}
+
+.input-button {
+  width: 800px;
+  height: 100px;
+  background-color: #0F8DE8;
+  margin-bottom: 100px;
+  color: #ffffff;
+}
+
+.mask {
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 1000px;
+  background-color: #ffffff;
+  border-radius: 12px;
+}
+.mask2 {
+  flex-direction: column;
+  align-items: center;
+  width: 800px;
+  height: 100%;
+  background-color: #ffffff;
+}
+.mask-title{
+  font-weight: bold;
+  font-size: 60px;
+  margin-top: 40px;
+  margin-bottom: 50px;
+}
+.mask-txt {
+  font-size: 40px;
+  line-height: 80px;
+  padding: 0 30px;
+}
+
+</style>
+
+<script>
+  import prompt from '@system.prompt'
+
+  export default {
+    private: {
+      popupData1: {
+        show: false,
+        position: 'bottom'
+      },
+      popupData2: {
+        show: false,
+        position: 'top'
+      },
+      popupData3: {
+        show: false,
+        position: 'left'
+      },
+      popupData4: {
+        show: false,
+        position: 'right'
+      },
+    },
+    onInit() {
+      this.$page.setTitleBar({ text: 'Popup' })
+    },
+    showpopup(pos) {
+      if (pos === 'bottom') {
+        this.popupData1.show = true
+      }
+      if (pos === 'top') {
+        this.popupData2.show = true
+      }
+      if (pos === 'left') {
+        this.popupData3.show = true
+      }
+      if (pos === 'right') {
+        this.popupData4.show = true
+      }
+    },
+    onBackPress(){
+      let res = false;
+
+      ['popupData1','popupData2','popupData3','popupData4'].forEach(key => {
+        if (this[key].show) {
+          setTimeout(() => {
+            this[key].show = false
+          }, 0)
+          res = true
+        }
+      })
+      return res
+    },
+    overlayClick() {
+      prompt.showToast({
+        message: '点击蒙层'
+      })
+    }
+  }
+</script>

@@ -1,0 +1,124 @@
+<import name="qui-overlay" src="../qui-overlay/index"></import>
+
+<template>
+  <div>
+    <qui-overlay option="{{overlay}}" @qui-overlay-click="overlayClick">
+      <div show="{{visible}}" class="qui-mask-box {{animationClass}}" style="animation-duration: {{animationDuration}}ms;">
+        <slot></slot>
+        <image class="qui-mask-closeicon" if="{{option.showClose}}" src="{{option.closeIcon}}" onclick="closeClick" />
+      </div>
+    </qui-overlay>
+  </div>
+</template>
+
+<style>
+.qui-mask-box {
+  flex-direction: column;
+  align-items: center;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease;
+}
+
+.qui-mask-closeicon {
+  width: 80px;
+  height: 80px;
+  resize-mode: contain;
+  margin-top: 80px;
+}
+
+.qui-mask-enter {
+  animation-name: quimaskenter;
+}
+
+.qui-mask-leave {
+  animation-name: quimaskleave;
+}
+
+@keyframes quimaskenter {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+@keyframes quimaskleave {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+</style>
+
+<script>
+  export default {
+    props: ['option'],
+    data() {
+      return {
+        visible: this.option.show,
+        animationClass: '',
+        animationDuration: 700,
+        overlay: {
+          show: false,
+          autoClose: false,
+          background: ''
+        },
+        defaultData: {
+          show: false,
+          showClose: true,
+          autoClose: true,
+          background: 'rgba(0,0,0,0.4)',
+          closeIcon: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAMAAACdt4HsAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAABRUExURUxpccfHx8zMzMzMzMzMzMzMzMnJycrKyr+/v83NzczMzMzMzMzMzMvLy8zMzM3Nzc3NzcrKyszMzMzMzMrKysvLy8rKysrKysjIyMrKyszMzNCwa0AAAAAadFJOUwBAkODv8IAwEGDfoFCw0H9wz6+fwL+PP09vDPC+PwAAAkFJREFUWMPtV9uWgyAMVBG5iNZq7cX//9BdAtUGguLZfdvlTWXGZDJAKIr/kR7iNc16+R56vr/EWfRzrBc06vGZj5aXAO05LvIn8GwKo/1s3jUlpC7KpuP+pTZH+LtHt4FsovUc9/3wrw7eEKHKxlFcd9IQLvwqMUVWjiFZUwHqsZ2aCwZaJmZI+H+3K7TsdrKA/NsjlVtgoL5UWXjPUBH1h/hznAZZlKQALMur0iqpw6mNpc1cc8LObQLWmk6MHlauWkYB8PWVmOcoRzFvBpI8CqFGb/rvJxWbrEb/q8MSbAEU4DcVm7RAIZigMh8WUEvA4PAKm6ENMvgsgWMok/iixDnYunCUsvpcNDG+KDj65RCb8IOBwkPSA8ooMMbGQOKhDptvbpS5PUMk6CbCbX3SpI0dA40HAr0+oRqHtSDxASZB8Gag8GcI6C0wh+CdAsmAMCwtYorBisgyyrgoRTPgMiaNZPWjGbCRUlZ2+pMM2Moi3B/wgqYYgvXLyeWsyLW5SsBPbCgRQ7ihGLzN8sh/wKDxJm7C/aFBT4oQFW/iUVW2EAxjhrDFgALAdYdtdv9gkRIdLFz+7tGWODHTjUh8DsPxPuYQjOTx7huM6Rg/LSm5+iwGwPd0bsAw7jdZM+ATcwQ4UIujRpKnG8XedbOpRtP1wf3OH1wWdFf+7uJ7edi9WIopqFM5+UvAYR9k2HpHuTwe9s3jcVnvL6zMMFrDUxcOsovPp8iFu0S6gIO3pjg5xFDdQA92q4bT174/Nb4AvphSPM+y/dYAAAAASUVORK5CYII='
+        }
+      }
+    },
+    onInit() {
+      this.setDefault()
+      this.setOverlayBg()
+      this.toggleShow(this.option.show)
+    },
+    setDefault() {
+      Object.keys(this.defaultData).forEach(key => {
+        if (!this.option.hasOwnProperty(key)) {
+          this.$set(`option.${key}`, this.defaultData[key])
+        }
+        if (key === 'show') {
+          this.$watch(`option.${key}`, 'toggleShow')
+        } else if (key === 'background') {
+          this.$watch(`option.${key}`, 'setOverlayBg')
+        }
+      })
+    },
+    setOverlayBg(){
+      this.overlay.background = this.option.background
+    },
+    toggleShow(show) {
+      if (this.timeoutId) clearTimeout(this.timeoutId)
+
+      this.option.show = show
+      this.overlay.show = show
+      if (show) {
+        this.visible = true
+        this.animationClass = 'qui-mask-enter'
+      } else {
+        this.animationClass = 'qui-mask-leave'
+        this.timeoutId = setTimeout(() => {
+          this.visible = false
+        }, this.animationDuration)
+      }
+    },
+    overlayClick() {
+      if (this.option.autoClose) {
+        this.option.show = false
+      }
+      this.$emit('quiOverlayClick')
+    },
+    closeClick() {
+      this.option.show = false
+      this.$emit('quiCloseClick')
+    }
+  }
+</script>

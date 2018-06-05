@@ -1,0 +1,169 @@
+<import name="qui-overlay" src="../qui-overlay/index"></import>
+<import name="qui-button" src="../qui-button/index"></import>
+
+<template>
+  <qui-overlay option="{{overlay}}" @qui-overlay-click="overlayClick">
+    <div class="qui-dialog">
+      <text class="qui-dialog-title" if="option.title">{{option.title}}</text>
+      <div class="qui-dialog-content">
+        <slot></slot>
+      </div>
+      <div class="qui-dialog-btns" if="btns.length">
+        <div for="btns" style="width:{{100/(1.12*btns.length-0.12)}}%">
+          <qui-button option="{{$item}}" @qui-clicked="btnClick"></qui-button>
+        </div>
+      </div>
+    </div>
+  </qui-overlay>
+</template>
+
+<style>
+  .qui-dialog {
+    flex-direction: column;
+    padding: 60px 72px;
+    width: 984px;
+    background-color: #ffffff;
+  }
+
+  .qui-dialog-title {
+    margin-bottom: 35px;
+    height: 71px;
+    font-size: 51px;
+    text-align: center;
+  }
+
+  .qui-dialog-btns {
+    margin-top: 72px;
+    justify-content: space-between;
+  }
+</style>
+
+<script>
+  /**
+   * option = {
+   *   show: true/false,  //是否显示
+   *   background: 'rgba(0,0,0,.4)',   //遮罩层背景色
+   *   autoClose: true/false  //点击遮罩层是否自动关闭
+   *   title: '',   //对话框标题，为空不显示
+   *   btns: []     //对话框按钮
+   * }
+   */
+  export default {
+    props: [
+      'option'
+    ],
+    data() {
+      return {
+        btns: [],
+        overlay: {},
+        defaultOption: {
+          title: '',
+          btns: [{
+            text: '确定',
+            color: '#0090ff'
+          }, {
+            text: '取消',
+            color: '#999999'
+          }]
+        }
+      }
+    },
+    onInit() {
+      //监控qui-overlay组件修改this.overlay的属性
+      ['show', 'background', 'autoClose'].forEach(key => {
+        let methodName = key.replace(/^\w/, function ($0) {
+          return `updateOverlay${$0.toUpperCase()}`
+        })
+
+        this.$watch(`overlay.${key}`, methodName)
+      })
+      //监控this.option的属性变化
+      ;['show', 'background', 'autoClose', ...Object.keys(this.defaultOption)].forEach(key => {
+        let methodName = key.replace(/^\w/, function ($0) {
+          return `update${$0.toUpperCase()}`
+        })
+
+        this.$watch(`option.${key}`, methodName)
+        this[methodName]()
+      })
+    },
+    updateShow() {
+      if (this.option.hasOwnProperty('show')) {
+        this.$set('overlay.show', this.option.show)
+      } else {
+        let overlay = {}
+
+        delete this.overlay.show
+        Object.keys(this.overlay).forEach(key => {
+          overlay[key] = this.overlay[key]
+        })
+        this.overlay = overlay
+      }
+    },
+    updateBackground() {
+      if (this.option.hasOwnProperty('background')) {
+        this.$set('overlay.background', this.option.background)
+      } else {
+        let overlay = {}
+
+        delete this.overlay.background
+        Object.keys(this.overlay).forEach(key => {
+          overlay[key] = this.overlay[key]
+        })
+        this.overlay = overlay
+      }
+    },
+    updateAutoClose() {
+      if (this.option.hasOwnProperty('autoClose')) {
+        this.$set('overlay.autoClose', this.option.autoClose)
+      } else {
+        this.$set('overlay.autoClose', false)
+      }
+    },
+    updateTitle() {
+      !this.option.hasOwnProperty('title') && this.$set('option.title', this.defaultOption.title)
+    },
+    updateBtns() {
+      if (!this.option.hasOwnProperty('btns')) {
+        this.$set('option.btns', this.defaultOption.btns)
+      } else {
+        this.btns = []
+        this.option.btns.forEach((btn, index) => {
+          this.btns.push({
+            index: index,
+            text: btn.text,
+            btnStyle: {
+              borderColor: btn.color || '#000000',
+              backgroundColor: 'rgba(0,0,0,0)',
+              borderWidth: '2px',
+              borderRadius: '18px',
+              width: '100%',
+              height: '104px'
+            },
+            textStyle: {
+              color: btn.color || '#000000',
+              fontSize: '45px'
+            }
+          })
+        })
+      }
+    },
+    updateOverlayShow()  {
+      this.overlay.hasOwnProperty('show') && this.$set('option.show', this.overlay.show)
+    },
+    updateOverlayBackground()  {
+      this.overlay.hasOwnProperty('background') && this.$set('option.background', this.overlay.background)
+    },
+    updateOverlayAutoClose()  {
+      this.overlay.hasOwnProperty('autoClose') && this.$set('option.autoClose', this.overlay.autoClose)
+    },
+    overlayClick() {
+      this.$emit('quiOverlayClick')
+    },
+    btnClick(evt) {
+      this.$emit('quiBtnClick', {
+        index: evt.detail.index
+      })
+    }
+  }
+</script>

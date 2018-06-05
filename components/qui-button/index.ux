@@ -1,0 +1,102 @@
+<template>
+  <div class="qui-button-box {{isActived ? 'active':''}}" style="{{btnStyleObj}}" @click="clicked">
+    <text class="qui-button-txt" style="{{textStyleObj}}">{{option.text}}</text>
+  </div>
+</template>
+
+<style>
+  .qui-button-box {
+    width: 300px;
+    height: 100px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    opacity: 1;
+    background-color: #0F8DE8;
+  }
+
+  .active {
+    opacity: 0.8;
+  }
+
+  .qui-button-txt {
+    text-overflow: ellipsis;
+    lines: 1;
+    color: #000000;
+    font-size: 36px;
+  }
+</style>
+
+<script>
+  export default {
+    props: ['option'],
+    data: {
+      defaultData: {
+        text: '按钮',
+        disabled: false
+      },
+      defaultBtnStyle: {
+        backgroundColor: '#0F8DE8',
+        borderColor: '',
+        borderWidth: '0px',
+        borderRadius: '12px',
+        width: '300px',
+        height: '100px'
+      },
+      defaultTextStyle: {
+        color: '#000000',
+        fontSize: '36px'
+      },
+      isActived: false,
+      btnStyleObj: {},
+      textStyleObj: {}
+    },
+    onInit() {
+      this.setDefault()
+    },
+    setDefault() {
+      Object.keys(this.defaultData).forEach(key => {
+        if (!this.option.hasOwnProperty(key)) {
+          this.$set(`option.${key}`, this.defaultData[key])
+        }
+      })
+
+      if (!this.option.btnStyle) this.$set('option.btnStyle', {})
+      Object.keys(this.defaultBtnStyle).forEach(bkey => {
+        if (!this.option.btnStyle.hasOwnProperty(bkey)) {
+          this.$set(`option.btnStyle.${bkey}`, this.defaultBtnStyle[bkey])
+        }
+        this.$watch(`option.btnStyle.${bkey}`, 'setBtnStyleObj')
+      })
+
+      if (!this.option.textStyle) this.$set('option.textStyle', {})
+      Object.keys(this.defaultTextStyle).forEach(tkey => {
+        if (!this.option.textStyle.hasOwnProperty(tkey)) {
+          this.$set(`option.textStyle.${tkey}`, this.defaultTextStyle[tkey])
+        }
+        this.$watch(`option.textStyle.${tkey}`, 'setTextStyleObj')
+      })
+
+      this.setBtnStyleObj()
+      this.setTextStyleObj()
+    },
+    setBtnStyleObj() {
+      const btnStyle = this.option.btnStyle
+      if (this.option.disabled) {
+        btnStyle.opacity = '0.2'
+        btnStyle.borderWidth = '0px'
+      }
+      this.btnStyleObj = btnStyle
+    },
+    setTextStyleObj() {
+      this.textStyleObj = this.option.textStyle
+    },
+    clicked() {
+      this.isActived = true
+      setTimeout(() => {
+        this.isActived = false
+      }, 300)
+      this.$emit('quiClicked', this.option)
+    }
+  }
+</script>

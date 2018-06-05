@@ -1,0 +1,84 @@
+<import name='qui-searchbar' src='@qapp-ui/qui-searchbar/index'></import>
+
+<template>
+    <div class="page-doc">
+      <div class="search-box">
+        <qui-searchbar id="search1" option="{{searchData1}}" @qui-search-focus="focus" @qui-search-blur="blur"
+        @qui-search-click="search" @qui-search-clear="clear" ></qui-searchbar>
+      </div>
+      <div class="search-box">
+        <qui-searchbar id="search2" option="{{searchData2}}"></qui-searchbar>
+      </div>
+      <div class="search-box">
+        <qui-searchbar id="search3" option="{{searchData3}}"></qui-searchbar>
+      </div>
+      <div class="search-box">
+        <qui-searchbar id="search4" option="{{searchData4}}"></qui-searchbar>
+      </div>
+    <div>
+</template>
+
+<style>
+.page-doc {
+  flex: 1;
+  flex-direction: column;
+  background-color: #eeeeee;
+}
+.search-box {
+  margin-bottom: 80px;
+  flex-direction: column;
+  align-items: center;
+}
+</style>
+
+<script>
+  import prompt from '@system.prompt'
+
+  export default {
+    private: {
+      searchData1: {
+        placeholder: '请输入关键字1'
+      },
+      searchData2: {
+        placeholder: '请输入关键字2',
+        disabled: true
+      },
+      searchData3: {
+        placeholder: '请输入关键字3',
+        barBackground: '#0988F0',
+        inputBackground: '#ffffff',
+        searchBtnColor: '#ffffff'
+      },
+      searchData4: {
+        placeholder: '请输入关键字4',
+        width: '1000px'
+      }
+    },
+    onInit() {
+      this.$page.setTitleBar({ text: 'Searchbar' })
+      setTimeout(() => {
+        this.$child("search1").focus()
+      }, 1000);
+    },
+    focus(e){
+      prompt.showToast({
+        message: 'focus value:' + e.detail.value
+      })
+    },
+    blur(e) {
+      prompt.showToast({
+        message: 'blur value:' + e.detail.value
+      })
+    },
+    clear(){
+      prompt.showToast({
+        message: 'clear'
+      })
+    },
+    search(e) {
+      prompt.showToast({
+        message: 'value:' + e.detail.value
+      })
+    }
+  }
+</script>

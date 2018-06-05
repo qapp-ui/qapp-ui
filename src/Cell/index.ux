@@ -1,0 +1,122 @@
+<import name='qui-cell' src='@qapp-ui/qui-cell/index'></import>
+<import name='qui-switch' src='@qapp-ui/qui-switch/index'></import>
+
+<template>
+  <div class="page-doc">
+    <div class="cell-box">
+      <text class="text">带图标能点击的Cell</text>
+      <qui-cell option="{{cellData1}}" @qui-cell-click="cellClicked"></qui-cell>
+    </div>
+    <div class="cell-box">
+      <text class="text">不带图标的Cell</text>
+      <qui-cell option="{{cellData2}}"></qui-cell>
+    </div>
+    <div class="cell-box">
+      <text class="text">不带描述的Cell</text>
+      <qui-cell option="{{cellData3}}"></qui-cell>
+    </div>
+    <div class="cell-box">
+      <text class="text">不带箭头的Cell</text>
+      <qui-cell option="{{cellData4}}"></qui-cell>
+    </div>
+    <div class="cell-box">
+      <text class="text">带Switch的Cell</text>
+      <qui-cell option="{{cellData5}}">
+        <qui-switch option="{{switchData1}}"></qui-switch>
+      </qui-cell>
+    </div>
+    <div class="cell-box">
+      <text class="text">Row Switch的Cell</text>
+      <qui-cell option="{{cellData6}}">
+        <qui-switch option="{{switchData2}}"></qui-switch>
+      </qui-cell>
+    </div>
+  </div>
+</template>
+<style>
+  .page-doc {
+    flex: 1;
+    flex-direction: column;
+    background-color: #eeeeee;
+  }
+
+  .text {
+    flex: 1;
+    text-align: center;
+    margin-bottom: 10px;
+    background-color: #ffffff;
+    font-size: 40px;
+  }
+
+  .cell-box {
+    justify-content: center;
+    flex-direction: column;
+    margin-bottom: 80px;
+  }
+</style>
+<script>
+  import prompt from '@system.prompt'
+  export default {
+    data: {
+      switchData1: {
+        value: false
+      },
+      switchData2: {
+        value: false
+      },
+      cellData1: {
+        backgroundColor: '#FFFFFF',
+        leftImg: '/Common/logo.png',
+        title: '测试标题',
+        desc: '测试说明',
+        hasArrow: true,
+        titleColor: '#008000',
+        descColor: '#d00000'
+      },
+      cellData2: {
+        backgroundColor: '#FFFFFF',
+        title: '测试标题',
+        desc: '测试说明',
+        hasArrow: true,
+      },
+      cellData3: {
+        backgroundColor: '#FFFFFF',
+        leftImg: '/Common/logo.png',
+        title: '测试标题',
+        hasArrow: true,
+      },
+      cellData4: {
+        backgroundColor: '#FFFFFF',
+        leftImg: '/Common/logo.png',
+        title: '测试标题',
+        desc: '测试说明',
+        hasArrow: false,
+      },
+      cellData5: {
+        backgroundColor: '#FFFFFF',
+        leftImg: '/Common/logo.png',
+        title: '测试标题',
+        desc: '测试说明',
+        hasArrow: false,
+        direction: 'row'
+      },
+      cellData6: {
+        backgroundColor: '#FFFFFF',
+        leftImg: '/Common/logo.png',
+        title: '测试标题',
+        desc: '测试说明',
+        hasArrow: false,
+        direction: 'column'
+      }
+    },
+    onInit() {
+      this.$page.setTitleBar({text: 'Cell'})
+    },
+    cellClicked() {
+      this.cellData1.selected = !this.cellData1.selected
+      prompt.showToast({
+        message: 'cell clicked'
+      })
+    }
+  }
+</script>

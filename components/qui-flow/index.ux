@@ -1,0 +1,147 @@
+<template>
+  <div class="qui-flow">
+    <stack class="qui-flow-stack {{!$idx?'qui-flow-stack-first':''}}" for="option.list">
+      <div class="qui-flow-item {{$idx===option.list.length-1?'qui-flow-item-last':''}}">
+        <text class="qui-flow-title" style="color: {{$item.highlight?option.highlightTitle:''}}">
+          {{$item.title}}
+        </text>
+        <text class="qui-flow-desc" if="$item.desc">{{$item.desc}}</text>
+        <text class="qui-flow-time" if="$item.time">{{$item.time}}</text>
+      </div>
+      <div class="qui-flow-line" if="{{$idx<option.list.length-1}}" style="background-color: {{option.line}}"></div>
+      <div class="qui-flow-icon {{$item.highlight?'qui-flow-icon-active':''}}"
+           style="background-color: {{$item.highlight?option.highlightBackground:option.background}};border-color:{{$item.highlight?option.highlightBorder:option.border}}"></div>
+    </stack>
+  </div>
+</template>
+
+<style>
+  .qui-flow {
+    flex-direction: column;
+  }
+
+  .qui-flow-stack {
+    margin-top: -23px;
+  }
+
+  .qui-flow-stack-first {
+    margin-top: 0;
+  }
+
+  .qui-flow-item {
+    flex-direction: column;
+    margin-left: 102px;
+    padding-bottom: 82px;
+  }
+
+  .qui-flow-item-last {
+    padding-bottom: 0;
+  }
+
+  .qui-flow-line {
+    margin-left: 50px;
+    margin-top: 23px;
+    width: 2px;
+  }
+
+  .qui-flow-icon {
+    margin-left: 41px;
+    margin-top: 23px;
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    border-width: 2px;
+  }
+
+  .qui-flow-icon-active {
+    margin-left: 33px;
+    margin-top: 15px;
+    width: 36px;
+    height: 36px;
+    border-width: 8px;
+    border-radius: 18px;
+  }
+
+  .qui-flow-title {
+    color: rgb(61, 61, 61);
+    font-size: 42px;
+    line-height: 56px;
+    text-overflow: ellipsis;
+  }
+
+  .qui-flow-desc,
+  .qui-flow-time {
+    margin-top: 15px;
+    color: rgb(165, 165, 165);
+    font-size: 34px;
+    line-height: 45px;
+  }
+</style>
+
+<script>
+  /**
+   * option = {
+   *   list: [{
+   *     title: 'xxx',  //标题文本
+   *     desc: 'xxx',   //描述文本
+   *     time: 'xxx',   //时间
+   *     highlight: true/false  //是否高亮
+   *   }],
+   *   line: '#ffc300',  //线条颜色
+   *   background: '#fff0bd', //圆点背景色
+   *   border: '#ee9900',     //圆点边框颜色
+   *   highlightTitle: '#ee9900', //高亮节点标题颜色
+   *   highlightBackground: '#ee9900',  //高亮圆点背景色
+   *   highlightBorder: '#fff0bd'   //高亮圆点边框颜色
+   * }
+   */
+  export default {
+    props: [
+      'option'
+    ],
+    data() {
+      return {
+        defaultOption: {
+          list: [],
+          line: '#ffc300',
+          background: '#fff0bd',
+          border: '#ee9900',
+          highlightTitle: '#ee9900',
+          highlightBackground: '#ee9900',
+          highlightBorder: '#fff0bd'
+        }
+      }
+    },
+    onInit() {
+      Object.keys(this.defaultOption).forEach(key => {
+        let methodName = key.replace(/^\w/, function ($0) {
+          return `update${$0.toUpperCase()}`
+        })
+
+        this.$watch(`option.${key}`, methodName)
+        this[methodName]()
+      })
+    },
+    updateList() {
+      !this.option.hasOwnProperty('list') && this.$set('option.list', this.defaultOption.list)
+    },
+    updateLine() {
+      !this.option.hasOwnProperty('line') && this.$set('option.line', this.defaultOption.line)
+    },
+    updateBackground() {
+      !this.option.hasOwnProperty('background') && this.$set('option.background', this.defaultOption.background)
+    },
+    updateBorder() {
+      !this.option.hasOwnProperty('border') && this.$set('option.border', this.defaultOption.border)
+    },
+    updateHighlightTitle() {
+      !this.option.hasOwnProperty('highlightTitle') && this.$set('option.highlightTitle', this.defaultOption.highlightTitle)
+    },
+    updateHighlightBackground() {
+      !this.option.hasOwnProperty('highlightBackground') && this.$set('option.highlightBackground', this.defaultOption.highlightBackground)
+    },
+    updateHighlightBorder() {
+      !this.option.hasOwnProperty('highlightBorder') && this.$set('option.highlightBorder', this.defaultOption.highlightBorder)
+    },
+  }
+</script>

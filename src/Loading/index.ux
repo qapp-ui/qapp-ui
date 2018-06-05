@@ -1,0 +1,52 @@
+<import name="qui-loading" src="@qapp-ui/qui-loading/index"></import>
+
+<template>
+  <div class="page">
+    <input type="button" value="显示loading" @click="show">
+    <qui-loading option="{{loading}}"></qui-loading>
+  </div>
+</template>
+
+<style>
+  .page {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .page input {
+    margin: 200px;
+    width: 800px;
+    height: 100px;
+    background-color: #0F8DE8;
+    color: #ffffff;
+  }
+</style>
+
+<script>
+  export default {
+    private: {
+      loading: {
+        show: false,
+        text: '正在加载...'
+      }
+    },
+    onInit() {
+      this.$page.setTitleBar({ text: 'Loading' })
+    },
+    onBackPress() {
+      if (this.loading.show) {
+        setTimeout(() => {
+          this.loading.show = false
+        })
+        return true
+      }
+    },
+    show() {
+      this.loading.show = true
+      setTimeout(() => {
+        this.loading.show = false
+      }, 5000)
+    }
+  }
+</script>
