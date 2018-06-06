@@ -33,14 +33,16 @@
   .page {
     flex-direction: column;
     align-items: center;
+    justify-content: center;
   }
 
   input {
+    width: 800px;
+    height: 100px;
     margin: 50px;
     padding: 20px;
-    width: 450px;
-    color: #fff;
-    background-color: #535088;
+    color: #ffffff;
+    background-color: #0F8DE8;
   }
 
   text {

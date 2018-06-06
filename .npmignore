@@ -1,7 +1,9 @@
 node_modules
 build
+config
 dist
 docs
+gui
 sign
 src
 .babelrc
@@ -10,5 +12,4 @@ src
 .gitignore
 .nojekyll
 index.html
-package.json
 npm-debug.log

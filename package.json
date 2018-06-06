@@ -1,10 +1,22 @@
 {
   "name": "qapp-ui",
-  "version": "1.0.0",
+  "version": "1.1.0",
+  "description": "基于快应用 的多功能、富交互、轻量级的UI 组件库",
   "subversion": {
     "toolkit": "0.0.32"
   },
-  "description": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/qapp-ui/qapp-ui.git"
+  },
+  "homepage": "https://qapp-ui.github.io/qapp-ui/",
+  "keywords": [
+    "QAPP Ui",
+    "Quickapp",
+    "Mobile",
+    "Ul Components",
+    "UI library"
+  ],
   "scripts": {
     "server": "hap server",
     "debug": "hap debug",
@@ -12,6 +24,7 @@
     "release": "hap release",
     "watch": "hap watch"
   },
+  "license": "MIT",
   "devDependencies": {
     "hap-toolkit": "0.0.32",
     "babel-cli": "^6.10.1",

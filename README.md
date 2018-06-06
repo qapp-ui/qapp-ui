@@ -55,7 +55,9 @@ npm install qapp-ui --save
 
 ## 注意点
 
-##### 1. 通过`npm install`命令安装`qapp-ui`库后，如果需要在import时，使用别名`@qapp-ui`来导入组件时，可以通过在项目根目录新建config目录创建webpack.config.js文件来修改hap-toolkit工具中默认的webpack配置信息(hap-toolkit 版本需要为32以上)
+##### 1. 组件库的尺寸是基于`designWidth：1080`来进行设计开发的。请将manifest.json中的designWidth配置设置为1080。
+
+##### 2. 通过`npm install`命令安装`qapp-ui`库后，如果需要在import时，使用别名`@qapp-ui`来导入组件时，可以通过在项目根目录新建config目录创建webpack.config.js文件来修改hap-toolkit工具中默认的webpack配置信息(hap-toolkit 版本需要为32以上)
 
 ```
  |
@@ -80,7 +82,7 @@ module.exports = {
 }
 ```
 
-##### 2. 由于受限快应用目前的打包策略，目前组件库中的默认图片采用的是 base64格式。
+##### 3. 由于受限快应用目前的打包策略，目前组件库中的默认图片采用的是 base64格式。
 
 ## 更多
 
