@@ -12,6 +12,7 @@
 ## 使用方法
 
 ```ux
+<import name="qui-indexlist" src="@qapp-ui/qui-indexlist/index"></import>
 <import name="qui-toast" src="@qapp-ui/qui-toast/index"></import>
 
 <template>
@@ -23,62 +24,38 @@
   </div>
 </template>
 
-<style>
-  .page {
-    flex-direction: column;
-  }
-
-  .box {
-    width: 100%;
-    height: 100%;
-    background-color: blue;
-  }
-</style>
-
 <script>
   export default {
-      private: {
-        indexlist: {
-          list: [{
-            name: '包头',
-            desc: 'BAV',
-            key: 'baotou',
-            location: true,
-            icon: true
-          }, {
-            name: '黄山',
-            key: 'huangshan'
-          }, {
-            name: '宝鸡',
-            key: 'baoji',
-            hot: true
-          }, {
-            name: '成都',
-            desc: '天府之国',
-            key: 'chengdu',
-            hot: true
-          }, {
-            name: '重庆',
-            key: 'chongqing'
-          }, {
-            name: '长沙',
-            key: 'changsha'
-          }],
-          locationType: 'group',
-          hotType: 'group'
+    let data = {
+      hotList: [
+        {name: '北京', key: 'beijing', py: 'bj', desc: 'BJS'},
+        {name: '上海', key: 'shanghai', py: 'sh', desc: 'BJS'},
+        {name: '天津', key: 'tianjin', py: 'tj', desc: 'BJS'},
+        {name: '青岛', key: 'qingdao', py: 'qd', desc: 'BJS'}
+      ],
+      normalList: [
+        {
+          name: '安徽',
+          desc: 'AH',
+          key: 'ahui',
+          py: 'ah',
+          hot: true
+        },
+        {
+          name: '长沙',
+          key: 'changsha',
+          py: 'cs'
         }
-      },
-      onReady() {
-        this.toast = this.$child('qui-toast')
-      },
-      click(evt) {
-        this.toast.show({
-          text: JSON.stringify(evt.detail)
-        })
+      ]
+    };
+    private: {
+      indexlist: {
+        list: data.normalList,
+        hotType: 'group'
       }
     }
+  }
 </script>
-
 ```
 
 更详细代码可以参考[qui-indexlist demo](https://github.com/qapp-ui/qapp-ui/blob/master/src/Indexlist/index.ux)
@@ -94,17 +71,13 @@ qui-flow只接受属性option，option为对象，各属性如下
 | list[{desc}] | `String` | `N` | `-` | 描述 |
 | list[{key}] | `String` | `Y`| `-` | 排序字符串,比如拼音等 |
 | list[{hot}] | `Boolean` | `N` | `false` | 是否是热门项 |
-| list[{location}] | `Boolean` | `N` | `false` | 是否是定位等特殊项 |
-| list[{icon}] | `Boolean` | `N` | `false` | 定位等特殊项是否显示定位图标 |
 | hotTitle | `String` | `N` | `热门` | 热门项索引标签 |
 | hotType | `String` | `N` | `-` | 热门项显示类型，支持list，group类型，默认为list类型 |
-| LocationTitle | `String`| `N` | `定位` | 定位项索引标签 |
-| LocationType | `String` | `N` | `-` | 定位项显示类型，支持list，group类型，默认为list类型 |
 | showIndex | `Boolean` | `N` | `true` | 是否显示侧边索引栏 |
-| onlyShowList | `Boolean` | `N` | `false` | 是否不显示热门、定位列表 |
+| onlyShowList | `Boolean` | `N` | `false` | 是否不显示热门列表 |
 
 ## 事件
 
 | 名称 | 参数 | 描述 |
 |--------|---------|--------|
-|qui-click| `{type,item}` | 点击列表项时触发，type为location表示点击的定位列表项，为hot表示点击的热门列表项，其他为正常列表项；item为传入的列表项数据 |
+|qui-click| `{type,item}` | 点击列表项时触发，type为hot表示点击的热门列表项，其他为正常列表项；item为传入的列表项数据 |

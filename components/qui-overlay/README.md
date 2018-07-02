@@ -12,30 +12,67 @@
 ## 使用方法
 
 ```ux
+<import name="qui-toast" src="@qapp-ui/qui-toast/index"></import>
 <import name="qui-overlay" src="@qapp-ui/qui-overlay/index"></import>
+<import name='qui-switch' src='@qapp-ui/qui-switch/index'></import>
 
 <template>
-  <div class="page">
-    <input type="button" value="overlay" @click="show">
-    <qui-overlay option="{{overlay}}" @qui-overlay-click="hide">
-      <text>这是自定义内容</text>
+  <div class="page-doc">
+    <qui-overlay option="{{overlay}}" @qui-overlay-click="overlayClick">
     </qui-overlay>
-  </div>
+    <qui-toast id="qui-toast"></qui-toast>
+    <div class="item-box">
+      <div class="item">
+        <text class="item-dt">点击蒙层是否自动关闭</text>
+        <qui-switch option="{{data}}" @qui-switch-change="autoClose"></qui-switch>
+      </div>
+    </div>
+    <div class="item-box">
+      <div class="item no-bor">
+        <div class="background">
+          <text class="item-dt">蒙层背景色
+            <span class="item-dt">{{overlay.background}}</span>
+          </text>
+          <div>
+            <div class="margin-top">
+              <text class="item-dw">r(
+                <span>{{r}}</span>)：</text>
+              <slider max="255" value="{{r}}" @change="rfn" class="selected"></slider>
+            </div>
+            <div class="margin-top">
+              <text class="item-dw">g(
+                <span>{{g}}</span>)：</text>
+              <slider max="255" value="{{g}}" @change="gfn" class="selected"></slider>
+            </div>
+            <div class="margin-top">
+              <text class="item-dw">b(
+                <span>{{b}}</span>)：</text>
+              <slider max="255" value="{{b}}" @change="bfn" class="selected"></slider>
+            </div>
+            <div class="margin-top">
+              <text class="item-dw">a(
+                <span>{{a / 100}}</span>)：</text>
+              <slider max="100" value="{{a}}" @change="afn" class="selected"></slider>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
 </template>
 
 <script>
   export default {
     private: {
+      data: {
+        disabled: false,
+        value: true
+      },
       overlay: {},
-      className: undefined
-    },
-    show() {
-      this.overlay.show = true
-      this.className = 'enter'
-    },
-    hide() {
-      this.overlay.show = false
-      this.className = 'leave'
+      r: 0,
+      g: 0,
+      b: 0,
+      a: 0,
     }
   }
 </script>

@@ -18,7 +18,8 @@
 <template>
     <div class="page-doc">
       <div class="stepper-box">
-        <qui-stepper option="{{stepperData1}}" @qui-value-changed="valueChange"
+        <text class="stepper-txt">参数：（默认值:10, 步长：2，最新值：5，最大值：15，只读状态）</text>
+        <qui-stepper option="{{stepperData}}" @qui-value-changed="valueChange"
           @qui-min-over="minOver" @qui-max-over="maxOver"></qui-stepper>
       </div>
     <div>
@@ -26,12 +27,13 @@
 
 <script>
   export default {
-    private: {
-      stepperData1: {
-        defaultValue: 1,
+    private: { 
+      stepperData: {
+        defaultValue: 10,
         step: 2,
-        min: 0,
-        max: 10
+        min: 5,
+        max: 15,
+        readOnly: true
       }
     }
   }

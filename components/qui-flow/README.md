@@ -17,42 +17,34 @@
 
 <template>
   <div class="page">
-    <div class="box">
-      <qui-flow option="{{flow}}"></qui-flow>
-    </div>
+    <qui-flow option="{{flow}}"></qui-flow>
   </div>
 </template>
-
-<style>
-  .page {
-    flex-direction: column;
-    background-color: #fff;
-  }
-
-  .box {
-    margin: 100px 50px 0 0;
-    background-color: #cccccc;
-  }
-</style>
 
 <script>
   export default {
     private: {
       flow: {
-        line: '#bf280b',
-        background: '#d46262',
-        border: '#bf280b',
-        highlightTitle: '#bf280b',
-        highlightBackground: '#bf280b',
-        highlightBorder: '#d46262',
+        line: '#0F8DE8',
+        background: '#ffffff',
+        border: '#0F8DE8',
+        highlightTitle: '#0F8DE8',
+        highlightBackground: '#ffffff',
+        highlightBorder: '#0F8DE8',
         list: [{
           'time': '2017-05-24 21:10:29',
           'desc': '',
           'highlight': true,
           'title': '方案已确认'
         }, {
+          'highlight': true,
+          'title': '方案已更新'
+        }, {
+          'desc': '您以确定了方案',
+          'title': '方案已上传'
+        }, {
           'time': '2017-05-24 19:49:03',
-          'desc': '商家会在2个工作小时内电话或旺旺联系您',
+          'desc': '商家会在2个工作小时内电话联系您',
           'title': '商家已接单'
         }]
       }

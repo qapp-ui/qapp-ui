@@ -17,9 +17,8 @@
 <template>
   <div class="page-doc">
     <input class="input-button" type="button" value="3列数据(多级联动)" onclick="showpicker()" />
-
     <qui-picker option="{{pickerData}}" @qui-overlay-click="overlayClick"
-        @qui-cancel-click="cancelClick" @qui-confirm-click="confirmClick"></qui-picker>
+    @qui-cancel-click="cancelClick" @qui-confirm-click="confirmClick"></qui-picker>
   </div>
 </template>
 
@@ -28,20 +27,37 @@
     private: {
       pickerData: {
         show: false,
-        cancelText: 'cancel',
-        confirmText: 'OK',
-        background: 'rgba(0,0,0,0.1)',
-        autoClose: false,
         type: 'chain',
         selIndexs: [1,0,1],
-        list: [{
-          name: '北京',
-          children: [{name: '北京市', children: [{name: '昌平区'},{name: '朝阳区'},{name: '大兴区'},{name: '东城区'}]}]
-        },
-        {
-          name: '福建省',
-          children: [{name: '福州市',children: [{name: '仓山区'},{name: '福清市'},{name: '鼓楼区'},{name: '晋安区'}]}]
-        }]
+        list: [
+          {
+            name: '北京',
+            children: [{
+              name: '北京市',
+              children: [{
+                name: '昌平区',
+              },{
+                name: '朝阳区',
+              },{
+                name: '大兴区',
+              },{
+                name: '东城区',
+              }]
+            }]
+          },
+          {
+            name: '百色市',
+            children: [{
+                name: '德保县',
+              },{
+                name: '靖西市',
+              },{
+                name: '乐业县',
+              },{
+                name: '隆林各族自治县',
+            }]
+          }
+        ]
       }
     }
   }

@@ -16,22 +16,23 @@
 <import name='qui-searchbar' src='@qapp-ui/qui-searchbar/index'></import>
 
 <template>
-  <div class="page-doc">
-    <qui-searchbar id="search1" option="{{searchData1}}" @qui-search-focus="focus" @qui-search-blur="blur"
-      @qui-search-click="search" @qui-search-clear="clear" ></qui-searchbar>
-  <div>
+    <div class="page-doc">
+      <div class="search-box">
+        <qui-searchbar id="search" option="{{searchData}}"></qui-searchbar>
+      </div>
+    <div>
 </template>
 
 <script>
 export default {
-  private: {
-    searchData1: {
-      placeholder: '请输入关键字',
-      barBackground: '#0988F0',
-      inputBackground: '#ffffff',
-      searchBtnColor: '#ffffff'
+    private: {
+      searchData: {
+        placeholder: '请输入关键字3',
+        barBackground: '#0988F0',
+        inputBackground: '#ffffff',
+        searchBtnColor: '#ffffff'
+      }
     }
-  }
 }
 </script>
 ```

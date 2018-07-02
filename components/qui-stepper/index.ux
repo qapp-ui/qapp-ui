@@ -6,7 +6,7 @@
       </div>
       <input style="width:0px;height:0px" />
       <input id="stepper-input" class="stepper-input {{option.disabled || option.readOnly ? 'stepper-disabled' : ''}}" type="number"
-        value="{{stepperValue}}" onchange="onChange" disabled="{{option.disabled || option.readOnly}}"/>
+        value="{{stepperValue}}" onchange="onChange" disabled="{{option.disabled || option.readOnly}}" />
       <div class="stepper-minus {{maxClass}}" onclick="plusClicked" disabled="{{option.disabled}}">
         <text class="stepper-icon">+</text>
       </div>

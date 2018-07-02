@@ -22,35 +22,12 @@
     <input type="button" value="只有确定按钮的对话框" @click="noCancel">
     <input type="button" value="无按钮的对话框" @click="noBtn">
     <qui-dialog option="{{dialog}}" @qui-btn-click="btnClick">
-      <!--自定义正文内容-->
       <text>这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容</text>
     </qui-dialog>
     <qui-toast id="qui-toast"></qui-toast>
   </div>
 </template>
 
-<style>
-  .page {
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-
-  input {
-    width: 800px;
-    height: 100px;
-    margin: 50px;
-    padding: 20px;
-    color: #ffffff;
-    background-color: #0F8DE8;
-  }
-
-  text {
-    color: #666666;
-    font-size: 45px;
-    line-height: 60px;
-  }
-</style>
 
 <script>
   export default {
@@ -67,52 +44,7 @@
         }]
       },
       dialog: {}
-    },
-    onReady() {
-      this.toast = this.$child('qui-toast')
-    },
-    onBackPress() {
-      if (this.dialog.show) {
-        //要延迟才有过渡动画
-        setTimeout(() => {
-          this.dialog.show = false
-        })
-
-        return true
-      }
-    },
-    normal() {
-      this.dialog = Object.assign({}, this.option)
-    },
-    noTitle() {
-      this.dialog = Object.assign({}, this.option, {
-        title: ''
-      })
-    },
-    noCancel() {
-      this.dialog = Object.assign({}, this.option, {
-        autoClose: true,
-        btns: [{
-          text: '确定'
-        }]
-      })
-    },
-    noBtn() {
-      this.dialog = Object.assign({}, this.option, {
-        autoClose: true,
-        btns: []
-      })
-    },
-    btnClick(evt) {
-      this.toast.show({
-        text: `点击的第${evt.detail.index + 1}个按钮`
-      })
-
-      switch (evt.detail.index) {
-        case 1:
-          this.dialog.show = false
-      }
-    }
+    }   
   }
 </script>
 ```

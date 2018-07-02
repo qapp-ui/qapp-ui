@@ -17,7 +17,7 @@
 
 <template>
   <div class="page-doc">
-    <input class="input-button" type="button" value="显示幻灯片" onclick="showlightbox" />
+    <input class="input-button" type="button" value="显示幻灯片(特定indicator样式)" onclick="showlightbox" />
     <qui-lightbox option="{{lightboxData}}" @qui-close-click="closeClick"></qui-lightbox>
   </div>
 </template>
@@ -31,7 +31,7 @@
         indicatorColor: 'rgba(0, 0, 0, 1)',
         indicatorSelectedColor: '#ff0000',
         indicatorSize: '30px',
-        imageList: ['/Lightbox/img/x21-1.png','/Lightbox/img/x21-2.png','/Lightbox/img/x21-3.png','/Lightbox/img/x21-4.png']
+        imageList: ['/Lightbox/img/img1.jpg', '/Lightbox/img/img2.jpg','/Lightbox/img/img3.jpg', '/Lightbox/img/img4.jpg']
       }
     }
   }

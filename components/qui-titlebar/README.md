@@ -21,36 +21,35 @@
 
 <template>
     <div class="page-doc">
-      <qui-titlebar option="{{option}}"
-       @qui-leftclicked="leftClick"
-       @qui-rightclicked="rightClick"></qui-titlebar>
+      <div class="titlebar-box ">
+        <qui-titlebar option="{{titleData1}}" ></qui-titlebar>
+      </div>
+
+      <div class="titlebar-box ">
+        <qui-titlebar option="{{titleData2}}"></qui-titlebar>
+      </div>
     <div>
 </template>
 
 <script>
-import prompt from '@system.prompt'
 
 export default {
-	data: {
-		option: {
-			title: '标题',
-			textColor: '#000000', 
-			backgroundColor: '#eeeeee',
-			backgroundOpacity: '0.5',
-			leftIcon: '/Common/img/back.webp',
-			rightIcon: '/Common/img/more.webp'
-		}
-	},
-	leftClick() {
-		prompt.showToast({
-			message: 'left click'
-		})
-	},
-	rightClick() {
-		prompt.showToast({
-			message: 'right click'
-		})
-	}
+	private: {
+      titleData1: {
+        title: '标题(自定义样式)',
+        leftIcon: '',
+        leftText: '返回',
+        rightIcon: '',
+        rightText: '更多',
+        textColor: '#ffffff',
+        backgroundColor: '#0F8DE8',
+        backgroundOpacity: '0.5'
+      },
+      titleData2: {
+        richContent:
+          '<text style="height:144px;width:1080px;background-image:url(/Common/img/linearbg.webp);text-align:center;font-size:50px;">标题5(自定义富文本内容)</text>'
+      }
+    }
 };
 </script>
 ```

@@ -18,10 +18,8 @@
 <template>
     <div class="page-doc">
       <div class="item-box">
-        <qui-checkbox option="{{data0}}" @qui-checkbox-change="callback"></qui-checkbox>
-      </div>
-      <div class="item-box">
-        <qui-checkbox option="{{data1}}"></qui-checkbox>
+        <text class="item-tit" @click="evtEmit">点击我试试(自定义样式)</text>
+        <qui-checkbox option="{{data}}" id="childVm"></qui-checkbox>
       </div>
     <div>
 </template>
@@ -29,23 +27,16 @@
 <script>
   export default {
     data: {
-      data0: {
+      data: {
         values: [],
         checked: [],
-        options: ['默认']
-      },
-      data1: {
-        values: ['b'],
-        checked: [],
         options: [{
-          disabled: true,
-          label: '已选中禁用',
-          value: 'b'
-        }]
+          label: '记住我',
+          value: 1
+        }],
+        checkedColor: 'red',
+        checkedBorderColor: 'red'
       }
-    },
-    callback(data) {
-      // event code here
     }
   }
 </script>

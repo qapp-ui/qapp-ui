@@ -22,10 +22,10 @@ npm install qapp-ui --save
 
 <template>
   <div class="page">
-    <input type="button" value="常规对话框" @click="normal">
-    <input type="button" value="无标题的对话框" @click="noTitle">
-    <input type="button" value="只有确定按钮的对话框" @click="noCancel">
-    <input type="button" value="无按钮的对话框" @click="noBtn">
+    <input type="button" value="常规对话框" @click="normal" />
+    <input type="button" value="无标题的对话框" @click="noTitle" />
+    <input type="button" value="只有确定按钮的对话框" @click="noCancel" />
+    <input type="button" value="无按钮的对话框" @click="noBtn" />
     <qui-dialog option="{{dialog}}" @qui-btn-click="btnClick">
       <text>这是内容。。。</text>
     </qui-dialog>

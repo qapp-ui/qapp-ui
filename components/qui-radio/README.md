@@ -19,39 +19,35 @@
 <template>
     <div class="page-doc">
       <div class="item-box">
-        <qui-radio option="{{data0}}" @qui-radio-change="callback"></qui-radio>
-      </div>
-      <div class="item-box">
-        <qui-radio option="{{data1}}"></qui-radio>
+        <text class="item-tit">选中的值：{{data.value}}</text>
+        <qui-radio option="{{data}}"></qui-radio>
       </div>
     <div>
 </template>
 
 <script>
   export default {
-    data: {
-      data0: {
-        value: '牛肉',
-        options: ['牛肉', '猪肉']
-      },
-      data1: {
-        value: 'a',
+     data: {
+      data: {
+        value: 'apple',
         options: [
           {
-            disabled: false,
-            label: '男',
-            value: 'a'
+            disabled: true,
+            label: '苹果',
+            value: 'apple'
           },
           {
             disabled: false,
-            label: '女',
-            value: 'b'
+            label: '香蕉',
+            value: 'banana'
+          },
+          {
+            disabled: false,
+            label: '芒果',
+            value: 'mango'
           }
         ]
       }
-    },
-    callback(data) {
-      // event code here
     }
   }
 </script>

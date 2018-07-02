@@ -2,7 +2,7 @@
   <div class="qui-cells" @click="cellClicked">
     <div class="qui-cell" style="height:{{option.height}}">
       <div class="qui-cell-left">
-        <image if="option.leftImg" src="{{option.leftImg}}" class="qui-cell-img">
+        <image if="option.leftImg" src="{{option.leftImg}}" class="qui-cell-img" />
           <div style="flex-direction: {{option.direction}}">
             <text if="option.title" class="qui-cell-title" style="color:{{option.titleColor}}">
               {{option.title}}
@@ -18,7 +18,7 @@
         </text>
         <slot></slot>
         <image if="option.hasArrow" class="qui-cell-arrow"
-               src="data:image/webp;base64,UklGRgYBAABXRUJQVlA4WAoAAAAQAAAADwAAHQAAQUxQSLsAAAABgCPbtmnrZs/ftm3btrtj27Zt27ZtRv+n3p/71O1BRChw20bpGI7vFf692hROrTCiiENzDIbkcFadgV5pnDUWoFMCZ50VaBHD2WAd6kVwNt6GakGczfehjB9n6yMo5OFsfwo5HJxdLiCdjbPHNSQxcfa5+4ghcNDTayqOsOeXRBSBj+/hDLzyGcugMdL599jEa6FxbeZ7UMZP49r116FBBH22ZcKzacxDpyTqT5GevQ0GCN/Cu12DQkEBAFZQOCAkAAAAsAIAnQEqEAAeAD5tLJFFpCKhmAQAQAbEtIAAPZAAAP77nMAA">
+               src="data:image/webp;base64,UklGRgYBAABXRUJQVlA4WAoAAAAQAAAADwAAHQAAQUxQSLsAAAABgCPbtmnrZs/ftm3btrtj27Zt27ZtRv+n3p/71O1BRChw20bpGI7vFf692hROrTCiiENzDIbkcFadgV5pnDUWoFMCZ50VaBHD2WAd6kVwNt6GakGczfehjB9n6yMo5OFsfwo5HJxdLiCdjbPHNSQxcfa5+4ghcNDTayqOsOeXRBSBj+/hDLzyGcugMdL599jEa6FxbeZ7UMZP49r116FBBH22ZcKzacxDpyTqT5GevQ0GCN/Cu12DQkEBAFZQOCAkAAAAsAIAnQEqEAAeAD5tLJFFpCKhmAQAQAbEtIAAPZAAAP77nMAA" />
       </div>
     </div>
   </div>

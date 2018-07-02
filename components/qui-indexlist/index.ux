@@ -1,44 +1,17 @@
 <template>
   <stack class="qui-indexlist">
     <list class="qui-indexlist-list" id="qui-indexlist">
-      <block if="location.length">
-        <list-item type="tag"
-                   class="qui-indexlist-tag {{option.locationType==='group'?'qui-indexlist-group-tag':''}}">
-          <text class="qui-indexlist-name">{{option.locationTitle}}</text>
-        </list-item>
-        <list-item type="location"
-                   class="qui-indexlist-group-item {{option.showIndex?'qui-indexlist-item-showindex':''}}"
-                   if="option.locationType==='group'">
-          <div for="location" class="qui-indexlist-location" @click="click($item,'location')">
-            <image src="{{icon}}" if="$item.icon"></image>
-            <div>
-              <text>{{$item.name}}</text>
-              <text class="qui-indexlist-group-desc">{{$item.desc}}</text>
-            </div>
-          </div>
-        </list-item>
-        <list-item type="location-item" else for="location" @click="click($item,'location')"
-                   class="qui-indexlist-item {{option.showIndex?'qui-indexlist-item-showindex':''}}">
-          <image src="{{icon}}" if="$item.icon"></image>
-          <text class="qui-indexlist-name">{{$item.name}}</text>
-          <text class="qui-indexlist-desc">{{$item.desc}}</text>
-        </list-item>
-      </block>
       <block if="hot.length">
-        <list-item type="tag"
-                   class="qui-indexlist-tag {{option.hotType==='group'?'qui-indexlist-group-tag':''}}">
+        <list-item type="tag" class="qui-indexlist-tag {{option.hotType==='group'?'qui-indexlist-group-tag':''}}">
           <text class="qui-indexlist-name">{{option.hotTitle}}</text>
         </list-item>
-        <list-item type="hot"
-                   class="qui-indexlist-group-item {{option.showIndex?'qui-indexlist-item-showindex':''}}"
-                   if="option.hotType==='group'">
+        <list-item type="hot" class="qui-indexlist-group-item {{option.showIndex?'qui-indexlist-item-showindex':''}}" if="option.hotType==='group'">
           <div for="hot" @click="click($item,'hot')">
             <text>{{$item.name}}</text>
             <text class="qui-indexlist-group-desc">{{$item.desc}}</text>
           </div>
         </list-item>
-        <list-item type="item" else for="hot" @click="click($item,'hot')"
-                   class="qui-indexlist-item {{option.showIndex?'qui-indexlist-item-showindex':''}}">
+        <list-item type="item" else for="hot" @click="click($item,'hot')" class="qui-indexlist-item {{option.showIndex?'qui-indexlist-item-showindex':''}}">
           <text class="qui-indexlist-name">{{$item.name}}</text>
           <text class="qui-indexlist-desc">{{$item.desc}}</text>
         </list-item>
@@ -47,8 +20,7 @@
         <list-item type="tag" class="qui-indexlist-tag" if="$item.tag">
           <text class="qui-indexlist-name">{{$item.tag}}</text>
         </list-item>
-        <list-item type="item" class="qui-indexlist-item {{option.showIndex?'qui-indexlist-item-showindex':''}}"
-                   @click="click($item,'')">
+        <list-item type="item" class="qui-indexlist-item {{option.showIndex?'qui-indexlist-item-showindex':''}}" @click="click($item,'')">
           <text class="qui-indexlist-name">{{$item.name}}</text>
           <text class="qui-indexlist-desc">{{$item.desc}}</text>
         </list-item>
@@ -143,7 +115,7 @@
     text-overflow: ellipsis;
   }
 
-  .qui-indexlist-group-item > div {
+  .qui-indexlist-group-item>div {
     margin-right: 25px;
     margin-bottom: 25px;
     width: 210px;
@@ -207,14 +179,11 @@
       return {
         index: [],
         hot: [],
-        location: [],
         list: [],
         defaultOption: {
           list: [],
           hotTitle: '热门',
           hotType: '',
-          locationTitle: '定位',
-          locationType: '',
           showIndex: true,
           onlyShowList: false
         },
@@ -223,7 +192,7 @@
     },
     onInit() {
       //list必须放在最后，否则updateList会被调用多次
-      ['hotTitle', 'hotType', 'locationTitle', 'locationType', 'showIndex', 'onlyShowList', 'list'].forEach(key => {
+      ['hotTitle', 'hotType', 'showIndex', 'onlyShowList', 'list'].forEach(key => {
         let methodName = key.replace(/^\w/, function ($0) {
           return `update${$0.toUpperCase()}`
         })
@@ -252,12 +221,6 @@
     updateHotType() {
       !this.option.hasOwnProperty('hotType') && this.$set('option.hotType', this.defaultOption.hotType)
     },
-    updateLocationTitle() {
-      !this.option.hasOwnProperty('locationTitle') ? this.$set('option.locationTitle', this.defaultOption.locationTitle) : this.update()
-    },
-    updateLocationType() {
-      !this.option.hasOwnProperty('locationType') && this.$set('option.locationType', this.defaultOption.locationType)
-    },
     updateShowIndex() {
       !this.option.hasOwnProperty('showIndex') && this.$set('option.showIndex', this.defaultOption.showIndex)
     },
@@ -278,7 +241,6 @@
     update() {
       this.index = []
       this.hot = []
-      this.location = []
       this.list.forEach(item => {
         //添加索引
         if (!this.index.length || this.index[this.index.length - 1] !== item.key[0]) {
@@ -287,30 +249,22 @@
         }
         //添加hot
         item.hot && !this.option.onlyShowList && this.hot.push(item)
-        item.location && !this.option.onlyShowList && this.location.push(item)
       })
       this.hot.length && this.index.unshift(this.option.hotTitle)
-      this.location.length && this.index.unshift(this.option.locationTitle)
     },
     scrollTo(n) {
-      let k = -1, to = 0, location, hot
-
-      //定位所占用的item数目
-      location = this.location.length ? (this.option.locationType === 'group' ? 2 : this.location.length + 1) : 0
+      let k = -1, to = 0, hot
       //热门所占用的item数目
       hot = this.hot.length ? (this.option.hotType === 'group' ? 2 : this.hot.length + 1) : 0
 
-      if (location && !n) {   //定位
-      } else if (hot && (!n || n === 1)) {    //热门
-        to += location
+      if (hot && !n) {    //热门
       } else {  //常规索引
-        location && n--
         hot && n--
         this.list.some(function (item, index) {
           if (item.tag) {
             k++
             if (k === n) {
-              to += index + n + location + hot
+              to += index + n + hot
               return true
             }
           }

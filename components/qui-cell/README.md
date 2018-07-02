@@ -19,33 +19,28 @@
 <template>
   <div class="page-doc">
     <div class="cell-box">
-      <text class="text">带图标能点击的Cell</text>
-      <qui-cell option="{{cellData1}}" @qui-cell-click="cellClicked"></qui-cell>
+      <text class="text">Row Switch的Cell</text>
+      <qui-cell option="{{cellData}}">
+        <qui-switch option="{{switchData}}"></qui-switch>
+      </qui-cell>
     </div>
   </div>
 </template>
+
 <script>
-  import prompt from '@system.prompt'
   export default {
     data: {
       switchData: {
         value: false
       },
-      cellData1: {
+      cellData: {
         backgroundColor: '#FFFFFF',
         leftImg: '/Common/logo.png',
         title: '测试标题',
         desc: '测试说明',
-        hasArrow: true,
-        titleColor: '#008000',
-        descColor: '#d00000'
+        hasArrow: false,
+        direction: 'column'
       }
-    },
-    cellClicked() {
-      this.cellData1.selected = !this.cellData1.selected
-      prompt.showToast({
-        message: 'cell clicked'
-      })
     }
   }
 </script>

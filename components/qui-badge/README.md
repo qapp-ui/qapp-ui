@@ -18,43 +18,33 @@
 <template>
   <div class="page-doc">
     <div class="badge-box">
-      <text class="text">带Fade动画的Badge</text>
+      <text class="text">带Fade动画的Badge(自定义样式)</text>
       <div class="qui-badge-page-item">
-        <qui-badge option="{{badgeData3}}" id="qui-badge-3"></qui-badge>
         <text class="btn" @click="addDelta('qui-badge-3',1)"> +1</text>
+        <qui-badge option="{{badgeData}}" id="qui-badge-3"></qui-badge>
         <text class="btn" @click="addDelta('qui-badge-3', -1)"> -1</text>
       </div>
     </div>
   <div>
+</template>
 
 <script>
   export default {
-
     data: {
-      badgeData3: {
-        animation: 'fade',
-        height: '100px',
-        width: '150px',
-        borderRadius: '100px',
-        fontSize: '50px',
+      badgeData: {
+        animationType: 'fade',
+        height: '100',
+        width: '150',
+        borderRadius: '100',
+        fontSize: '50',
         fontStyle: 'bold',
-        bgColor: '#008000',
+        background: '#0F8DE8',
         textColor: '#ffffff',
         badge: 1,
       }
-    },
-
-    onInit() {
-      this.$page.setTitleBar({text: 'Badge'})
-    },
-
-    addDelta(id, delta) {
-      this.$child(id).addDelta(delta)
     }
   }
 </script>
-
-</template>
 
 ```
 

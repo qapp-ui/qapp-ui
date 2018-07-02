@@ -2,9 +2,8 @@
 
 <template>
   <qui-overlay option="{{overlay}}" @qui-overlay-click="overlayClick">
-    <div class="{{option.iosStyle?'qui-action-ios':''}}" if="{{visible}}">
-      <div class="qui-action-placeholder-ios {{className}}" if="option.iosStyle"></div>
-      <div class="qui-action-content {{option.iosStyle?'qui-action-content-ios':''}}">
+    <div class="{{option.iosStyle?'qui-action-ios':''}}  {{className}}" show="{{visible}}">
+      <div class="qui-action-content {{ option.iosStyle ? 'qui-action-content-ios':''}}">
         <text for="option.options" class="qui-action-item {{!$idx?'qui-action-item-first':''}}" @click="select($idx)">
           {{$item}}
         </text>
@@ -19,19 +18,19 @@
 <style>
   @keyframes quiactionenter {
     0% {
-      height: 2400px;
+      transform: translateY(100%);
     }
     100% {
-      height: 0;
+      transform: translateY(0%);
     }
   }
 
   @keyframes quiactionleave {
     0% {
-      height: 0;
+      transform: translateY(0%);
     }
     100% {
-      height: 2400px;
+      transform: translateY(100%);
     }
   }
 
@@ -48,16 +47,11 @@
     bottom: 0;
     left: 0;
     right: 0;
+    animation-duration: 600ms;
+    animation-fill-mode: forwards;
     flex-direction: column;
   }
 
-  .qui-action-placeholder-ios {
-    flex-shrink: 0;
-    opacity: 0;
-    height: 2400px; /*目前已知最大的屏幕竖横比例是19:9，这里假设最大为20:9*/
-    animation-duration: 600ms;
-    animation-fill-mode: forwards;
-  }
 
   .qui-action-content {
     flex-direction: column;
@@ -83,9 +77,6 @@
     text-overflow: ellipsis;
     border-color: #eeeeef;
     border-top-width: 2px;
-  }
-
-  .qui-action-content-ios .qui-action-item {
     background-color: #ffffff;
   }
 
@@ -135,15 +126,15 @@
 
         this.$watch(`overlay.${key}`, methodName)
       })
-      //监控this.option的属性变化
-      ;['show', 'background', 'autoClose', ...Object.keys(this.defaultOption)].forEach(key => {
-        let methodName = key.replace(/^\w/, function ($0) {
-          return `update${$0.toUpperCase()}`
-        })
+        //监控this.option的属性变化
+        ;['show', 'background', 'autoClose', ...Object.keys(this.defaultOption)].forEach(key => {
+          let methodName = key.replace(/^\w/, function ($0) {
+            return `update${$0.toUpperCase()}`
+          })
 
-        this.$watch(`option.${key}`, methodName)
-        this[methodName]()
-      })
+          this.$watch(`option.${key}`, methodName)
+          this[methodName]()
+        })
     },
     updateShow() {
       if (!this.option.hasOwnProperty('show')) {
@@ -155,9 +146,13 @@
         if (this.option.show) {
           this.$set('overlay.show', true)
           this.visible = true
-          this.className = 'qui-action-enter'
+          if (this.option.iosStyle) {
+            this.className = 'qui-action-enter'
+          }
         } else {
-          this.className = 'qui-action-leave'
+          if (this.option.iosStyle) {
+            this.className = 'qui-action-leave'
+          }
           this.timeoutId = setTimeout(() => {
             this.$set('overlay.show', false)
           }, this.option.iosStyle ? 100 : 0)
@@ -172,7 +167,6 @@
         this.$set('overlay.background', this.option.background)
       } else {
         let overlay = {}
-
         delete this.overlay.background
         Object.keys(this.overlay).forEach(key => {
           overlay[key] = this.overlay[key]
@@ -185,7 +179,6 @@
         this.$set('overlay.autoClose', this.option.autoClose)
       } else {
         let overlay = {}
-
         delete this.overlay.autoClose
         Object.keys(this.overlay).forEach(key => {
           overlay[key] = this.overlay[key]
@@ -202,17 +195,17 @@
     updateOptions() {
       !this.option.hasOwnProperty('options') && this.$set('option.options', this.defaultOption.options)
     },
-    updateOverlayBackground()  {
+    updateOverlayBackground() {
       this.overlay.hasOwnProperty('background') && this.$set('option.background', this.overlay.background)
     },
-    updateOverlayAutoClose()  {
+    updateOverlayAutoClose() {
       this.overlay.hasOwnProperty('autoClose') && this.$set('option.autoClose', this.overlay.autoClose)
     },
     overlayClick() {  //用内联写法会有问题，所以用单独的方法来处理事件
       this.$emit('quiOverlayClick')
     },
     select(index) {
-      this.$emit('quiSelect', {index})
+      this.$emit('quiSelect', { index })
     },
     cancel() {
       this.$emit('quiCancel')

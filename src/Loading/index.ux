@@ -2,7 +2,7 @@
 
 <template>
   <div class="page">
-    <input type="button" value="显示loading" @click="show">
+    <input type="button" value="显示loading" @click="show" />
     <qui-loading option="{{loading}}"></qui-loading>
   </div>
 </template>

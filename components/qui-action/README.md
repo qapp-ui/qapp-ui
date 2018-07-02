@@ -17,55 +17,34 @@
 
 <template>
   <div class="page">
-    <input type="button" value="显示" @click="show">
-    <input type="button" value="切换风格" @click="switchStyle">
-    <qui-action option="{{option}}" @qui-overlay-click="hide" @qui-select="select" @qui-cancel="cancel"></qui-action>
+    <input type="button" value="显示（ios风格）" @click="switchIos">
+    <input type="button" value="显示(android风格)" @click="switchAndroid">
+    <input type="button" value="添加内容" @click="switchList">
+    <qui-action option="{{option1}}" @qui-overlay-click="hide" @qui-select="select" @qui-cancel="cancel"></qui-action>
+    <qui-action option="{{option2}}" @qui-overlay-click="hide" @qui-select="select" @qui-cancel="cancel"></qui-action>
     <qui-toast id="qui-toast"></qui-toast>
   </div>
 </template>
 
 <script>
-  export default {
-    private: {
-      option: {
+ export default {
+     private: {
+      option1: {
+        background: 'rgba(0,0,0,.6)',
         options: [
-          'action1action1action1action1action1action1',
+          'item1item1item1item1item1item1item1item1item1item1item1item1item1',
+          'action2',
+          'action3'
+        ]
+      },
+      option2: {
+        background: 'rgba(0,0,0,.6)',
+        options: [
+          'item1item1item1item1item1item1item1item1item1item1item1item1item1',
           'action2',
           'action3'
         ]
       }
-    },
-    onReady() {
-      this.toast = this.$child('qui-toast')
-    },
-    onBackPress() {   //按返回键关闭qui-action
-      if (this.option.show) {
-        this.option.show = false
-
-        return true
-      }
-    },
-    switchStyle() {
-      this.option.iosStyle = !this.option.iosStyle
-      this.option.cancel = '取消'
-    },
-    show() {
-      this.option.show = true
-    },
-    hide() {
-      this.option.show = false
-    },
-    select(event) {
-      this.toast.show({
-        type: 'success',
-        text: `选择的第${event.detail.index + 1}个选项`
-      })
-    },
-    cancel() {
-      this.option.show = false
-      this.toast.show({
-        text: '取消'
-      })
     }
   }
 </script>

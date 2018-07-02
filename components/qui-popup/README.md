@@ -19,20 +19,25 @@
 ```ux
 <import name="qui-popup" src="@qapp-ui/qui-popup/index"></import>
 
-<qui-popup option="{{popupData1}}" @qui-overlay-click="overlayClick">
-  <div class="mask">
-    <text class="mask-title">快应用</text>
-    <text class="mask-txt">快应用是一套以前端开发技术栈为主进行应用开发的框架，采用流行的前端开发模式，贴合主流前端开发者的思维习惯，同时大幅提升应用的性能，提供大量前端环境无法使用的系统能力，以及很多第三方服务的对接能力。</text>
+<template>
+  <div class="page-doc">
+    <input class="input-button" type="button" value="点击弹出右侧弹层" onclick="showpopup('right')" />
+    <qui-popup option="{{popupData}}" @qui-overlay-click="overlayClick">
+      <div class="mask">
+        <text class="mask-title">快应用</text>
+        <text class="mask-txt">快应用是一套以前端开发技术栈为主进行应用开发的框架，采用流行的前端开发模式，贴合主流前端开发者的思维习惯，同时大幅提升应用的性能，提供大量前端环境无法使用的系统能力，以及很多第三方服务的对接能力。</text>
+      </div>
+    </qui-popup>
   </div>
-</qui-popup>
+</template>
 
 <script>
   export default {
     private: {
-      popupData1: {
+      popupData: {
         show: false,
-        position: 'bottom'
-      }
+        position: 'right'
+      },
     }
   }
 </script>

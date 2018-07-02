@@ -166,7 +166,6 @@
       return {
         visible: this.option.show,
         screenWidth: 1080,
-        screenHeight: 1920,
         contentStyle: {},
         animationClass: '',
         animationDuration: 800,
@@ -184,18 +183,10 @@
       }
     },
     onInit() {
-      this.setDeviceWH()
       this.setDefault()
       this.setOverlayBg()
       this.setContentStyle()
       this.toggleShow(this.option.show)
-    },
-    setDeviceWH() {
-      var deviceInfo = device.getInfo({
-        success: (ret) =>{
-          this.screenHeight =  Math.ceil((ret.screenHeight / ret.screenWidth) * this.screenWidth)
-        }
-      })
     },
     setDefault() {
       Object.keys(this.defaultData).forEach(key => {
@@ -232,8 +223,7 @@
         }
       } else {
         this.contentStyle = {
-          width: 'auto',
-          height: `${this.screenHeight}px`
+          width: 'auto'
         }
       }
     },

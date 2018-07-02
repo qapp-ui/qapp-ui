@@ -15,14 +15,27 @@
 ```ux
 <import name="qui-mask" src="@qapp-ui/qui-mask/index"></import>
 
-<qui-mask option="{{maskData}}" 
-        @qui-overlay-click="overlayClick" 
-        @qui-close-click="closeClick">
-    <div class="mask">
+<template>
+  <div class="page-doc">
+    <input class="input-button" type="button" value="显示mask" onclick="showmask" />
+    <qui-mask option="{{maskData}}" @qui-overlay-click="overlayClick" @qui-close-click="closeClick">
+      <div class="mask">
         <text class="mask-title">快应用</text>
         <text class="mask-txt">快应用是一套以前端开发技术栈为主进行应用开发的框架，采用流行的前端开发模式，贴合主流前端开发者的思维习惯，同时大幅提升应用的性能，提供大量前端环境无法使用的系统能力，以及很多第三方服务的对接能力。</text>
-    </div>
-</qui-mask>
+      </div>
+    </qui-mask>
+  </div>
+</template>
+
+<script>
+  export default {
+    private: {
+      maskData: {
+        show: false
+      }
+    }
+  }
+</script>
 ```
 
 更详细代码可以参考 [qui-mask demo](https://github.com/qapp-ui/qapp-ui/blob/master/src/Mask/index.ux)

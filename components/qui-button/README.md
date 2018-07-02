@@ -17,9 +17,32 @@
 
 <template>
     <div class="page-doc">
-      <qui-button class="qui-btn" option="{{btnData}}" @qui-clicked="onClick"></qui-button>
+      <div class="page-container">
+        <text class="txt">按钮样式:背景色(#FF5000)宽度(400px),高度(150px),边框圆角(20px)／文字样式:颜色(#FFFFFF)字体大小(40px)</text>
+        <qui-button option="{{btnData}}" @qui-clicked="onClick"></qui-button>
+      </div>
     <div>
 </template>
+
+<script>
+  export default {
+    private: {
+      btnData: {
+        text: '按钮',
+        btnStyle: {
+          backgroundColor: '#FFC900',
+          borderRadius: '12px',
+          width: '400px',
+          height: '150px'
+        },
+        textStyle: {
+          color: '#FFFFFF',
+          fontSize: '40px'
+        }
+      }
+    }
+  }
+</script>
 ```
 
 更详细代码可以参考 [qui-button demo](https://github.com/qapp-ui/qapp-ui/blob/master/src/Button/index.ux)

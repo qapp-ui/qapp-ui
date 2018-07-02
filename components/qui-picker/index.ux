@@ -21,93 +21,102 @@
 </template>
 
 <style>
-.qui-picker-box {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  width: 1080px;
-  height: 886px;
-  animation-fill-mode: forwards;
-  background-color: #ffffff;
-  flex-direction: column;
-}
-.pickerenter{
-  animation-name: pickerenter;
-}
-.pickerleave {
-  animation-name: pickerleave;
-}
+  .qui-picker-box {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 1080px;
+    height: 886px;
+    animation-fill-mode: forwards;
+    background-color: #ffffff;
+    flex-direction: column;
+  }
 
-.bar {
-  width: 100%;
-  height: 156px;
-  justify-content: space-between;
-  align-items: center;
-  border-color: #E6E6E6;
-  border-style: solid;
-  border-bottom-width: 2px;
-}
-.cancel {
-  padding: 48px;
-  font-size: 42px;
-  color: #666666;
-}
-.confirm {
-  padding: 48px;
-  font-size: 42px;
-  color: #00ACFF;
-}
+  .pickerenter {
+    animation-name: pickerenter;
+  }
 
-.list-box {
-  flex: 1;
-  width: 100%;
-  justify-content: space-between;
-}
-.list {
-  flex-direction: column;
-  align-items: center;
-}
-.list-item {
-  height: 130px;
-  align-items: center;
-  justify-content: center;
-}
-.list-item-text {
-  font-size: 42px;
-  lines: 1;
-  text-overflow: ellipsis;
-}
-.text-selected {
-  color: #00ACFF;
-}
+  .pickerleave {
+    animation-name: pickerleave;
+  }
 
-@keyframes pickerenter {
-  0% {
-    transform: translateY(886px);
+  .bar {
+    width: 100%;
+    height: 156px;
+    justify-content: space-between;
+    align-items: center;
+    border-color: #E6E6E6;
+    border-style: solid;
+    border-bottom-width: 2px;
   }
-  100% {
-    transform: translateY(0px);
+
+  .cancel {
+    padding: 48px;
+    font-size: 42px;
+    color: #666666;
   }
-}
-@keyframes pickerleave {
-  0% {
-    transform: translateY(0px);
+
+  .confirm {
+    padding: 48px;
+    font-size: 42px;
+    color: #00ACFF;
   }
-  100% {
-    transform: translateY(886px);
+
+  .list-box {
+    flex: 1;
+    width: 100%;
+    justify-content: space-between;
   }
-}
+
+  .list {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .list-item {
+    height: 130px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .list-item-text {
+    font-size: 42px;
+    lines: 1;
+    text-overflow: ellipsis;
+  }
+
+  .text-selected {
+    color: #00ACFF;
+  }
+
+  @keyframes pickerenter {
+    0% {
+      transform: translateY(100%);
+    }
+    100% {
+      transform: translateY(0%);
+    }
+  }
+
+  @keyframes pickerleave {
+    0% {
+      transform: translateY(0%);
+    }
+    100% {
+      transform: translateY(100%);
+    }
+  }
 </style>
 
 <script>
   export default {
-    props:['option'],
+    props: ['option'],
     data() {
       return {
         visible: this.option.show,
         animationClass: '',
-        animationDuration: 600,
+        animationDuration: 400,
         dataList: [],
         selIndexs: [],
         overlay: {
@@ -115,7 +124,7 @@
           autoClose: false,
           background: ''
         },
-         defaultData: {
+        defaultData: {
           show: false,
           autoClose: true,
           cancelText: '取消',
@@ -166,7 +175,7 @@
         this.selIndexs = selIndexs
       }
     },
-    setChainList(idx, list, defaultIndexs, selIndexs){
+    setChainList(idx, list, defaultIndexs, selIndexs) {
       if (!list.length) return
 
       this.dataList[idx] = []
@@ -197,9 +206,12 @@
       }
     },
     setItems(subidx, idx) {
-      let selIndexs =  this.selIndexs
+      let selIndexs = this.selIndexs
       if (selIndexs[idx] === subidx) return
       selIndexs[idx] = subidx
+      for (var i = idx, set = selIndexs.length - 1; i < set; i++) {
+        selIndexs[i + 1] = 0
+      }
       this.selIndexs = [...this.selIndexs]
 
       if (this.option.type === 'chain') {

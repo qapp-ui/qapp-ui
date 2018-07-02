@@ -17,10 +17,12 @@
 
 <template>
     <div class="page-doc">
+      <text class="console">当前switch的id:{{text}}</text>
       <div class="item-box">
-        <div class="item">
-          <qui-switch option="{{data}}" @qui-switch-change="callback"></qui-switch>
-        </div>
+          <div class="item">
+            <qui-switch option="{{data}}" @qui-switch-change="callback"></qui-switch>
+            <text class="item-dt" @click="checkStatus()">点我打开</text>
+          </div>
       </div>
     <div>
 </template>
@@ -28,13 +30,15 @@
 <script>
   export default {
     data: {
+      text: '空值',
       data: {
         disabled: false,
-        value: true
-      },
-    },
-    callback(data) {
-      // event code here
+        value: false,
+        id: 'remember',
+        label: '记住我',
+        labelMargin: '20px',
+        isLeft: true
+      }
     }
   }
 </script>

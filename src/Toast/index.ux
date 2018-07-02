@@ -3,12 +3,12 @@
 <template>
   <div class="page">
     <qui-toast id="qui-toast"></qui-toast>
-    <input type="button" value="normal toast" @click="showToast('normal')">
-    <input type="button" value="warning toast" @click="showToast('warning')">
-    <input type="button" value="success toast" @click="showToast('success')">
-    <input type="button" value="error toast" @click="showToast('error')">
-    <input type="button" value="自定义图标的toast" @click="showToast('custom')">
-    <input type="button" value="显示时长为5s的toast" @click="showToast('duration')">
+    <input type="button" value="normal toast" @click="showToast('normal')" />
+    <input type="button" value="warning toast" @click="showToast('warning')" />
+    <input type="button" value="success toast" @click="showToast('success')" />
+    <input type="button" value="error toast" @click="showToast('error')" />
+    <input type="button" value="自定义图标的toast" @click="showToast('custom')" />
+    <input type="button" value="显示时长为5s的toast" @click="showToast('duration')" />
   </div>
 </template>
 
@@ -26,13 +26,6 @@
     background-color: #0F8DE8;
     margin-bottom: 100px;
     color: #ffffff;
-    /* margin-top: 50px;
-    padding: 0 20px;
-    height: 80px;
-    width: 40%;
-    font-size: 30px;
-     border-radius: 40px; 
-    background-color: #0F8DE8; */
   }
 </style>
 

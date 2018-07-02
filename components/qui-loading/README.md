@@ -16,46 +16,18 @@
 
 <template>
   <div class="page">
-    <input type="button" value="显示" @click="show">
+    <input type="button" value="显示loading" @click="show">
     <qui-loading option="{{loading}}"></qui-loading>
   </div>
 </template>
-
-<style>
-  .page {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .page input {
-    margin: 20px;
-    padding: 20px;
-    background-color: #888888;
-  }
-</style>
 
 <script>
   export default {
     private: {
       loading: {
         show: false,
-        text: '正在加载'
+        text: '正在加载...'
       }
-    },
-    onBackPress() {
-      if (this.loading.show) {
-        setTimeout(() => {
-          this.loading.show = false
-        })
-
-        return true
-      }
-    },
-    show() {
-      this.loading.show = true
-      setTimeout(() => {
-        this.loading.show = false
-      }, 5000)
     }
   }
 </script>

@@ -19,18 +19,21 @@
     ...
     <!--调用组件-->
     <qui-toast id="qui-toast"></qui-toast>
+    <input type="button" value="显示时长为5s的toast" @click="showToast('duration')">
     ...
   </div>
 </template>
 
 <script>
   export default {
-    showToast() {
-      this.$child('qui-toast').show({
-        type: 'success',
-        duration: 4000,
-        text: 'this is a toast'
-      });
+    private: {
+      duration: {
+        text: '这是一个toast',
+        duration: 5000
+      }
+    },
+    showToast(type) {
+      this.toast.show(this[type])
     }
   }
 </script>
