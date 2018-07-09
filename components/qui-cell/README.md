@@ -42,7 +42,7 @@
 | titleColor | `String` |`N`| `-` | 标题颜色|
 | desc | `String` |`N`| `-` | 描述 |
 | descColor | `String` |`N`| `#808080` | 描述颜色 |
-| hasArrow | `String` |`N`| `1` | 是否有箭头 |
+| hasArrow | `String` |`N`| `1` | 是否有箭头，`'1'`表示有，`'0'`表示没有 |
 | height | `String` |`N`| `100px` | 高度（direction为row时默认高度是100px，column时默认高度是120px） |
 | direction | `String` |`N`| `row` | title和desc的布局 （支持row，column方式） |
 

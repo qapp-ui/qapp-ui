@@ -56,14 +56,14 @@
 
 | 属性名 | 类型 | 是否必填 | 默认值 | 描述 |
 |-------------|------------|--------|-----|-----|
-| disabled | `String` |`N`| `0` | 是否可用，设置为 true, 将不可用 |
-| value | `String` |`N`| `0` | 组件的值，true/false |
+| disabled | `String` |`N`| `0` | 是否可用，`'1'`表示是，`'0'`表示否 |
+| value | `String` |`N`| `0` | 是否默认选中，`'1'`表示是，`'0'`表示否 |
 | id | `String` |`N`| `-` | id，同显示的标签配合使用，点击标签同样触发效果 |
 | label | `String` |`N`| `-` | 显示的标签文字 |
 | labelMargin | `String` |`N`| `30px` | 显示的标签文字与切换器之间的距离 |
 | labelFontSize | `String` |`N`| `44px` | 显示的标签文字大小 |
 | labelColor | `String` |`N`| `#000000` | 显示的标签文字颜色 |
-| isLeft | `String` |`N`| `0` | 标签文字是否在左边，默认在右边 |
+| isLeft | `String` |`N`| `0` | 标签文字是否在左边，默认在右边，`'1'`表示是，`'0'`表示否 |
 | checkedColor | `String` |`N`| `#2998F9` | track样式 开状态背景色 |
 
 ### 事件

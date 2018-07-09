@@ -62,9 +62,9 @@
 
 | 名称 | 类型 | 必填 | 默认值 | 描述 |
 |-------|-----|-----|-----|-----|
-| visible | `String`| `N`| `0`| 显示或隐藏操作列表，`'1'`表示显示，`'0'`表示隐藏 |
+| visible | `String`| `N`| `0`| 显示或隐藏操作列表，`'1'`表示显示，`'0'`表示隐藏 |
 | background| `String`| `N` | `rgba(0,0,0,0.4)`| 蒙层背景色，支持所有合法background |
-| iosStyle| `String`| `N` | `0`| 是否为ios风格，`'1'`表示为ios风格，`'0'`表示为android风格，默认为android风格 |
+| iosStyle| `String`| `N` | `0`| 是否为ios风格，`'1'`表示为ios风格，`'0'`表示为android风格，默认为android风格 |
 | cancel| `String`| `N` | `取消`| 取消按钮的文本，空字符串则没有取消按钮，(**只在ios风格下才有效**) |
 | options| `String Array`| `Y`| `-`| 操作名称列表，如['action1','action2','action3'] |
 

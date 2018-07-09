@@ -46,7 +46,7 @@
 |-------------|------------|--------|-----|-----|
 | tid | `String` |`N`| `-` | button的标识 |
 | text | `String` |`N`| `按钮` | 展现的文字 |
-| disabled | `String` |`N`| `0` | 是否 disabled |
+| disabled | `String` |`N`| `0` | 是否 disabled，`'1'`表示是，`'0'`表示否 |
 | backgroundColor | `String` |`N`| `#0F8DE8` | 按钮背景色 |
 | borderColor | `String` |`N`| `-` | 按钮边框颜色 |
 | borderWidth | `String` |`N`| `0px` | 按钮边框宽度 |

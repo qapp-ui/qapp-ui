@@ -71,8 +71,8 @@
 | list[{hot}] | `Boolean` | `N` | `false` | 是否是热门项 |
 | hotTitle | `String` | `N` | `热门` | 热门项索引标签 |
 | hotType | `String` | `N` | `list` | 热门项显示类型，支持list，group类型，默认为list类型 |
-| showIndex | `String` | `N` | `1` | 是否显示侧边索引栏，`'1'`表示显示，`'0'`表示不显示 |
-| onlyShowList | `String` | `N` | `0` | 是否不显示热门列表，`'1'`表示不显示热门列表，`'0'`表示显示热门列表 |
+| showIndex | `String` | `N` | `1` | 是否显示侧边索引栏，`'1'`表示显示，`'0'`表示不显示 |
+| onlyShowList | `String` | `N` | `0` | 是否不显示热门列表，`'1'`表示不显示热门列表，`'0'`表示显示热门列表 |
 
 ## 事件
 

@@ -66,11 +66,11 @@
 | 属性名 | 类型 | 是否必填 | 默认值 | 描述 |
 |-------------|------------|--------|-----|-----|
 | options | `Array` | `N` |`-`| 全屏显示图片列表 |
-| showIndicator | `String` |`N`| `1` | 全屏后是否显示索引 |
+| showIndicator | `String` |`N`| `1` | 全屏后是否显示索引，`'1'`表示是，`'0'`表示否 |
 | indicatorColor | `String` |`N`| `rgba(0, 0, 0, 0.5)` | 索引填充颜色 |
 | indicatorSelectedColor | `String` |`N`| `#33b4ff` | 索引选中时的颜色 |
 | indicatorSize | `String` |`N`| `20px` | 索引组件的直径大小 |
-| visible | `String` | `N` |`1`| 是否显示 |
+| visible | `String` | `N` |`1`| 是否显示，`'1'`表示是，`'0'`表示否 |
 
 
 ## 事件

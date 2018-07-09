@@ -78,8 +78,8 @@
 | labelMargin | `String` |`N`| `30px` | 显示的标签文字与选择框之间的距离 |
 | labelFontSize | `String` |`N`| `44px` | 显示的标签文字大小 |
 | labelColor | `String` |`N`| `#000000` | 显示的标签文字颜色 |
-| isRight | `Boolean` |`N`| `0` | 选择框是否在右边，默认在左边 |
-| hasBorder | `Boolean` |`N`| `1` | checkboxList项之间间隔线，默认有实线 |
+| isRight | `Boolean` |`N`| `0` | 选择框是否在右边，默认在左边，`'1'`表示是，`'0'`表示否 |
+| hasBorder | `Boolean` |`N`| `1` | checkboxList项之间间隔线，默认有实线，`'1'`表示有，`'0'`表示没有 |
 | checkedColor | `String` |`N`| `#2998F9` | track样式 开状态背景色 |
 | checkedBorderColor | `String` |`N`| `#2998F9` | track样式 开状态边框色 |
 

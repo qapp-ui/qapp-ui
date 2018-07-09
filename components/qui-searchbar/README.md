@@ -62,9 +62,9 @@
 
 | 属性名 | 类型 | 是否必填 | 默认值 | 描述 |
 |-------------|------------|--------|-----|-----|
-| visible | `String` | `N` |`1`| 是否显示 |
+| visible | `String` | `N` |`1`| 是否显示，`'1'`表示是，`'0'`表示否 |
 | placeholder | `String` | `N` |`搜索`| 提示文本的内容 |
-| disabled | `String` | `N` |`0`| 是否禁用 |
+| disabled | `String` | `N` |`0`| 是否禁用，`'1'`表示是，`'0'`表示否 |
 | barBackground | `String` |`N`| `#FFFFFF` | 背景色 |
 | inputBackground | `String` |`N`| `#E5E5E5` | 搜索输入框背景色 |
 | searchBtnColor | `String` |`N`| `#0988F0` | 搜索按钮颜色 |

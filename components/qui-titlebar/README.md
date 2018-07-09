@@ -55,8 +55,8 @@ export default {
 | leftText | `String` |`N`| `-` | 左侧文案 |
 | rightIcon | `String` |`N`| `-` | 右侧icon 优先显示 |
 | rightText | `String` | `N` |`-`| 右侧文案 |
-| defaultReturn | `String` | `N` |`1`| 是否使用系统默认返回 |
-| visible | `String` | `N` |`1`| 是否显示 |
+| defaultReturn | `String` | `N` |`1`| 是否使用系统默认返回，`'1'`表示是，`'0'`表示否 |
+| visible | `String` | `N` |`1`| 是否显示，`'1'`表示是，`'0'`表示否 |
 
 ### 事件
 

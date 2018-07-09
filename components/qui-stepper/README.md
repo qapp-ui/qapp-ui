@@ -60,8 +60,8 @@
 | step | `String` | `N` |`1`| 步幅 |
 | min | `String` | `N` |`1`| 范围（最小值） |
 | max | `String` | `N` |`100`| 范围（最大值） |
-| disabled | `String` | `N` |`0`| 是否禁用计数器 |
-| readOnly | `String` | `N` |`0`| 是否只读（无法输入） |
+| disabled | `String` | `N` |`0`| 是否禁用计数器，`'1'`表示是，`'0'`表示否 |
+| readOnly | `String` | `N` |`0`| 是否只读（无法输入），`'1'`表示是，`'0'`表示否 |
 
 
 ### 事件
