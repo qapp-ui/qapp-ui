@@ -20,45 +20,29 @@
   <div class="page-doc">
     <div class="cell-box">
       <text class="text">Row Switch的Cell</text>
-      <qui-cell option="{{cellData}}">
-        <qui-switch option="{{switchData}}"></qui-switch>
+      <qui-cell background-color='#FFFFFF' left-img='/Common/logo.png' title='测试标题' 
+      desc='测试说明' has-arrow="0" direction='column'>
+        <qui-switch value="0"></qui-switch>
       </qui-cell>
     </div>
   </div>
 </template>
 
-<script>
-  export default {
-    data: {
-      switchData: {
-        value: false
-      },
-      cellData: {
-        backgroundColor: '#FFFFFF',
-        leftImg: '/Common/logo.png',
-        title: '测试标题',
-        desc: '测试说明',
-        hasArrow: false,
-        direction: 'column'
-      }
-    }
-  }
-</script>
 ```
 
 更详细代码可以参考 [qui-cell demo](https://github.com/qapp-ui/qapp-ui/blob/master/src/Cell/index.ux)
 
-### 参数 option
+### 参数 
 
 | 属性名 | 类型 | 是否必填 | 默认值 | 描述 |
 |-------------|------------|--------|-----|-----|
 | backgroundColor | `String` |`N`| `#FFFFFF` | 背景色 |
-| leftImg | `String` |`N`| `''` | 图片url|
-| title | `String` |`N`| `''` | 标题 |
-| titleColor | `String` |`N`| `''` | 标题颜色|
-| desc | `String` |`N`| `''` | 描述 |
+| leftImg | `String` |`N`| `-` | 图片url|
+| title | `String` |`N`| `-` | 标题 |
+| titleColor | `String` |`N`| `-` | 标题颜色|
+| desc | `String` |`N`| `-` | 描述 |
 | descColor | `String` |`N`| `#808080` | 描述颜色 |
-| hasArrow | `Boolean` |`N`| `true` | 是否有箭头 |
+| hasArrow | `String` |`N`| `1` | 是否有箭头 |
 | height | `String` |`N`| `100px` | 高度（direction为row时默认高度是100px，column时默认高度是120px） |
 | direction | `String` |`N`| `row` | title和desc的布局 （支持row，column方式） |
 

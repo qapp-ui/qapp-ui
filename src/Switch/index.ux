@@ -1,40 +1,40 @@
 <import name='qui-switch' src='@qapp-ui/qui-switch/index'></import>
 
 <template>
-    <div class="page-doc">
-      <text class="console">当前switch的id:{{text}}</text>
-      <div class="item-box">
-        <div class="item no-bor">
-          <text class="item-dt">选项 {{data1.value}}</text>
-          <qui-switch option="{{data1}}" @qui-switch-change="callback"></qui-switch>
-        </div>
-        <div class="item">
-          <text class="item-dt">选项 {{data2.value}}</text>
-          <qui-switch option="{{data2}}" @qui-switch-change="callback"></qui-switch>
-        </div>
-        <div class="item">
-          <text class="item-dt">选项 {{data3.value}} - 不可用</text>
-          <qui-switch option="{{data3}}"></qui-switch>
-        </div>
-        <div class="item">
-          <text class="item-dt">选项 {{data4.value}} - 不可用</text>
-          <qui-switch option="{{data4}}"></qui-switch>
-        </div>
+  <div class="page-doc">
+    <text class="console">当前switch的id:{{text}}</text>
+    <div class="item-box">
+      <div class="item no-bor">
+        <text class="item-dt">选项{{data1}}</text>
+        <qui-switch disabled="0" value="0" @qui-switch-change="callback1"></qui-switch>
       </div>
-      <div class="item-box">
-          <div class="item no-bor">
-            <qui-switch option="{{data5}}" @qui-switch-change="callback"></qui-switch>
-            <text class="item-dt" @click="checkStatus(0)">点我关闭</text>
-          </div>
-          <div class="item">
-            <qui-switch option="{{data6}}" @qui-switch-change="callback"></qui-switch>
-            <text class="item-dt" @click="checkStatus(1)">点我打开</text>
-          </div>
-          <div class="item">
-            <qui-switch option="{{data7}}"></qui-switch>
-            <label class="item-dt" target="isDefault">默认开关(自定义样式)</label>
-          </div>
+      <div class="item">
+        <text class="item-dt">选项 {{data2}}</text>
+        <qui-switch disabled="0" value="1" @qui-switch-change="callback2"></qui-switch>
       </div>
+      <div class="item">
+        <text class="item-dt">选项 {{data3}} - 不可用</text>
+        <qui-switch disabled="1" value="0"></qui-switch>
+      </div>
+      <div class="item">
+        <text class="item-dt">选项 {{data4}} - 不可用</text>
+        <qui-switch disabled="1" value="1"></qui-switch>
+      </div>
+    </div>
+    <div class="item-box">
+      <div class="item no-bor">
+        <qui-switch disabled="0" value="{{dataValue}}" id='remember0' label='记住我' label-margin='20px' @qui-switch-change="callback5"></qui-switch>
+        <text class="item-dt" @click="checkStatus(0)">点我关闭</text>
+      </div>
+      <div class="item">
+        <qui-switch disabled="0" value="{{dataValue1}}" id='remember1' label='记住我' label-margin='20px' is-left="1" @qui-switch-change="callback6"></qui-switch>
+        <text class="item-dt" @click="checkStatus(1)">点我打开</text>
+      </div>
+      <div class="item">
+        <qui-switch disabled="0" value="0" id='isDefault' checked-color="red"></qui-switch>
+        <label class="item-dt" target="isDefault">默认开关(自定义样式)</label>
+      </div>
+    </div>
     <div>
 </template>
 
@@ -44,10 +44,12 @@
     flex-direction: column;
     background-color: #eeeeee;
   }
+
   .console {
     padding: 30px 40px;
     font-size: 32px;
   }
+
   .item-box {
     flex-direction: column;
     border-color: #bbbbbb;
@@ -56,6 +58,7 @@
     background-color: #ffffff;
     margin-bottom: 60px;
   }
+
   .item {
     justify-content: space-between;
     align-items: center;
@@ -64,9 +67,11 @@
     border-color: #bbbbbb;
     border-top-width: 1px;
   }
-  .no-bor{
+
+  .no-bor {
     border-top-width: 0;
   }
+
   .item-dt {
     font-size: 44px;
     color: #333333;
@@ -76,58 +81,43 @@
 <script>
   export default {
     data: {
+      dataValue: "1",
+      dataValue1: '0',
       text: '空值',
-      data1: {
-        disabled: false,
-        value: false
-      },
-      data2: {
-        disabled: false,
-        value: true
-      },
-      data3: {
-        disabled: true,
-        value: false
-      },
-      data4: {
-        disabled: true,
-        value: true
-      },
-      data5: {
-        disabled: false,
-        value: true,
-        id: 'remember0',
-        label: '记住我',
-        labelMargin: '20px'
-      },
-      data6: {
-        disabled: false,
-        value: false,
-        id: 'remember1',
-        label: '记住我',
-        labelMargin: '20px',
-        isLeft: true
-      },
-      data7: {
-        disabled: false,
-        value: false,
-        id: 'isDefault',
-        checkedColor: 'red'
-      }
+      data1: "0",
+      data2: "1",
+      data3: "0",
+      data4: "1",
     },
     onInit() {
       this.$page.setTitleBar({ text: 'Switch' })
     },
-    callback(data) {
+    callback1(data) {
       this.text = data.detail.id || '空值'
-      // console.log(JSON.stringify(data.detail), data.detail.value)
+      this.data1 = data.detail.value
+    },
+    callback2(data) {
+      this.text = data.detail.id || '空值'
+      this.data2 = data.detail.value
+    },
+    callback5(data) {
+      this.text = data.detail.id || '空值'
+      if (data.detail.value == "1") {
+        this.dataValue = "1"
+      }
+    },
+    callback6(data) {
+      this.text = data.detail.id || '空值'
+      if (data.detail.value == "0") {
+        this.dataValue1 = "0"
+      }
     },
     checkStatus(type) {
       if (type === 0) {
-        this.data5.value = false
+        this.dataValue = "0"
       }
       else {
-        this.data6.value = true
+        this.dataValue1 = "1"
       }
     }
   }

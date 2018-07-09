@@ -4,24 +4,24 @@
 
 <template>
   <div class="page-doc">
-    <qui-overlay option="{{overlay}}" @qui-overlay-click="overlayClick">
+    <qui-overlay visible="{{overlayVisible}}" background="{{overlayBackground}}" @qui-overlay-click="overlayClick">
     </qui-overlay>
     <qui-toast id="qui-toast"></qui-toast>
     <div class="item-box">
       <div class="item no-bor">
         <text class="item-dt">显示overlay</text>
-        <qui-switch option="{{data}}" @qui-switch-change="toggle"></qui-switch>
+        <qui-switch disabled="{{data.disabled}}" value="{{data.value}}" @qui-switch-change="toggle"></qui-switch>
       </div>
       <div class="item">
         <text class="item-dt">点击蒙层是否自动关闭</text>
-        <qui-switch option="{{data1}}" @qui-switch-change="autoClose"></qui-switch>
+        <qui-switch disabled="{{data1.disabled}}" value="{{data1.value}}" @qui-switch-change="autoClose"></qui-switch>
       </div>
     </div>
     <div class="item-box">
       <div class="item no-bor">
         <div class="background">
           <text class="item-dt">蒙层背景色
-            <span class="item-dt">{{overlay.background}}</span>
+            <span class="item-dt">{{overlayBackground}}</span>
           </text>
           <div>
             <div class="margin-top">
@@ -48,7 +48,7 @@
         </div>
       </div>
     </div>
-    <div>
+  </div>
 </template>
 
 <style>
@@ -137,14 +137,16 @@
   export default {
     private: {
       data: {
-        disabled: false,
-        value: false
+        disabled: "0",
+        value: "0"
       },
       data1: {
-        disabled: false,
-        value: true
+        disabled: "0",
+        value: "1"
       },
-      overlay: {},
+      overlayVisible: '0',
+      overlayBackground: 'rgba(0,0,0,0.4)',
+      overlayAutoClose: '1',
       r: 0,
       g: 0,
       b: 0,
@@ -154,7 +156,7 @@
       this.$page.setTitleBar({ text: 'Overlay' })
     },
     onReady() {
-      let rgba = this.overlay.background.replace(/^.*\((.*)\).*$/, '$1').split(',')
+      let rgba = this.overlayBackground.replace(/^.*\((.*)\).*$/, '$1').split(',')
 
       this.r = parseFloat(rgba[0])
       this.g = parseFloat(rgba[1])
@@ -163,31 +165,31 @@
       this.toast = this.$child('qui-toast')
     },
     onBackPress() {
-      if (this.overlay.show) {
-        this.overlay.show = false
-        this.data.value = false
+      if (this.overlayVisible === '1') {
+        this.overlayVisible = '0'
+        this.data.value = "0"
         return true
       }
     },
     toggle(event) {
       this.data.value = event.detail.value
-      this.overlay.show = event.detail.value
+      this.overlayVisible = event.detail.value == "1" ? '1' : '0'
     },
     rfn(event) {
       this.r = event.progress
-      this.overlay.background = `rgba(${this.r},${this.g},${this.b},${this.a})`
+      this.overlayBackground = `rgba(${this.r},${this.g},${this.b},${this.a})`
     },
     gfn(event) {
       this.g = event.progress
-      this.overlay.background = `rgba(${this.r},${this.g},${this.b},${this.a})`
+      this.overlayBackground = `rgba(${this.r},${this.g},${this.b},${this.a})`
     },
     bfn(event) {
       this.b = event.progress
-      this.overlay.background = `rgba(${this.r},${this.g},${this.b},${this.a})`
+      this.overlayBackground = `rgba(${this.r},${this.g},${this.b},${this.a})`
     },
     afn(event) {
       this.a = event.progress
-      this.overlay.background = `rgba(${this.r},${this.g},${this.b},${this.a / 100})`
+      this.overlayBackground = `rgba(${this.r},${this.g},${this.b},${this.a / 100})`
     },
     duration(event) {
       this.overlay.duration = event.progress
@@ -196,12 +198,12 @@
       this.overlay.timingFunction = event.value
     },
     autoClose(event) {
-      // this.overlay.autoClose = event.checked
       this.data1.value = event.detail.value
-      this.overlay.autoClose = event.detail.value
+      this.overlayAutoClose = event.detail.value == "1" ? '1' : '0'
     },
     overlayClick() {
-      this.data.value = this.overlay.show
+      this.overlayVisible = this.overlayAutoClose === '1' ? '0' : '1'
+      this.data.value = this.overlayVisible === '0' ? "0" : "1"
       this.toast.show({
         text: '点击了蒙层'
       })

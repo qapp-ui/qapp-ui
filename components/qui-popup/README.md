@@ -22,7 +22,7 @@
 <template>
   <div class="page-doc">
     <input class="input-button" type="button" value="点击弹出右侧弹层" onclick="showpopup('right')" />
-    <qui-popup option="{{popupData}}" @qui-overlay-click="overlayClick">
+    <qui-popup visible="{{popupData.visible}}" position="{{popupData.position}}" @qui-overlay-click="overlayClick">
       <div class="mask">
         <text class="mask-title">快应用</text>
         <text class="mask-txt">快应用是一套以前端开发技术栈为主进行应用开发的框架，采用流行的前端开发模式，贴合主流前端开发者的思维习惯，同时大幅提升应用的性能，提供大量前端环境无法使用的系统能力，以及很多第三方服务的对接能力。</text>
@@ -35,7 +35,7 @@
   export default {
     private: {
       popupData: {
-        show: false,
+        visible: '0',
         position: 'right'
       },
     }
@@ -45,15 +45,13 @@
 
 更详细代码可以参考 [qui-popup demo](https://github.com/qapp-ui/qapp-ui/blob/master/src/Popup/index.ux)
 
-### 参数 option
+### 参数
 
 | 属性名 | 类型 | 是否必填 | 默认值 | 描述 |
 |-------------|------------|--------|-----|-----|
-| show | `Boolean` | `N` |`true`| 是否显示 |
+| visible | `String` | `N` |`0`| 是否显示，`'1'`表示显示，`'0'`表示隐藏 |
 | position | `String` | `N` |`bottom`| 弹出位置 `top` / `bottom` / `left` / `right` |
 | background | `String` |`N`| `rgba(0,0,0,0.4)` | 蒙层背景色 |
-| autoClose | `Boolean` |`N`| `true` | 点击蒙层是否自动关闭overlay |
-
 
 ### 事件
 
@@ -62,7 +60,7 @@
 | qui-overlay-click | `-` | 蒙层点击事件 | 
 
 ### 注意点
-- 参数`option.position` 不支持动态修改
+- 参数`position` 不支持动态修改
 
 
 

@@ -6,7 +6,7 @@
       <text class="text">不带动画的Badge</text>
       <div class="qui-badge-page-item">
         <text class="btn" @click="addDelta('qui-badge-1',1)"> +1</text>
-        <qui-badge option="{{badgeData1}}" id="qui-badge-1" @qui-badge-change="change"></qui-badge>
+        <qui-badge animation-type='none' id="qui-badge-1" @qui-badge-change="change"></qui-badge>
         <text class="btn" @click="addDelta('qui-badge-1', -1)"> -1</text>
       </div>
     </div>
@@ -15,7 +15,7 @@
       <text class="text">带Pop动画的Badge</text>
       <div class="qui-badge-page-item">
         <text class="btn" @click="addDelta('qui-badge-2',1)"> +1</text>
-        <qui-badge option="{{badgeData2}}" id="qui-badge-2"></qui-badge>
+        <qui-badge animation-type='pop' id="qui-badge-2"></qui-badge>
         <text class="btn" @click="addDelta('qui-badge-2', -1)"> -1</text>
       </div>
     </div>
@@ -24,7 +24,7 @@
       <text class="text">带Slide动画的Badge</text>
       <div class="qui-badge-page-item">
         <text class="btn" @click="addDelta('qui-badge-4',1)"> +1</text>
-        <qui-badge option="{{badgeData3}}" id="qui-badge-4"></qui-badge>
+        <qui-badge animation-type='slide' id="qui-badge-4"></qui-badge>
         <text class="btn" @click="addDelta('qui-badge-4', -1)"> -1</text>
       </div>
     </div>
@@ -33,8 +33,8 @@
       <text class="text">带Fade动画的Badge(自定义样式)</text>
       <div class="qui-badge-page-item">
         <text class="btn" @click="addDelta('qui-badge-3',1)"> +1</text>
-        <qui-badge option="{{badgeData4}}" id="qui-badge-3"></qui-badge>
-        <text class="btn" @click="addDelta('qui-badge-3', -1)"> -1</text>
+        <qui-badge animation-type='fade' height='100px' width='150px' border-radius='100px' font-size='50px' font-style='bold' background='#0F8DE8' text-color='#ffffff' badge="{{number}}" id="qui-badge-3"></qui-badge>
+        <text class="btn " @click="addDelta( 'qui-badge-3', -1) "> -1</text>
       </div>
     </div>
   <div>
@@ -84,26 +84,7 @@
   export default {
 
     data: {
-      badgeData1: {
-        animationType: 'none'
-      },
-      badgeData2: {
-        animationType: 'pop'
-      },
-      badgeData3: {
-        animationType: 'slide'
-      },
-      badgeData4: {
-        animationType: 'fade',
-        height: '100',
-        width: '150',
-        borderRadius: '100',
-        fontSize: '50',
-        fontStyle: 'bold',
-        background: '#0F8DE8',
-        textColor: '#ffffff',
-        badge: 1,
-      }
+      number: "1"
     },
 
     onInit() {

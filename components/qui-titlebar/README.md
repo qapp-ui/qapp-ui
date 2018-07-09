@@ -22,11 +22,8 @@
 <template>
     <div class="page-doc">
       <div class="titlebar-box ">
-        <qui-titlebar option="{{titleData1}}" ></qui-titlebar>
-      </div>
-
-      <div class="titlebar-box ">
-        <qui-titlebar option="{{titleData2}}"></qui-titlebar>
+        <qui-titlebar title='标题(自定义样式)' left-text='返回' right-text='更多' 
+        text-color='#ffffff' background-color='#0F8DE8' background-opacity='0.5'></qui-titlebar>
       </div>
     <div>
 </template>
@@ -34,29 +31,17 @@
 <script>
 
 export default {
-	private: {
-      titleData1: {
-        title: '标题(自定义样式)',
-        leftIcon: '',
-        leftText: '返回',
-        rightIcon: '',
-        rightText: '更多',
-        textColor: '#ffffff',
-        backgroundColor: '#0F8DE8',
-        backgroundOpacity: '0.5'
-      },
-      titleData2: {
-        richContent:
-          '<text style="height:144px;width:1080px;background-image:url(/Common/img/linearbg.webp);text-align:center;font-size:50px;">标题5(自定义富文本内容)</text>'
-      }
+  export default {
+    onInit() {
+      this.$page.setTitleBar({ text: 'Titlebar' })
     }
-};
+  }
 </script>
 ```
 
 更详细代码可以参考 [qui-titlebar demo](https://github.com/qapp-ui/qapp-ui/blob/master/src/Titlebar/index.ux)
 
-### 参数 option
+### 参数 
 
 | 属性名 | 类型 | 是否必填 | 默认值 | 描述 |
 |-------------|------------|--------|-----|-----|
@@ -70,8 +55,8 @@ export default {
 | leftText | `String` |`N`| `-` | 左侧文案 |
 | rightIcon | `String` |`N`| `-` | 右侧icon 优先显示 |
 | rightText | `String` | `N` |`-`| 右侧文案 |
-| defaultReturn | `Boolean` | `N` |`true`| 是否使用系统默认返回 |
-| show | `Boolean` | `N` |`true`| 是否显示 |
+| defaultReturn | `String` | `N` |`1`| 是否使用系统默认返回 |
+| visible | `String` | `N` |`1`| 是否显示 |
 
 ### 事件
 
@@ -83,7 +68,7 @@ export default {
 
 ### 注意点
 - 当将该组件作为标题栏使用时，请将系统自带的标题栏删除，在`manifest.json`文件中设置`display.titleBar`为`false`
-- 如果以上配置无法满足需求时，可以使用参数`option.richContent`来完全自定义。当使用richContent时，组件内部使用了`<richtext>`组件，而富文本类型只支持ux `type="ux"`
-- 参数`option.defaultReturn`默认为ture，当点击左侧按钮触发事件时默认执行接口`router.back`返回上一页。若想自己控制左侧响应事件时，请设置为`false`
-- 如果你需要隐藏左边返回按钮，可传入 `option: {leftIcon:'',leftText:''}`
+- 如果以上配置无法满足需求时，可以使用参数`richContent`来完全自定义。当使用richContent时，组件内部使用了`<richtext>`组件，而富文本类型只支持ux `type="ux"`
+- 参数`defaultReturn`默认为`1`，当点击左侧按钮触发事件时默认执行接口`router.back`返回上一页。若想自己控制左侧响应事件时，请设置为`0`
+- 如果你需要隐藏左边返回按钮，可传入 `leftIcon:'',leftText:''`
 

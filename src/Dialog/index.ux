@@ -7,7 +7,7 @@
     <input type="button" value="无标题的对话框" @click="noTitle" />
     <input type="button" value="只有确定按钮的对话框" @click="noCancel" />
     <input type="button" value="无按钮的对话框" @click="noBtn" />
-    <qui-dialog option="{{dialog}}" @qui-btn-click="btnClick">
+    <qui-dialog visible="{{dialog.visible}}" title="{{dialog.title}}" btns="{{dialog.btns}}" @qui-btn-click="btnClick" @qui-overlay-click="overlayClick">
       <text>这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容</text>
     </qui-dialog>
     <qui-toast id="qui-toast"></qui-toast>
@@ -41,7 +41,7 @@
   export default {
     private: {
       option: {
-        show: true,
+        visible: '1',
         title: '对话框',
         btns: [{
           text: '确定',
@@ -60,10 +60,10 @@
       this.toast = this.$child('qui-toast')
     },
     onBackPress() {
-      if (this.dialog.show) {
+      if (this.dialog.visible === '1') {
         //要延迟才有过渡动画
         setTimeout(() => {
-          this.dialog.show = false
+          this.dialog.visible = '0'
         })
         return true
       }
@@ -78,7 +78,6 @@
     },
     noCancel() {
       this.dialog = Object.assign({}, this.option, {
-        autoClose: true,
         btns: [{
           text: '确定',
           color: '#0090ff'
@@ -87,7 +86,6 @@
     },
     noBtn() {
       this.dialog = Object.assign({}, this.option, {
-        autoClose: true,
         btns: []
       })
     },
@@ -98,8 +96,11 @@
 
       switch (evt.detail.index) {
         case 1:
-          this.dialog.show = false
+          this.dialog.visible = '0'
       }
+    },
+    overlayClick() {
+      this.dialog.visible = '0'
     }
   }
 </script>

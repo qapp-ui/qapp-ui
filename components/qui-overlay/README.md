@@ -18,20 +18,24 @@
 
 <template>
   <div class="page-doc">
-    <qui-overlay option="{{overlay}}" @qui-overlay-click="overlayClick">
+    <qui-overlay visible="{{overlayVisible}}" background="{{overlayBackground}}" @qui-overlay-click="overlayClick">
     </qui-overlay>
     <qui-toast id="qui-toast"></qui-toast>
     <div class="item-box">
+      <div class="item no-bor">
+        <text class="item-dt">显示overlay</text>
+        <qui-switch option="{{data}}" @qui-switch-change="toggle"></qui-switch>
+      </div>
       <div class="item">
         <text class="item-dt">点击蒙层是否自动关闭</text>
-        <qui-switch option="{{data}}" @qui-switch-change="autoClose"></qui-switch>
+        <qui-switch option="{{data1}}" @qui-switch-change="autoClose"></qui-switch>
       </div>
     </div>
     <div class="item-box">
       <div class="item no-bor">
         <div class="background">
           <text class="item-dt">蒙层背景色
-            <span class="item-dt">{{overlay.background}}</span>
+            <span class="item-dt">{{overlayBackground}}</span>
           </text>
           <div>
             <div class="margin-top">
@@ -58,7 +62,7 @@
         </div>
       </div>
     </div>
-    <div>
+  </div>
 </template>
 
 <script>
@@ -66,9 +70,15 @@
     private: {
       data: {
         disabled: false,
+        value: false
+      },
+      data1: {
+        disabled: false,
         value: true
       },
-      overlay: {},
+      overlayVisible: '0',
+      overlayBackground: 'rgba(0,0,0,0.4)',
+      overlayAutoClose: '1',
       r: 0,
       g: 0,
       b: 0,
@@ -82,13 +92,10 @@
 
 ## 参数
 
-qui-overlay只接受属性option，option为对象，各属性如下
-
 | 名称 | 类型 | 必填 | 默认值 | 描述 |
 |--------|--------|--------|-----|-----|
-| show | `Boolean` | `N` | `false` | 显示或隐藏蒙层 |
+| visible | `String` | `N` | `0` | 显示或隐藏蒙层，`'1'`表示显示，`'0'`表示隐藏 |
 | background | `String` | `N` | `rgba(0,0,0,0.4)` | 蒙层背景色，支持所有合法background |
-| autoClose | `Boolean` | `N` | `true` | 点击蒙层是否自动关闭overlay |
 
 ## 事件
 

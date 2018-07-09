@@ -17,11 +17,11 @@
 
 <template>
   <div class="page">
-    <input type="button" value="常规对话框" @click="normal">
-    <input type="button" value="无标题的对话框" @click="noTitle">
-    <input type="button" value="只有确定按钮的对话框" @click="noCancel">
-    <input type="button" value="无按钮的对话框" @click="noBtn">
-    <qui-dialog option="{{dialog}}" @qui-btn-click="btnClick">
+    <input type="button" value="常规对话框" @click="normal" />
+    <input type="button" value="无标题的对话框" @click="noTitle" />
+    <input type="button" value="只有确定按钮的对话框" @click="noCancel" />
+    <input type="button" value="无按钮的对话框" @click="noBtn" />
+    <qui-dialog visible="{{dialog.visible}}" title="{{dialog.title}}" btns="{{dialog.btns}}" @qui-btn-click="btnClick" @qui-overlay-click="overlayClick">
       <text>这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容</text>
     </qui-dialog>
     <qui-toast id="qui-toast"></qui-toast>
@@ -33,7 +33,7 @@
   export default {
     private: {
       option: {
-        show: true,
+        visible: '1',
         title: '对话框',
         btns: [{
           text: '确定',
@@ -44,7 +44,7 @@
         }]
       },
       dialog: {}
-    }   
+    }
   }
 </script>
 ```
@@ -53,13 +53,10 @@
 
 ## 参数
 
-qui-dialog只接受属性option，option为对象，各属性如下
-
 | 名称 | 类型 | 必填 | 默认值 | 描述 |
 |------------|------------|--------|-----|-----|
-| show | `Boolean` | `N` | `false` |显示或隐藏对话框 |
+| visible | `String` | `N` | `0` |显示或隐藏对话框，`'1'`表示显示，`'0'`表示隐藏 |
 | background | `String` | `N` | `rgba(0,0,0,0.4)` |蒙层背景色，支持所有合法background |
-| autoClose | `Boolean` | `N` | `false` | 点击蒙层是否自动关闭 |
 | title | `String` | `N` | `''` | 对话框标题，默认为空字符串 |
 | btns | `Array` | `N` | `[{text: '确定',color: '#0090ff'}, {text: '取消',color: '#999999'}]` | 按钮，默认有确定和取消按钮 |
 | btns[{text}] | `String` | `Y` | `-` | 按钮文本 |

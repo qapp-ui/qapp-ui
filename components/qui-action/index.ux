@@ -1,14 +1,14 @@
 <import name="qui-overlay" src="../qui-overlay/index"></import>
 
 <template>
-  <qui-overlay option="{{overlay}}" @qui-overlay-click="overlayClick">
-    <div class="{{option.iosStyle?'qui-action-ios':''}}  {{className}}" show="{{visible}}">
-      <div class="qui-action-content {{ option.iosStyle ? 'qui-action-content-ios':''}}">
-        <text for="option.options" class="qui-action-item {{!$idx?'qui-action-item-first':''}}" @click="select($idx)">
+  <qui-overlay visible="{{visible}}" background="{{background}}" @qui-overlay-click="overlayClick">
+    <div class="{{iosStyle === '1' ?'qui-action-ios':''}}  {{className}}" show="{{show}}">
+      <div class="qui-action-content {{ iosStyle === '1' ? 'qui-action-content-ios':''}}">
+        <text for="options" class="qui-action-item {{!$idx?'qui-action-item-first':''}}" @click="select($idx)">
           {{$item}}
         </text>
-        <text class="qui-action-item qui-action-cancel" if="option.iosStyle && option.cancel" @click="cancel">
-          {{option.cancel}}
+        <text class="qui-action-item qui-action-cancel" if="iosStyle === '1' && cancel" @click="cancelSelect">
+          {{cancel}}
         </text>
       </div>
     </div>
@@ -92,114 +92,63 @@
 
 <script>
   /**
-   * option = {
-   *   show: true/false,  //是否显示
-   *   background: 'rgba(0,0,0,.4)',   //遮罩层背景色
-   *   autoClose: true/false  //点击遮罩层是否自动关闭
-   *   iosStyle: true/false,   //是否为ios风格
-   *   cancel: '取消',    //ios风格时的取消按钮文本，没有则无取消按钮
-   *   options: ['xx','xxx']  //选项文本
-   * }
+   * visible: '1'/'0',  //是否显示
+   * background: 'rgba(0,0,0,.4)',   //遮罩层背景色
+   * iosStyle: '1'/'0',   //是否为ios风格
+   * cancel: '取消',    //ios风格时的取消按钮文本，没有则无取消按钮
+   * options: ['xx','xxx']  //选项文本
    */
   export default {
-    props: [
-      'option'
-    ],
+    props: {
+      visible: {
+        type: String,
+        default: '0'
+      },
+      background: {
+        type: String,
+        default: 'rgba(0,0,0,.4)'
+      },
+      iosStyle: {
+        type: String,
+        default: '0'
+      },
+      cancel: {
+        type: String,
+        default: '取消'
+      },
+      options: {
+        type: Array,
+        default: []
+      }
+    },
     data() {
       return {
-        visible: false, //show无法控制fixed后代元素的显隐，故需要单独控制
-        className: '',
-        overlay: {},
-        defaultOption: {
-          iosStyle: false,
-          cancel: '取消',
-          options: []
-        }
+        show: false, //show无法控制fixed后代元素的显隐，故需要单独控制
+        className: ''
       }
     },
     onInit() {
-      //监控qui-overlay组件修改this.overlay的属性
-      ['background', 'autoClose'].forEach(key => {
-        let methodName = key.replace(/^\w/, function ($0) {
-          return `updateOverlay${$0.toUpperCase()}`
-        })
-
-        this.$watch(`overlay.${key}`, methodName)
-      })
-        //监控this.option的属性变化
-        ;['show', 'background', 'autoClose', ...Object.keys(this.defaultOption)].forEach(key => {
-          let methodName = key.replace(/^\w/, function ($0) {
-            return `update${$0.toUpperCase()}`
-          })
-
-          this.$watch(`option.${key}`, methodName)
-          this[methodName]()
-        })
+      this.$watch('visible', 'updateVisible')
+      this.updateVisible()
     },
-    updateShow() {
-      if (!this.option.hasOwnProperty('show')) {
-        this.$set('option.show', false)
-      } else {
-        clearTimeout(this.timeoutId)  //防止option.show更改太快
-        clearTimeout(this.contentTimeoutId)
+    updateVisible() {
+      if (this.contentTimeoutId) clearTimeout(this.contentTimeoutId)
 
-        if (this.option.show) {
-          this.$set('overlay.show', true)
-          this.visible = true
-          if (this.option.iosStyle) {
-            this.className = 'qui-action-enter'
-          }
-        } else {
-          if (this.option.iosStyle) {
-            this.className = 'qui-action-leave'
-          }
-          this.timeoutId = setTimeout(() => {
-            this.$set('overlay.show', false)
-          }, this.option.iosStyle ? 100 : 0)
-          this.contentTimeoutId = setTimeout(() => {
-            this.visible = false
-          }, this.option.iosStyle === 'ios' ? 600 : 500)
+      if (this.visible === '1') {
+        this.show = true
+        
+        if (this.iosStyle === '1') {
+          this.className = 'qui-action-enter'
         }
-      }
-    },
-    updateBackground() {
-      if (this.option.hasOwnProperty('background')) {
-        this.$set('overlay.background', this.option.background)
       } else {
-        let overlay = {}
-        delete this.overlay.background
-        Object.keys(this.overlay).forEach(key => {
-          overlay[key] = this.overlay[key]
-        })
-        this.overlay = overlay
+        if (this.iosStyle === '1') {
+          this.className = 'qui-action-leave'
+        }
+
+        this.contentTimeoutId = setTimeout(() => {
+          this.show = false
+        }, this.iosStyle === '1' ? 600 : 500)
       }
-    },
-    updateAutoClose() {
-      if (this.option.hasOwnProperty('autoClose')) {
-        this.$set('overlay.autoClose', this.option.autoClose)
-      } else {
-        let overlay = {}
-        delete this.overlay.autoClose
-        Object.keys(this.overlay).forEach(key => {
-          overlay[key] = this.overlay[key]
-        })
-        this.overlay = overlay
-      }
-    },
-    updateIosStyle() {
-      !this.option.hasOwnProperty('iosStyle') && this.$set('option.iosStyle', this.defaultOption.iosStyle)
-    },
-    updateCancel() {
-      !this.option.hasOwnProperty('cancel') && this.$set('option.cancel', this.defaultOption.cancel)
-    },
-    updateOptions() {
-      !this.option.hasOwnProperty('options') && this.$set('option.options', this.defaultOption.options)
-    },
-    updateOverlayBackground() {
-      this.overlay.hasOwnProperty('background') && this.$set('option.background', this.overlay.background)
-    },
-    updateOverlayAutoClose() {
-      this.overlay.hasOwnProperty('autoClose') && this.$set('option.autoClose', this.overlay.autoClose)
     },
     overlayClick() {  //用内联写法会有问题，所以用单独的方法来处理事件
       this.$emit('quiOverlayClick')
@@ -207,7 +156,7 @@
     select(index) {
       this.$emit('quiSelect', { index })
     },
-    cancel() {
+    cancelSelect() {
       this.$emit('quiCancel')
     }
   }

@@ -16,18 +16,16 @@
 
 <template>
   <div class="page">
-    <input type="button" value="显示loading" @click="show">
-    <qui-loading option="{{loading}}"></qui-loading>
+    <input type="button" value="显示loading" @click="showLoading" />
+    <qui-loading visible="{{visible}}" text="{{text}}"></qui-loading>
   </div>
 </template>
 
 <script>
   export default {
     private: {
-      loading: {
-        show: false,
-        text: '正在加载...'
-      }
+      visible: '0',
+      text: '正在加载...'
     }
   }
 </script>
@@ -37,11 +35,9 @@
 
 ## 参数
 
-qui-loading只接受属性option，option为对象，各属性如下
-
 | 名称 | 类型 | 必填 | 默认值 | 描述 |
 |--------|---------|--------|-------|-------|
-| show | `Boolean` | `N` | `false` | 是否显示
+| visible | `String` | `N` | `0` | 是否显示，`'1'`表示显示，`'0'`表示隐藏
 | image | `String` | `N` | `base64格式加载gif图片` |自定义加载图标的url，默认为常规loading图标
 | text | `String` | `N` | `''` |加载提示文本
 

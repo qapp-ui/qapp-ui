@@ -6,8 +6,8 @@
     <input type="button" value="显示（ios风格）" @click="switchIos" />
     <input type="button" value="显示(android风格)" @click="switchAndroid" />
     <input type="button" value="添加内容" @click="switchList" />
-    <qui-action option="{{option1}}" @qui-overlay-click="hide" @qui-select="select" @qui-cancel="cancel"></qui-action>
-    <qui-action option="{{option2}}" @qui-overlay-click="hide" @qui-select="select" @qui-cancel="cancel"></qui-action>
+    <qui-action visible="{{option1.visible}}" background="{{option1.background}}" ios-style="{{option1.iosStyle}}" cancel="{{option1.cancel}}" options="{{option1.options}}" @qui-overlay-click="hide" @qui-select="select" @qui-cancel="cancel"></qui-action>
+    <qui-action visible="{{option2.visible}}" background="{{option2.background}}" ios-style="{{option2.iosStyle}}" cancel="{{option2.cancel}}" options="{{option2.options}}" @qui-overlay-click="hide" @qui-select="select" @qui-cancel="cancel"></qui-action>
     <qui-toast id="qui-toast"></qui-toast>
   </div>
 </template>
@@ -32,7 +32,10 @@
   export default {
     private: {
       option1: {
+        visible: '0',
         background: 'rgba(0,0,0,.6)',
+        iosStyle: '0',
+        cancel: '',
         options: [
           'item1item1item1item1item1item1item1item1item1item1item1item1item1',
           'action2',
@@ -40,7 +43,10 @@
         ]
       },
       option2: {
+        visible: '0',
         background: 'rgba(0,0,0,.6)',
+        iosStyle: '0',
+        cancel: '',
         options: [
           'item1item1item1item1item1item1item1item1item1item1item1item1item1',
           'action2',
@@ -55,30 +61,30 @@
       this.toast = this.$child('qui-toast')
     },
     onBackPress() {
-      if (this.option1.show || this.option2.show) {
-        this.option1.show = false
-        this.option2.show = false
+      if (this.option1.visible === '1' || this.option2.visible === '1') {
+        this.option1.visible = '0'
+        this.option2.visible = '0'
 
         return true
       }
     },
     switchIos() {
-      this.option1.iosStyle = true
+      this.option1.iosStyle = '1'
       this.option1.cancel = '取消'
-      this.option1.show = true
+      this.option1.visible = '1'
     },
     switchAndroid() {
-      this.option2.iosStyle = false
+      this.option2.iosStyle = '0'
       this.option2.cancel = '取消'
-      this.option2.show = true
+      this.option2.visible = '1'
     },
     switchList() {
       this.option1.options = [...this.option1.options, ...this.option1.options]
       this.option2.options = [...this.option2.options, ...this.option2.options]
     },
     hide() {
-      this.option1.show = false
-      this.option2.show = false
+      this.option1.visible = '0'
+      this.option2.visible = '0'
     },
     select(event) {
       this.toast.show({
@@ -87,8 +93,8 @@
       })
     },
     cancel() {
-      this.option1.show = false
-      this.option2.show = false
+      this.option1.visible = '0'
+      this.option2.visible = '0'
       this.toast.show({
         text: '取消'
       })

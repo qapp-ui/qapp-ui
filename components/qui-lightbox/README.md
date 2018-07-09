@@ -18,21 +18,42 @@
 <template>
   <div class="page-doc">
     <input class="input-button" type="button" value="显示幻灯片(特定indicator样式)" onclick="showlightbox" />
-    <qui-lightbox option="{{lightboxData}}" @qui-close-click="closeClick"></qui-lightbox>
+    <qui-lightbox visible="{{show}}" show-indicator="1" indicator-color='rgba(0, 0, 0, 1)'
+     indicator-selected-color='#ff0000' indicator-size='30px' options="{{imageList}}" @qui-close-click="closeClick"></qui-lightbox>
   </div>
 </template>
 
 <script>
-  export default {
+   import prompt from '@system.prompt'
+   export default {
     private: {
-      lightboxData: {
-        show: false,
-        showIndicator: true,
-        indicatorColor: 'rgba(0, 0, 0, 1)',
-        indicatorSelectedColor: '#ff0000',
-        indicatorSize: '30px',
-        imageList: ['/Lightbox/img/img1.jpg', '/Lightbox/img/img2.jpg','/Lightbox/img/img3.jpg', '/Lightbox/img/img4.jpg']
-      }
+      show: "0",
+      imageList: ['/Lightbox/img/img1.jpg', '/Lightbox/img/img2.jpg', '/Lightbox/img/img3.jpg', '/Lightbox/img/img4.jpg']
+    },
+    onInit() {
+      this.$page.setTitleBar({ text: 'Lightbox' })
+    },
+    showlightbox() {
+      this.show = "1"
+    }
+    onBackPress() {
+      let res = false,
+        datalist = ['show']
+      datalist.forEach(key => {
+        if (key === "1") {
+          setTimeout(() => {
+            key = "0"
+          }, 0)
+          res = true
+        }
+      })
+      return res
+    },
+    closeClick(data) {
+      this.show = "0"
+      prompt.showToast({
+        message: '点击幻灯片关闭'
+      })
     }
   }
 </script>
@@ -40,16 +61,16 @@
 
 更详细代码可以参考[qui-lightbox demo](https://github.com/qapp-ui/qapp-ui/blob/master/src/Lightbox/index.ux)
 
-## 参数 option
+## 参数 
 
 | 属性名 | 类型 | 是否必填 | 默认值 | 描述 |
 |-------------|------------|--------|-----|-----|
-| imageList | `Array` | `N` |`[]`| 全屏显示图片列表 |
-| showIndicator | `Boolean` |`N`| `true` | 全屏后是否显示索引 |
+| options | `Array` | `N` |`-`| 全屏显示图片列表 |
+| showIndicator | `String` |`N`| `1` | 全屏后是否显示索引 |
 | indicatorColor | `String` |`N`| `rgba(0, 0, 0, 0.5)` | 索引填充颜色 |
 | indicatorSelectedColor | `String` |`N`| `#33b4ff` | 索引选中时的颜色 |
 | indicatorSize | `String` |`N`| `20px` | 索引组件的直径大小 |
-| show | `Boolean` | `N` |`true`| 是否显示 |
+| visible | `String` | `N` |`1`| 是否显示 |
 
 
 ## 事件

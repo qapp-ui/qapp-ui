@@ -1,112 +1,132 @@
 <template>
   <div class="qui-search-box">
-    <div class="searchbar" style="{{barStyle}}" show="{{option.show}}">
+    <div class="searchbar" style="width: {{width}};backgroundColor: {{barBackground}}" show="{{repalceShow}}">
       <!-- fix input bug -->
       <input style="width: 0px;height: 0px;" />
-      <div class="search-content" style="{{contentStyle}}" >
-        <div class="search-icon"><image src="{{searchIcon}}" /></div>
-        <input id="search-input" class="search-input" type="text" value='{{searchValue}}' placeholder="{{option.placeholder}}"
-        disabled="{{option.disabled}}" @focus="onfocus" @blur="onblur" @change="onchange" />
-        <div class="clear-icon" @click="clearClick" style="opacity:{{showClear ? '1':'0'}};"><image src="{{clearIcon}}" /></div>
+      <div class="search-content" style="backgroundColor: {{inputBackground}};opacity:{{replaceDisabled ? '0.4' : '1'}}">
+        <div class="search-icon">
+          <image src="{{searchIcon}}" />
+        </div>
+        <input id="search-input" class="search-input" type="text" value='{{searchValue}}' placeholder="{{placeholder}}" disabled="{{replaceDisabled}}" @focus="onfocus" @blur="onblur" @change="onchange" />
+        <div class="clear-icon" @click="clearClick" style="opacity:{{showClear ? '1':'0'}};">
+          <image src="{{clearIcon}}" />
+        </div>
       </div>
-      <text class="search-btn" style="color:{{option.searchBtnColor}};" @click="searchClick">搜索</text>
+      <text class="search-btn" style="color:{{searchBtnColor}};" @click="searchClick">搜索</text>
     </div>
   </div>
 </template>
 
 <style>
-.searchbar {
-  align-items: center;
-  padding-left: 42px;
-  padding-right: 22px;
-  width: 1080px;
-  height: 144px;
-  background-color: #FFFFFF;
-}
-.search-content {
-  flex: 1;
-  align-items: center;
-  padding: 12px 21px;
-  border-radius: 18px;
-}
-.search-input {
-  margin: 0 10px;
-  height: 72px;
-  flex: 1;
-}
-.search-icon {
-  width: 72px;
-  height: 72px;
-  align-items: center;
-  justify-content: center;
-}
-.search-icon image{
-  width: 48px;
-  height: 48px;
-  resize-mode: contain;
-}
-.clear-icon {
-  width: 60px;
-  height: 60px;
-  align-items: center;
-  justify-content: center;
-}
-.clear-icon image{
-  width: 33px;
-  height: 33px;
-  resize-mode: contain;
-}
-.search-btn {
-  font-size: 42px;
-  font-weight: bold;
-  margin-left: 22px;
-  padding: 10px 20px;
-}
+  .searchbar {
+    align-items: center;
+    padding-left: 42px;
+    padding-right: 22px;
+    width: 1080px;
+    height: 144px;
+    background-color: #FFFFFF;
+  }
+
+  .search-content {
+    flex: 1;
+    align-items: center;
+    padding: 12px 21px;
+    border-radius: 18px;
+  }
+
+  .search-input {
+    margin: 0 10px;
+    height: 72px;
+    flex: 1;
+  }
+
+  .search-icon {
+    width: 72px;
+    height: 72px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .search-icon image {
+    width: 48px;
+    height: 48px;
+    resize-mode: contain;
+  }
+
+  .clear-icon {
+    width: 60px;
+    height: 60px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .clear-icon image {
+    width: 33px;
+    height: 33px;
+    resize-mode: contain;
+  }
+
+  .search-btn {
+    font-size: 42px;
+    font-weight: bold;
+    margin-left: 22px;
+    padding: 10px 20px;
+  }
 </style>
 
 <script>
   import { CLEAR_ICON, SEARCH_ICON } from './image'
 
   export default {
-    props: ['option'],
+    props: {
+      visible: {
+        type: String,
+        default: '1'
+      },
+      placeholder: {
+        type: String,
+        default: '搜索'
+      },
+      disabled: {
+        type: String,
+        default: '0'
+      },
+      barBackground: {
+        type: String,
+        default: '#FFFFFF'
+      },
+      inputBackground: {
+        type: String,
+        default: '#E5E5E5'
+      },
+      searchBtnColor: {
+        type: String,
+        default: '#0988F0'
+      },
+      width: {
+        type: String,
+        default: '1080px'
+      }
+    },
     data() {
       return {
         searchValue: '',
         searchIcon: SEARCH_ICON,
         clearIcon: CLEAR_ICON,
         showClear: false,
-        barStyle: {},
-        contentStyle: {},
-        defaultData: {
-          show: true,
-          placeholder: '搜索',
-          disabled: false,
-          barBackground: '#FFFFFF',
-          inputBackground: '#E5E5E5',
-          searchBtnColor: '#0988F0',
-          width: '1080px',
-        }
+        replaceShow: true,
+        replaceDisabled: false
       }
     },
     onInit() {
-      this.setDefault()
-      this.setStyle()
+      this.initialize()
     },
-    setDefault() {
-      Object.keys(this.defaultData).forEach(key => {
-        if (!this.option.hasOwnProperty(key)) {
-          this.$set(`option.${key}`, this.defaultData[key])
-        }
-      })
-    },
-    setStyle() {
-      this.barStyle = {
-        width: this.option.width,
-        backgroundColor: this.option.barBackground,
+    initialize() {
+      if (this.visible !== "1") {
+        this.replaceShow = false
       }
-      this.contentStyle = {
-        backgroundColor: this.option.inputBackground,
-        opacity: this.option.disabled ? '0.4': '1'
+      if (this.disabled !== "0") {
+        this.replaceDisabled = true
       }
     },
     onchange(e) {

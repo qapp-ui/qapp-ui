@@ -4,7 +4,7 @@
 <template>
   <div class="page">
     <div class="box">
-      <qui-indexlist option="{{indexlist}}" @qui-click="click"></qui-indexlist>
+      <qui-indexlist list="{{list}}" hot-type="{{hotType}}" @qui-click="click"></qui-indexlist>
     </div>
     <qui-toast id="qui-toast"></qui-toast>
   </div>
@@ -707,11 +707,9 @@
 
   export default {
     private: {
-      indexlist: {
-        list: data.normalList,
-        locationType: 'group',
-        hotType: 'group'
-      }
+      list: data.normalList,
+      locationType: 'group',
+      hotType: 'group'
     },
     onInit() {
       this.$page.setTitleBar({ text: 'Indexlist' })

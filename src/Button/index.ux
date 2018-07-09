@@ -1,103 +1,71 @@
 <import name='qui-button' src='@qapp-ui/qui-button/index'></import>
 
 <template>
-    <div class="page-doc">
-      <div class="page-container">
-        <text class="txt">默认样式</text>
-        <qui-button option="{{btnData1}}" @qui-clicked="onClick"></qui-button>
-      </div>
+  <div class="page-doc">
+    <div class="page-container">
+      <text class="txt">默认样式</text>
+      <qui-button @qui-clicked="onClick"></qui-button>
+    </div>
 
-      <div class="page-container">
-        <text class="txt">按钮禁用(disabled：true)</text>
-        <qui-button option="{{btnData2}}" @qui-clicked="onClick"></qui-button>
-      </div>
+    <div class="page-container">
+      <text class="txt">按钮禁用(disabled："1")</text>
+      <qui-button disabled="{{variable}}" @qui-clicked="onClick"></qui-button>
+    </div>
 
-      <div class="page-container">
-        <text class="txt">按钮样式：背景色(#FF5000)</text>
-        <qui-button option="{{btnData3}}" @qui-clicked="onClick"></qui-button>
-      </div>
+    <div class="page-container">
+      <text class="txt">按钮样式：背景色(#FF5000)</text>
+      <qui-button background-color="#FF5000" @qui-clicked="onClick"></qui-button>
+    </div>
 
-      <div class="page-container">
-        <text class="txt">按钮样式：背景色(#FF5000),边框色(#000000),边框宽度(2px) 及边框圆角(20px)</text>
-        <qui-button option="{{btnData4}}" @qui-clicked="onClick"></qui-button>
-      </div>
+    <div class="page-container">
+      <text class="txt">按钮样式：背景色(#FF5000),边框色(#000000),边框宽度(2px) 及边框圆角(20px)</text>
+      <qui-button background-color="#FF5000" border-color="#000000" border-width="2px" border-radius="20px" @qui-clicked="onClick"></qui-button>
+    </div>
 
-      <div class="page-container">
-        <text class="txt">按钮样式:背景色(#FF5000)宽度(400px),高度(150px),边框圆角(20px)／文字样式:颜色(#FFFFFF)字体大小(40px)</text>
-        <qui-button option="{{btnData5}}" @qui-clicked="onClick"></qui-button>
-      </div>
+    <div class="page-container">
+      <text class="txt">按钮样式:背景色(#FF5000)宽度(400px),高度(150px),边框圆角(20px)／文字样式:颜色(#FFFFFF)字体大小(40px)</text>
+      <qui-button background-color="#FF5000" width="400px" height="150px" border-radius="20px" color="#FFFFFF" font-size="40px" @qui-clicked="onClick"></qui-button>
+    </div>
     <div>
 </template>
 
 <style>
-.page-doc {
-  flex: 1;
-  flex-direction: column;
-  background-color: #ffffff;
-}
-.page-container {
-  margin-top: 50px;
-  padding-bottom: 30px;
-  flex-direction: column;
-  align-items: center;
-  border-bottom-width: 1px;
-  border-color: #999999;
-}
-.txt {
-  width: 100%;
-  margin-left: 100px;
-  margin-bottom: 20px;
-  font-size: 40px;
-}
+  .page-doc {
+    flex: 1;
+    flex-direction: column;
+    background-color: #ffffff;
+  }
+
+  .page-container {
+    margin-top: 50px;
+    padding-bottom: 30px;
+    flex-direction: column;
+    align-items: center;
+    border-bottom-width: 1px;
+    border-color: #999999;
+  }
+
+  .txt {
+    width: 100%;
+    margin-left: 100px;
+    margin-bottom: 20px;
+    font-size: 40px;
+  }
 </style>
 
 <script>
   import prompt from '@system.prompt'
 
   export default {
-    private: {
-      btnData1: {
-        text: '按钮1'
-      },
-      btnData2: {
-        text: '按钮2',
-        disabled: true
-      },
-      btnData3: {
-        text: '按钮3',
-        btnStyle: {
-          backgroundColor: '#FF5000'
-        }
-      },
-      btnData4: {
-        text: '按钮4',
-        btnStyle: {
-          backgroundColor: '#FF5000',
-          borderColor: '#000000',
-          borderWidth: '2px',
-          borderRadius: '20px'
-        }
-      },
-      btnData5: {
-        text: '按钮5',
-        btnStyle: {
-          backgroundColor: '#FFC900',
-          borderRadius: '12px',
-          width: '400px',
-          height: '150px'
-        },
-        textStyle: {
-          color: '#FFFFFF',
-          fontSize: '40px'
-        }
-      }
+    data: {
+      variable: "1"
     },
     onInit() {
       this.$page.setTitleBar({ text: 'Button' })
     },
     onClick(evt) {
       prompt.showToast({
-        message: `disabled: ${evt.detail.disabled}`
+        message: `click`
       })
     }
   }

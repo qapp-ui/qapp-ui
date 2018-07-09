@@ -19,22 +19,32 @@
     <div class="page-doc">
       <div class="stepper-box">
         <text class="stepper-txt">参数：（默认值:10, 步长：2，最新值：5，最大值：15，只读状态）</text>
-        <qui-stepper option="{{stepperData}}" @qui-value-changed="valueChange"
-          @qui-min-over="minOver" @qui-max-over="maxOver"></qui-stepper>
-      </div>
+        <qui-stepper default-value="10" step="2" min="5" max="15" read-only="1" @qui-value-changed="valueChange"
+         @qui-min-over="minOver" @qui-max-over="maxOver"></qui-stepper>
+    </div>
     <div>
 </template>
 
 <script>
+ import prompt from '@system.prompt'
   export default {
-    private: { 
-      stepperData: {
-        defaultValue: 10,
-        step: 2,
-        min: 5,
-        max: 15,
-        readOnly: true
-      }
+    onInit() {
+      this.$page.setTitleBar({ text: 'Stepper' })
+    },
+    valueChange(e) {
+      prompt.showToast({
+        message: 'value change :' + e.detail.value
+      })
+    },
+    minOver(e) {
+      prompt.showToast({
+        message: 'min over :' + e.detail.value
+      })
+    },
+    maxOver(e) {
+      prompt.showToast({
+        message: 'max over :' + e.detail.value
+      })
     }
   }
 </script>
@@ -42,16 +52,16 @@
 
 更详细代码可以参考 [qui-stepper demo](https://github.com/qapp-ui/qapp-ui/blob/master/src/Stepper/index.ux)
 
-### 参数 option
+### 参数 
 
 | 属性名 | 类型 | 是否必填 | 默认值 | 描述 |
 |-------------|------------|--------|-----|-----|
-| defaultValue | `Number` | `N` |`1`| 初始值 |
-| step | `Number` | `N` |`1`| 步幅 |
-| min | `Number` | `N` |`1`| 范围（最小值） |
-| max | `Number` | `N` |`100`| 范围（最大值） |
-| disabled | `Boolean` | `N` |`false`| 是否禁用计数器 |
-| readOnly | `Boolean` | `N` |`false`| 是否只读（无法输入） |
+| defaultValue | `String` | `N` |`1`| 初始值 |
+| step | `String` | `N` |`1`| 步幅 |
+| min | `String` | `N` |`1`| 范围（最小值） |
+| max | `String` | `N` |`100`| 范围（最大值） |
+| disabled | `String` | `N` |`0`| 是否禁用计数器 |
+| readOnly | `String` | `N` |`0`| 是否只读（无法输入） |
 
 
 ### 事件

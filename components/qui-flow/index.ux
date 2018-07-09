@@ -1,16 +1,15 @@
 <template>
   <div class="qui-flow">
-    <stack class="qui-flow-stack {{!$idx?'qui-flow-stack-first':''}}" for="option.list">
-      <div class="qui-flow-item {{$idx===option.list.length-1?'qui-flow-item-last':''}}">
-        <text class="qui-flow-title" style="color: {{$item.highlight?option.highlightTitle:''}}">
+    <stack class="qui-flow-stack {{!$idx?'qui-flow-stack-first':''}}" for="options">
+      <div class="qui-flow-item {{$idx===options.length-1?'qui-flow-item-last':''}}">
+        <text class="qui-flow-title" style="color: {{$item.highlight?highlightTitle:''}}">
           {{$item.title}}
         </text>
         <text class="qui-flow-desc" if="$item.desc">{{$item.desc}}</text>
         <text class="qui-flow-time" if="$item.time">{{$item.time}}</text>
       </div>
-      <div class="qui-flow-line" if="{{$idx<option.list.length-1}}" style="background-color: {{option.line}}"></div>
-      <div class="qui-flow-icon {{$item.highlight?'qui-flow-icon-active':''}}"
-           style="background-color: {{$item.highlight?option.highlightBackground:option.background}};border-color:{{$item.highlight?option.highlightBorder:option.border}}"></div>
+      <div class="qui-flow-line" if="{{$idx<options.length-1}}" style="background-color: {{line}}"></div>
+      <div class="qui-flow-icon {{$item.highlight?'qui-flow-icon-active':''}}" style="background-color: {{$item.highlight?highlightBackground:background}};border-color:{{$item.highlight?highlightBorder:border}}"></div>
     </stack>
   </div>
 </template>
@@ -96,52 +95,34 @@
    * }
    */
   export default {
-    props: [
-      'option'
-    ],
-    data() {
-      return {
-        defaultOption: {
-          list: [],
-          line: '#ffc300',
-          background: '#fff0bd',
-          border: '#ee9900',
-          highlightTitle: '#ee9900',
-          highlightBackground: '#ee9900',
-          highlightBorder: '#fff0bd'
-        }
+    props: {
+      options: Array,
+      line: {
+        type: String,
+        default: '#ffc300'
+      },
+      background: {
+        type: String,
+        default: '#fff0bd'
+      },
+      border: {
+        type: String,
+        default: '#ee9900'
+      },
+      highlightTitle: {
+        type: String,
+        default: '#ee9900'
+      },
+      highlightBackground: {
+        type: String,
+        default: '#ee9900'
+      },
+      highlightBorder: {
+        type: String,
+        default: '#fff0bd'
       }
-    },
-    onInit() {
-      Object.keys(this.defaultOption).forEach(key => {
-        let methodName = key.replace(/^\w/, function ($0) {
-          return `update${$0.toUpperCase()}`
-        })
-
-        this.$watch(`option.${key}`, methodName)
-        this[methodName]()
-      })
-    },
-    updateList() {
-      !this.option.hasOwnProperty('list') && this.$set('option.list', this.defaultOption.list)
-    },
-    updateLine() {
-      !this.option.hasOwnProperty('line') && this.$set('option.line', this.defaultOption.line)
-    },
-    updateBackground() {
-      !this.option.hasOwnProperty('background') && this.$set('option.background', this.defaultOption.background)
-    },
-    updateBorder() {
-      !this.option.hasOwnProperty('border') && this.$set('option.border', this.defaultOption.border)
-    },
-    updateHighlightTitle() {
-      !this.option.hasOwnProperty('highlightTitle') && this.$set('option.highlightTitle', this.defaultOption.highlightTitle)
-    },
-    updateHighlightBackground() {
-      !this.option.hasOwnProperty('highlightBackground') && this.$set('option.highlightBackground', this.defaultOption.highlightBackground)
-    },
-    updateHighlightBorder() {
-      !this.option.hasOwnProperty('highlightBorder') && this.$set('option.highlightBorder', this.defaultOption.highlightBorder)
-    },
+    }
+    
+   
   }
 </script>

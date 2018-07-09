@@ -3,7 +3,7 @@
 <template>
   <div class="page-doc">
     <input class="input-button" type="button" value="显示mask" onclick="showmask" />
-    <qui-mask option="{{maskData}}" @qui-overlay-click="overlayClick" @qui-close-click="closeClick">
+    <qui-mask visible="{{visible}}" show-close="{{showClose}}" @qui-overlay-click="overlayClick" @qui-close-click="closeClick">
       <div class="mask">
         <text class="mask-title">快应用</text>
         <text class="mask-txt">快应用是一套以前端开发技术栈为主进行应用开发的框架，采用流行的前端开发模式，贴合主流前端开发者的思维习惯，同时大幅提升应用的性能，提供大量前端环境无法使用的系统能力，以及很多第三方服务的对接能力。</text>
@@ -54,32 +54,32 @@
 
   export default {
     private: {
-      maskData: {
-        show: false
-      }
+      visible: '0',
+      showClose: '0'
     },
     onInit() {
       this.$page.setTitleBar({ text: 'Mask' })
     },
     showmask() {
-      this.maskData.showClose = true
-      this.maskData.autoClose = false
-      this.maskData.show = true
+      this.showClose = '1'
+      this.visible = '1'
     },
     onBackPress(){
-      if (this.maskData.show) {
+      if (this.visible === '1') {
         setTimeout(() => {
-          this.maskData.show = false
+          this.visible = '0'
         }, 0);
         return true
       }
     },
     overlayClick() {
+      this.visible = '0'
       prompt.showToast({
         message: '点击蒙层'
       })
     },
     closeClick() {
+      this.visible = '0'
       prompt.showToast({
         message: '点击关闭按钮'
       })

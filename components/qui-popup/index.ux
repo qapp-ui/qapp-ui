@@ -1,222 +1,230 @@
 <import name="qui-overlay" src="../qui-overlay/index"></import>
 
 <template>
-  <div>
-    <qui-overlay option="{{overlay}}" @qui-overlay-click="overlayClick">
-      <div class="qui-popup-box box-{{option.position}}" show="{{visible}}">
-        <div class="qui-popup-placeholder placeholder-{{option.position}} {{animationClass}}"
-            style="animation-duration: {{animationDuration}}ms;"
-            if="{{option.position === 'right' || option.position === 'bottom'}}"></div>
-        <div class="qui-popup-content" style="{{contentStyle}}">
-          <slot></slot>
-        </div>
-        <div class="qui-popup-placeholder placeholder-{{option.position}} {{animationClass}}"
-            style="animation-duration: {{animationDuration}}ms;"
-            if="{{option.position === 'left' || option.position === 'top'}}"></div>
+  <qui-overlay visible="{{visible}}" background="{{background}}" @qui-overlay-click="overlayClick">
+    <div class="qui-popup-box box-{{position}}" show="{{show}}">
+      <div class="qui-popup-placeholder placeholder-{{position}} {{animationClass}}" style="animation-duration: {{animationDuration}}ms;"
+        if="{{position === 'right' || position === 'bottom'}}"></div>
+      <div class="qui-popup-content" style="{{contentStyle}}">
+        <slot></slot>
       </div>
-    </qui-overlay>
-  </div>
+      <div class="qui-popup-placeholder placeholder-{{position}} {{animationClass}}" style="animation-duration: {{animationDuration}}ms;"
+        if="{{position === 'left' || position === 'top'}}"></div>
+    </div>
+  </qui-overlay>
 </template>
 
 <style>
-.qui-popup-box {
-  position: fixed;
-}
-.box-top {
-  top: 0;
-  left: 0;
-  right: 0;
-  flex-direction: column;
-  justify-content: flex-end;
-}
-.box-bottom {
-  bottom: 0;
-  left: 0;
-  right: 0;
-  flex-direction: column;
-}
-.box-left {
-  top: 0;
-  bottom: 0;
-  left: 0;
-  flex-direction: row;
-  justify-content: flex-end;
-}
-.box-right {
-  top: 0;
-  bottom: 0;
-  right: 0;
-  flex-direction: row;
-}
-.qui-popup-placeholder {
-  flex-shrink: 0;
-  opacity: 0;
-  animation-fill-mode: forwards;
-}
-.placeholder-top,
-.placeholder-bottom {
-  height: 2400px;
-}
-.placeholder-left,
-.placeholder-right {
-  width: 1080px;
-}
-.qui-popup-content{
-  flex-shrink: 0;
-  flex-direction: column;
-}
-.bottompopupenter{
-  animation-name: bottompopupenter;
-}
-.bottompopupleave {
-  animation-name: bottompopupleave;
-}
-@keyframes bottompopupenter {
-  0% {
-    height: 2400px;
+  .qui-popup-box {
+    position: fixed;
   }
-  100% {
-    height: 0;
-  }
-}
-@keyframes bottompopupleave {
-  0% {
-    height: 0;
-  }
-  100% {
-    height: 2400px;
-  }
-}
-.toppopupenter{
-  animation-name: toppopupenter;
-}
-.toppopupleave {
-  animation-name: toppopupleave;
-}
-@keyframes toppopupenter {
-  0% {
-    height: 2400px;
-  }
-  100% {
-    height: 0;
-  }
-}
-@keyframes toppopupleave {
-  0% {
-    height: 0;
-  }
-  100% {
-    height: 2400px;
-  }
-}
 
-.rightpopupenter{
-  animation-name: rightpopupenter;
-}
-.rightpopupleave {
-  animation-name: rightpopupleave;
-}
-@keyframes rightpopupenter {
-  0% {
-    width: 1080px;
+  .box-top {
+    top: 0;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    justify-content: flex-end;
   }
-  100% {
-    width: 0;
-  }
-}
-@keyframes rightpopupleave {
-  0% {
-    width: 0;
-  }
-  100% {
-    width: 1080px;
-  }
-}
 
-.leftpopupenter{
-  animation-name: leftpopupenter;
-}
-.leftpopupleave {
-  animation-name: leftpopupleave;
-}
-@keyframes leftpopupenter {
-  0% {
+  .box-bottom {
+    bottom: 0;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+  }
+
+  .box-left {
+    top: 0;
+    bottom: 0;
+    left: 0;
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+
+  .box-right {
+    top: 0;
+    bottom: 0;
+    right: 0;
+    flex-direction: row;
+  }
+
+  .qui-popup-placeholder {
+    flex-shrink: 0;
+    opacity: 0;
+    animation-fill-mode: forwards;
+  }
+
+  .placeholder-top,
+  .placeholder-bottom {
+    height: 2400px;
+  }
+
+  .placeholder-left,
+  .placeholder-right {
     width: 1080px;
   }
-  100% {
-    width: 0;
+
+  .qui-popup-content {
+    flex-shrink: 0;
+    flex-direction: column;
   }
-}
-@keyframes leftpopupleave {
-  0% {
-    width: 0;
+
+  .bottompopupenter {
+    animation-name: bottompopupenter;
   }
-  100% {
-    width: 1080px;
+
+  .bottompopupleave {
+    animation-name: bottompopupleave;
   }
-}
+
+  @keyframes bottompopupenter {
+    0% {
+      height: 2400px;
+    }
+    100% {
+      height: 0;
+    }
+  }
+
+  @keyframes bottompopupleave {
+    0% {
+      height: 0;
+    }
+    100% {
+      height: 2400px;
+    }
+  }
+
+  .toppopupenter {
+    animation-name: toppopupenter;
+  }
+
+  .toppopupleave {
+    animation-name: toppopupleave;
+  }
+
+  @keyframes toppopupenter {
+    0% {
+      height: 2400px;
+    }
+    100% {
+      height: 0;
+    }
+  }
+
+  @keyframes toppopupleave {
+    0% {
+      height: 0;
+    }
+    100% {
+      height: 2400px;
+    }
+  }
+
+  .rightpopupenter {
+    animation-name: rightpopupenter;
+  }
+
+  .rightpopupleave {
+    animation-name: rightpopupleave;
+  }
+
+  @keyframes rightpopupenter {
+    0% {
+      width: 1080px;
+    }
+    100% {
+      width: 0;
+    }
+  }
+
+  @keyframes rightpopupleave {
+    0% {
+      width: 0;
+    }
+    100% {
+      width: 1080px;
+    }
+  }
+
+  .leftpopupenter {
+    animation-name: leftpopupenter;
+  }
+
+  .leftpopupleave {
+    animation-name: leftpopupleave;
+  }
+
+  @keyframes leftpopupenter {
+    0% {
+      width: 1080px;
+    }
+    100% {
+      width: 0;
+    }
+  }
+
+  @keyframes leftpopupleave {
+    0% {
+      width: 0;
+    }
+    100% {
+      width: 1080px;
+    }
+  }
 </style>
 
 <script>
   import device from '@system.device'
 
   export default {
-    props: ['option'],
+    props: {
+      visible: {
+        type: String,
+        default: '0'
+      },
+      position: {
+        type: String,
+        default: 'bottom'
+      },
+      background: {
+        type: String,
+        default: 'rgba(0,0,0,0.4)'
+      }
+    },
     data() {
       return {
-        visible: this.option.show,
+        show: this.visible === '1',
         screenWidth: 1080,
         contentStyle: {},
         animationClass: '',
-        animationDuration: 800,
-        overlay: {
-          show: false,
-          autoClose: false,
-          background: ''
-        },
-        defaultData: {
-          show: false,
-          autoClose: true,
-          position: 'bottom',
-          background: 'rgba(0,0,0,0.4)'
-        }
+        animationDuration: 800
       }
     },
     onInit() {
       this.setDefault()
-      this.setOverlayBg()
       this.setContentStyle()
-      this.toggleShow(this.option.show)
+      this.toggleVisible(this.visible)
     },
     setDefault() {
-      Object.keys(this.defaultData).forEach(key => {
-        if (!this.option.hasOwnProperty(key)) {
-          this.$set(`option.${key}`, this.defaultData[key])
-        }
-        if (key === 'show') {
-          this.$watch(`option.${key}`, 'toggleShow')
-        } else if (key === 'background') {
-          this.$watch(`option.${key}`, 'setOverlayBg')
-        }
-      })
+      this.$watch('visible', 'toggleVisible')
     },
-    toggleShow(show) {
+    toggleVisible(visible) {
       if (this.timeoutId) clearTimeout(this.timeoutId)
 
-      this.option.show = show
-      this.overlay.show = show
-      if (show) {
-        this.visible = true
-        this.animationClass = `${this.option.position}popupenter`
+      if (visible === '1') {
+        this.show = true
+        this.animationClass = `${this.position}popupenter`
       } else {
-        this.animationClass = `${this.option.position}popupleave`
+        this.animationClass = `${this.position}popupleave`
         this.timeoutId = setTimeout(() => {
-          this.visible = false
+          this.show = false
         }, this.animationDuration - 200)
       }
     },
-    setContentStyle(){
-      if (this.option.position === 'bottom' || this.option.position === 'top') {
+    setContentStyle() {
+      if (this.position === 'bottom' || this.position === 'top') {
         this.contentStyle = {
           width: `${this.screenWidth}px`,
           height: 'auto'
@@ -227,13 +235,7 @@
         }
       }
     },
-    setOverlayBg(){
-      this.overlay.background = this.option.background
-    },
     overlayClick() {
-      if (this.option.autoClose) {
-        this.option.show = false
-      }
       this.$emit('quiOverlayClick')
     }
   }

@@ -1,24 +1,22 @@
 <template>
   <div class="qui-cells" @click="cellClicked">
-    <div class="qui-cell" style="height:{{option.height}}">
+    <div class="qui-cell" style="height:{{cellHight}}">
       <div class="qui-cell-left">
-        <image if="option.leftImg" src="{{option.leftImg}}" class="qui-cell-img" />
-          <div style="flex-direction: {{option.direction}}">
-            <text if="option.title" class="qui-cell-title" style="color:{{option.titleColor}}">
-              {{option.title}}
-            </text>
-            <text if="{{option.desc && option.direction === 'column'}}" class="qui-cell-desc"
-                  style="color:{{option.descColor}}">{{option.desc}}
-            </text>
-          </div>
+        <image if="leftImg" src="{{leftImg}}" class="qui-cell-img" />
+        <div style="flex-direction: {{direction}}">
+          <text if="title" class="qui-cell-title" style="color:{{titleColor}}">
+            {{title}}
+          </text>
+          <text if="{{desc && direction === 'column'}}" class="qui-cell-desc" style="color:{{descColor}}">{{desc}}
+          </text>
+        </div>
       </div>
       <div class="qui-cell-right">
-        <text if="{{option.desc && option.direction === 'row'}}" class="qui-cell-desc"
-              style="color:{{option.descColor}}">{{option.desc}}
+        <text if="{{desc && direction === 'row'}}" class="qui-cell-desc" style="color:{{descColor}}">{{desc}}
         </text>
         <slot></slot>
-        <image if="option.hasArrow" class="qui-cell-arrow"
-               src="data:image/webp;base64,UklGRgYBAABXRUJQVlA4WAoAAAAQAAAADwAAHQAAQUxQSLsAAAABgCPbtmnrZs/ftm3btrtj27Zt27ZtRv+n3p/71O1BRChw20bpGI7vFf692hROrTCiiENzDIbkcFadgV5pnDUWoFMCZ50VaBHD2WAd6kVwNt6GakGczfehjB9n6yMo5OFsfwo5HJxdLiCdjbPHNSQxcfa5+4ghcNDTayqOsOeXRBSBj+/hDLzyGcugMdL599jEa6FxbeZ7UMZP49r116FBBH22ZcKzacxDpyTqT5GevQ0GCN/Cu12DQkEBAFZQOCAkAAAAsAIAnQEqEAAeAD5tLJFFpCKhmAQAQAbEtIAAPZAAAP77nMAA" />
+        <image if="display" class="qui-cell-arrow" src="data:image/webp;base64,UklGRgYBAABXRUJQVlA4WAoAAAAQAAAADwAAHQAAQUxQSLsAAAABgCPbtmnrZs/ftm3btrtj27Zt27ZtRv+n3p/71O1BRChw20bpGI7vFf692hROrTCiiENzDIbkcFadgV5pnDUWoFMCZ50VaBHD2WAd6kVwNt6GakGczfehjB9n6yMo5OFsfwo5HJxdLiCdjbPHNSQxcfa5+4ghcNDTayqOsOeXRBSBj+/hDLzyGcugMdL599jEa6FxbeZ7UMZP49r116FBBH22ZcKzacxDpyTqT5GevQ0GCN/Cu12DQkEBAFZQOCAkAAAAsAIAnQEqEAAeAD5tLJFFpCKhmAQAQAbEtIAAPZAAAP77nMAA"
+        />
       </div>
     </div>
   </div>
@@ -30,32 +28,39 @@
     background-color: #FFFFFF;
     padding: 36px 24px;
   }
+
   .qui-cell {
     height: 100px;
     width: 1080px;
   }
+
   .qui-cell-left {
     flex: 1;
     align-items: center;
   }
+
   .qui-cell-right {
     flex: 1;
     justify-content: flex-end;
     align-items: center;
   }
+
   .qui-cell-img {
     width: 64px;
     margin: 0px 25px;
   }
+
   .qui-cell-title {
     font-size: 48px;
     font-weight: bold;
   }
+
   .qui-cell-desc {
     font-size: 48px;
     margin-right: 10px;
     color: #808080;
   }
+
   .qui-cell-arrow {
     width: 24px;
     height: 36px;
@@ -64,45 +69,50 @@
 
 <script>
   export default {
-    props: ['option'],
+    props: {
+      backgroundColor: {
+        type: String,
+        default: '#FFFFFF'
+      },
+      leftImg: String,
+      title: String,
+      titleColor: String,
+      desc: String,
+      descColor: {
+        type: String,
+        default: '#808080'
+      },
+      hasArrow: {
+        type: String,
+        default: "1"
+      },
+      height: {
+        type: String,
+        default: '100px'
+      },
+      direction: {
+        type: String,
+        default: 'row'
+      } //row or column
+    },
     data: {
-      defaultData: {
-        backgroundColor: '#FFFFFF',
-        leftImg: '',
-        title: '',
-        titleColor: '',
-        desc: '',
-        descColor: '#808080',
-        hasArrow: true,
-        height: '100px',
-        direction: 'row' //row or column
-      },
-      switchData: {
-        value: true
-      },
-      checkboxData: {
-        values: [''],
-        checked: [true],
-        options: ['']
-      }
+      cellHight: '',
+      display: true
     },
     onInit() {
-      this.option = this.option || {}
       //修改默认值
-      if (this.option.hasOwnProperty('direction') && this.option.direction === 'column') {
-        this.defaultData.height = '120px'
+      if (this.hasArrow !== "1") {
+        this.display = false
       }
-      Object.keys(this.defaultData).forEach((key) => {
-        if (!this.option.hasOwnProperty(key)) {
-          this.$set(`option.${key}`, this.defaultData[key])
-        }
-      })
+      if (this.direction === 'column') {
+        this.cellHight = '120px'
+      }
+
     },
     cellClicked: function () {
-      if (this.option.title) {
+      if (this.title) {
         this.$emit('quiCellClick')
       }
     }
   }
 </script>
-

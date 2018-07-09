@@ -18,7 +18,7 @@
 <template>
   <div class="page">
     <div class="box">
-      <qui-indexlist option="{{indexlist}}" @qui-click="click"></qui-indexlist>
+      <qui-indexlist list="{{list}}" hot-type="{{hotType}}" @qui-click="click"></qui-indexlist>
     </div>
     <qui-toast id="qui-toast"></qui-toast>
   </div>
@@ -62,19 +62,17 @@
 
 ## 参数
 
-qui-flow只接受属性option，option为对象，各属性如下
-
 | 名称 | 类型 | 必填 | 默认值 | 描述 |
-|----------|-----------|--------|-------|
+|-----|------|-----|-------|-----|
 | list | `Array` | `Y` | `-` | 数据 |
 | list[{name}] | `String` | `Y` | `-` | 名称 |
 | list[{desc}] | `String` | `N` | `-` | 描述 |
 | list[{key}] | `String` | `Y`| `-` | 排序字符串,比如拼音等 |
 | list[{hot}] | `Boolean` | `N` | `false` | 是否是热门项 |
 | hotTitle | `String` | `N` | `热门` | 热门项索引标签 |
-| hotType | `String` | `N` | `-` | 热门项显示类型，支持list，group类型，默认为list类型 |
-| showIndex | `Boolean` | `N` | `true` | 是否显示侧边索引栏 |
-| onlyShowList | `Boolean` | `N` | `false` | 是否不显示热门列表 |
+| hotType | `String` | `N` | `list` | 热门项显示类型，支持list，group类型，默认为list类型 |
+| showIndex | `String` | `N` | `1` | 是否显示侧边索引栏，`'1'`表示显示，`'0'`表示不显示 |
+| onlyShowList | `String` | `N` | `0` | 是否不显示热门列表，`'1'`表示不显示热门列表，`'0'`表示显示热门列表 |
 
 ## 事件
 

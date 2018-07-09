@@ -1,11 +1,11 @@
 <import name="qui-overlay" src="../qui-overlay/index"></import>
 
 <template>
-  <qui-overlay option="{{overlay}}">
+  <qui-overlay visible="{{visible}}" background="rgba(0,0,0,0)">
     <div class="qui-loading">
       <div>
-        <image src="{{option.image}}"></image>
-        <text if="option.text">{{option.text}}</text>
+        <image src="{{image}}"></image>
+        <text if="text && typeof text === 'string'">{{text}}</text>
       </div>
     </div>
   </qui-overlay>
@@ -17,7 +17,7 @@
     justify-content: center;
   }
 
-  .qui-loading > div {
+  .qui-loading>div {
     padding: 25px 40px;
     flex-direction: column;
     align-items: center;
@@ -40,50 +40,24 @@
   import icon from './image'
 
   /**
-   * option = {
-   *   show: true/false,
-   *   image: 'xx.png',  //自定义图标
-   *   text: 'xx'   //文本
-   * }
+   * visible: '1'/'0',
+   * image: 'xx.png',  //自定义图标
+   * text: 'xx'   //文本
    */
   export default {
-    props: ['option'],
-    data() {
-      return {
-        overlay: {
-          show: false,
-          background: 'rgba(0,0,0,0)',
-          autoClose: false
-        },
-        defaultOption: {
-          show: false,
-          image: icon,
-          text: ''
-        }
+    props: {
+      visible: {
+        type: String,
+        default: '0'
+      },
+      image: {
+        type: String,
+        default: icon
+      },
+      text: {
+        type: String,
+        default: ''
       }
-    },
-    onInit() {
-      Object.keys(this.defaultOption).forEach(key => {
-        let methodName = key.replace(/^\w/, function ($0) {
-          return `update${$0.toUpperCase()}`
-        })
-
-        this.$watch(`option.${key}`, methodName)
-        this[methodName]()
-      })
-    },
-    updateShow() {
-      if (this.option.hasOwnProperty('show')) {
-        this.$set('overlay.show', this.option.show)
-      } else {
-        this.$set('option.show', false)
-      }
-    },
-    updateImage() {
-      !this.option.hasOwnProperty('image') && this.$set('option.image', this.defaultOption.image)
-    },
-    updateText() {
-      !this.option.hasOwnProperty('text') && this.$set('option.text', this.defaultOption.text)
     }
   }
 </script>

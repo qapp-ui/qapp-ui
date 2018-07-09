@@ -5,30 +5,30 @@
   <div class="page-doc">
     <div class="cell-box">
       <text class="text">带图标能点击的Cell</text>
-      <qui-cell option="{{cellData1}}" @qui-cell-click="cellClicked"></qui-cell>
+      <qui-cell background-color='#FFFFFF' left-img='/Common/logo.png' title='测试标题' desc='测试说明' has-arrow="1" title-color='#008000' desc-color='#d00000' @qui-cell-click="cellClicked"></qui-cell>
     </div>
     <div class="cell-box">
       <text class="text">不带图标的Cell</text>
-      <qui-cell option="{{cellData2}}"></qui-cell>
+      <qui-cell background-color='#FFFFFF' , title='测试标题' , desc='测试说明' has-arrow="1"></qui-cell>
     </div>
     <div class="cell-box">
       <text class="text">不带描述的Cell</text>
-      <qui-cell option="{{cellData3}}"></qui-cell>
+      <qui-cell background-color='#FFFFFF' left-img='/Common/logo.png' title='测试标题' has-arrow="1"></qui-cell>
     </div>
     <div class="cell-box">
       <text class="text">不带箭头的Cell</text>
-      <qui-cell option="{{cellData4}}"></qui-cell>
+      <qui-cell background-color='#FFFFFF' left-img='/Common/logo.png' title='测试标题' desc='测试说明' has-arrow="0"></qui-cell>
     </div>
     <div class="cell-box">
       <text class="text">带Switch的Cell</text>
-      <qui-cell option="{{cellData5}}">
-        <qui-switch option="{{switchData1}}"></qui-switch>
+      <qui-cell background-color='#FFFFFF' left-img='/Common/logo.png' title='测试标题' desc='测试说明' has-arrow="0" direction='row'>
+        <qui-switch value="1"></qui-switch>
       </qui-cell>
     </div>
     <div class="cell-box">
       <text class="text">Row Switch的Cell</text>
-      <qui-cell option="{{cellData6}}">
-        <qui-switch option="{{switchData2}}"></qui-switch>
+      <qui-cell background-color='#FFFFFF' left-img='/Common/logo.png' title='测试标题' desc='测试说明' has-arrow="0" direction='column'>
+        <qui-switch value="0"></qui-switch>
       </qui-cell>
     </div>
   </div>
@@ -57,63 +57,10 @@
 <script>
   import prompt from '@system.prompt'
   export default {
-    data: {
-      switchData1: {
-        value: false
-      },
-      switchData2: {
-        value: false
-      },
-      cellData1: {
-        backgroundColor: '#FFFFFF',
-        leftImg: '/Common/logo.png',
-        title: '测试标题',
-        desc: '测试说明',
-        hasArrow: true,
-        titleColor: '#008000',
-        descColor: '#d00000'
-      },
-      cellData2: {
-        backgroundColor: '#FFFFFF',
-        title: '测试标题',
-        desc: '测试说明',
-        hasArrow: true,
-      },
-      cellData3: {
-        backgroundColor: '#FFFFFF',
-        leftImg: '/Common/logo.png',
-        title: '测试标题',
-        hasArrow: true,
-      },
-      cellData4: {
-        backgroundColor: '#FFFFFF',
-        leftImg: '/Common/logo.png',
-        title: '测试标题',
-        desc: '测试说明',
-        hasArrow: false,
-      },
-      cellData5: {
-        backgroundColor: '#FFFFFF',
-        leftImg: '/Common/logo.png',
-        title: '测试标题',
-        desc: '测试说明',
-        hasArrow: false,
-        direction: 'row'
-      },
-      cellData6: {
-        backgroundColor: '#FFFFFF',
-        leftImg: '/Common/logo.png',
-        title: '测试标题',
-        desc: '测试说明',
-        hasArrow: false,
-        direction: 'column'
-      }
-    },
     onInit() {
-      this.$page.setTitleBar({text: 'Cell'})
+      this.$page.setTitleBar({ text: 'Cell' })
     },
     cellClicked() {
-      this.cellData1.selected = !this.cellData1.selected
       prompt.showToast({
         message: 'cell clicked'
       })

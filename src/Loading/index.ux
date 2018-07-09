@@ -2,8 +2,8 @@
 
 <template>
   <div class="page">
-    <input type="button" value="显示loading" @click="show" />
-    <qui-loading option="{{loading}}"></qui-loading>
+    <input type="button" value="显示loading" @click="showLoading" />
+    <qui-loading visible="{{visible}}" text="{{text}}"></qui-loading>
   </div>
 </template>
 
@@ -26,26 +26,24 @@
 <script>
   export default {
     private: {
-      loading: {
-        show: false,
-        text: '正在加载...'
-      }
+      visible: '0',
+      text: '正在加载...'
     },
     onInit() {
       this.$page.setTitleBar({ text: 'Loading' })
     },
     onBackPress() {
-      if (this.loading.show) {
+      if (this.visible === '1') {
         setTimeout(() => {
-          this.loading.show = false
+          this.visible = '0'
         })
         return true
       }
     },
-    show() {
-      this.loading.show = true
+    showLoading() {
+      this.visible = '1'
       setTimeout(() => {
-        this.loading.show = false
+        this.visible = '0'
       }, 5000)
     }
   }

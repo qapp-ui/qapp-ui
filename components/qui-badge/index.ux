@@ -1,9 +1,8 @@
 <template>
-  <text class="qui-badge-circle-bg {{badge_anim}} "
-        style="width: {{option.width}};height:{{option.height}};
-        border-radius: {{(option.borderRadius)}};font-size:{{option.fontSize}};
-        font-weight:{{option.fontStyle}};background-color:{{option.background}};color:{{option.textColor}}">
-    {{option.badge}}
+  <text class="qui-badge-circle-bg {{badge_anim}} " style="width: {{width}};height:{{height}};
+        border-radius: {{(borderRadius)}};font-size:{{fontSize}};
+        font-weight:{{fontStyle}};background-color:{{background}};color:{{textColor}}">
+    {{replaceBadge}}
   </text>
 </template>
 
@@ -140,41 +139,64 @@
     'slide': ['qui-badge-slide-hide', 'qui-badge-slide-show']
   }
   export default {
-    prop: ['option'],
-    data: {
-      defaultData: {
-        fontStyle: 'bold',
-        background: '#d00000',
-        textColor: '#ffffff',
-        animationType: 'none',
-        badge: 0,
-        height: '80px',
-        width: '80px',
-        borderRadius: '80px',
-        fontSize: '44px'
+    props: {
+      fontStyle: {
+        type: String,
+        default: 'bold'
       },
-      badge_anim: ''
+      background: {
+        type: String,
+        default: '#d00000'
+      },
+      textColor: {
+        type: String,
+        default: '#ffffff'
+      },
+      animationType: {
+        type: String,
+        default: 'none'
+      },
+      badge: {
+        type: String,
+        default: "0"
+      },
+      height: {
+        type: String,
+        default: '80px'
+      },
+      width: {
+        type: String,
+        default: '80px'
+      },
+      borderRadius: {
+        type: String,
+        default: '80px'
+      },
+      fontSize: {
+        type: String,
+        default: '44px'
+      }
+    },
+    data() {
+      return {
+        badge_anim: '',
+        replaceBadge: Number(this.badge)
+      }
     },
     onInit: function () {
-      this.option = this.option || {}
-      Object.keys(this.defaultData).forEach((key) => {
-        if (!this.option.hasOwnProperty(key)) {
-          this.$set(`option.${key}`, this.defaultData[key])
-        }
-      })
-      this.$watch('option.badge', 'badgeChange')
+      this.$watch('replaceBadge', 'badgeChange')
     },
     addDelta(delta) {
       let ref = this
       let action = function () {
-        ref.option.badge += delta
+        ref.replaceBadge += delta
       }
       let playAnim = false
-      if (anim_map.hasOwnProperty(this.option.animationType)) {
+      if (anim_map.hasOwnProperty(this.animationType)) {
         playAnim = true
       }
       if (playAnim) {
-        const [hide, show] = anim_map[this.option.animationType]
+        const [hide, show] = anim_map[this.animationType]
         this.playAnim(hide, show, action)
         return
       }
@@ -188,8 +210,7 @@
       }, 500)
     },
     badgeChange: function () {
-      this.$emit('quiBadgeChange', {value: this.option.badge})
+      this.$emit('quiBadgeChange', { value: this.replaceBadge })
     }
   }
 </script>
-

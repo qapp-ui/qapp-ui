@@ -3,38 +3,43 @@
 
 <template>
   <div class="qui-radio-box">
-    <block for="(index, row) in option.options">
-      <div if="!(index === 0) && option.isBorder" class="border-top"></div>
-      <div class="item {{option.isRight ? 'is-right' : ''}} {{row.disabled ? 'disabled' : ''}}" @click="clickAction(row)">
-        <text class="name" if="option.isRight" style="font-size: {{option.labelFontSize}};color: {{option.labelColor}}">{{row.label || row}}</text>
-        <stack class="radio" style="background-color: {{option.value === (row.value || row) ? option.checkedColor : option.checkColor}};border-color: {{option.value === (row.value || row) ? option.checkedBorderColor : option.checkBorderColor}}">
-          <div class="thumb {{option.value === (row.value || row) ? 'open' : 'close'}}" style="background-color: {{option.value === (row.value || row) ? option.thumbCheckedColor : option.thumbCheckColor}}"></div>
+    <block for="(index, row) in options">
+      <div if="!(index === 0) && replaceHasBorder" class="border-top"></div>
+      <div class="item {{replaceIsRight ? 'is-right' : ''}} {{row.disabled ? 'disabled' : ''}}" @click="clickAction(row)">
+        <text class="name" if="replaceIsRight" style="font-size: {{labelFontSize}};color: {{labelColor}}">{{row.label || row}}</text>
+        <stack class="radio" style="background-color: {{replaceValue === (row.value || row) ? checkedColor : checkColor}};border-color: {{replaceValue === (row.value || row) ? checkedBorderColor : checkBorderColor}}">
+          <div class="thumb {{replaceValue === (row.value || row) ? 'open' : 'close'}}" style="background-color: {{replaceValue === (row.value || row) ? thumbCheckedColor : thumbCheckColor}}"></div>
         </stack>
-        <text class="name" if="!option.isRight" style="margin-left: {{option.labelMargin}};font-size: {{option.labelFontSize}};color: {{option.labelColor}}">{{row.label || row}}</text>
+        <text class="name" if="!replaceIsRight" style="margin-left: {{labelMargin}};font-size: {{labelFontSize}};color: {{labelColor}}">{{row.label || row}}</text>
       </div>
     </block>
   </div>
 </template>
 
 <style>
-  .qui-radio-box{
+  .qui-radio-box {
     flex-direction: column;
     background-color: #ffffff;
   }
+
   .border-top {
     margin-left: 20px;
     height: 1px;
     background-color: #bbbbbb;
   }
+
   .item {
     padding: 30px 40px;
   }
+
   .is-right {
     justify-content: space-between;
   }
+
   .disabled .radio {
     opacity: .5;
   }
+
   .radio {
     align-items: center;
     justify-content: center;
@@ -43,11 +48,13 @@
     border-radius: 30px;
     border-width: 4px;
   }
+
   .thumb {
     width: 36px;
     height: 36px;
     border-radius: 36px;
   }
+
   @keyframes open {
     from {
       transform: scale(0);
@@ -56,11 +63,13 @@
       transform: scale(1);
     }
   }
+
   .open {
     animation-name: open;
     animation-duration: 0ms;
     animation-fill-mode: forwards;
   }
+
   @keyframes close {
     from {
       transform: scale(1);
@@ -69,6 +78,7 @@
       transform: scale(0);
     }
   }
+
   .close {
     animation-name: close;
     animation-duration: 0ms;
@@ -78,49 +88,92 @@
 
 <script>
   export default {
-    props: ['option'],
-    data: {
-      defaultData: {
-        value: '',
-        options: [],
-        labelMargin: '30px',
-        labelFontSize: '44px',
-        labelColor: '#000000',
-        isRight: false,
-        isBorder: true,
-        checkColor: '#FFFFFF',
-        checkedColor: '#FFFFFF',
-        checkBorderColor: '#CCCCCC',
-        checkedBorderColor: '#2998F9',
-        thumbCheckColor: 'transparent',
-        thumbCheckedColor: '#2998F9'
+    props: {
+      value: String,
+      options: {
+        type: Array
+      },
+      labelMargin: {
+        type: String,
+        default: '30px'
+      },
+      labelFontSize: {
+        type: String,
+        default: '44px'
+      },
+      labelColor: {
+        type: String,
+        default: '#000000'
+      },
+      isRight: {
+        type: String,
+        default: '0'
+      },
+      hasBorder: {
+        type: String,
+        default: '1'
+      },
+      checkColor: {
+        type: String,
+        default: '#FFFFFF'
+      },
+      checkedColor: {
+        type: String,
+        default: '#FFFFFF'
+      },
+      checkBorderColor: {
+        type: String,
+        default: '#CCCCCC'
+      },
+      checkedBorderColor: {
+        type: String,
+        default: '#2998F9'
+      },
+      thumbCheckColor: {
+        type: String,
+        default: 'transparent'
+      },
+      thumbCheckedColor: {
+        type: String,
+        default: '#2998F9'
+      },
+
+    },
+    data() {
+      return {
+        replaceIsRight: false,
+        replaceHasBorder: true,
+        replaceValue: this.value
       }
     },
     onInit() {
-      this.setDefault()
+      this.initialize()
     },
     onReady() {
-      this.$watch('option.value', 'change')
+      this.$watch('value', 'initialize')
+      this.$watch('replaceValue', 'change')
     },
-    setDefault() {
-      for (var key in this.defaultData) {
-        if (this.defaultData[key] !== undefined && this.option && this.option[key] === undefined) {
-          this.$set(`option.${key}`, this.defaultData[key])
-        }
+    initialize() {
+      this.replaceValue = this.value
+      if (this.isRight !== "0") {
+        this.replaceIsRight = true
+      }
+      if (this.hasBorder !== "1") {
+        this.replaceHasBorder = false
       }
     },
     clickAction(data) {
       if (typeof data === 'object') {
         if (!data.disabled) {
-          this.option.value = data.value
+          this.replaceValue = data.value
         }
       }
       else {
-        this.option.value = data
+        this.replaceValue = data
       }
     },
     change() {
-      this.$emit('quiRadioChange', {values: this.option.value})
+      this.$emit('quiRadioChange', { values: this.replaceValue })
     }
   }
 </script>

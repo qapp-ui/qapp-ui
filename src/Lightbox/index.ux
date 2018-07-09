@@ -4,26 +4,27 @@
   <div class="page-doc">
     <input class="input-button" type="button" value="显示幻灯片(无indicator)" onclick="showlightbox" />
     <input class="input-button" type="button" value="显示幻灯片(特定indicator样式)" onclick="showlightbox2" />
-    <qui-lightbox option="{{lightboxData1}}" @qui-close-click="closeClick"></qui-lightbox>
-    <qui-lightbox option="{{lightboxData2}}" @qui-close-click="closeClick"></qui-lightbox>
+    <qui-lightbox visible="{{show1}}" show-indicator="0" options="{{imageList1}}" @qui-close-click="closeClick"></qui-lightbox>
+    <qui-lightbox visible="{{show2}}" show-indicator="1" indicator-color='rgba(0, 0, 0, 1)' indicator-selected-color='#ff0000' indicator-size='30px' options="{{imageList2}}" @qui-close-click="closeClick"></qui-lightbox>
   </div>
 </template>
 
 <style>
-.page-doc {
-  flex: 1;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-color: #eeeeee;
-}
-.input-button {
-  width: 800px;
-  height: 100px;
-  background-color: #0F8DE8;
-  margin-bottom: 100px;
-  color: #ffffff;
-}
+  .page-doc {
+    flex: 1;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #eeeeee;
+  }
+
+  .input-button {
+    width: 800px;
+    height: 100px;
+    background-color: #0F8DE8;
+    margin-bottom: 100px;
+    color: #ffffff;
+  }
 </style>
 
 <script>
@@ -31,44 +32,36 @@
 
   export default {
     private: {
-      lightboxData1: {
-        show: false,
-        showIndicator: false,
-        imageList: ['/Lightbox/img/img1.jpg', '/Lightbox/img/img2.jpg','/Lightbox/img/img3.jpg', '/Lightbox/img/img4.jpg']
-      },
-      lightboxData2: {
-        show: false,
-        showIndicator: true,
-        indicatorColor: 'rgba(0, 0, 0, 1)',
-        indicatorSelectedColor: '#ff0000',
-        indicatorSize: '30px',
-        imageList: ['/Lightbox/img/img1.jpg', '/Lightbox/img/img2.jpg','/Lightbox/img/img3.jpg', '/Lightbox/img/img4.jpg']
-      }
+      show1: "0",
+      show2: "0",
+      imageList1: ['/Lightbox/img/img1.jpg', '/Lightbox/img/img2.jpg', '/Lightbox/img/img3.jpg', '/Lightbox/img/img4.jpg'],
+      imageList2: ['/Lightbox/img/img1.jpg', '/Lightbox/img/img2.jpg', '/Lightbox/img/img3.jpg', '/Lightbox/img/img4.jpg']
     },
-    onInit(){
+    onInit() {
       this.$page.setTitleBar({ text: 'Lightbox' })
     },
     showlightbox() {
-      this.lightboxData1.show = true
+      this.show1 = "1"
     },
     showlightbox2() {
-      this.lightboxData2.show = true
+      this.show2 = "1"
     },
-    onBackPress(){
+    onBackPress() {
       let res = false,
-        datalist = ['lightboxData1','lightboxData2']
-
+        datalist = ['show1', 'show2']
       datalist.forEach(key => {
-        if (this[key].show) {
+        if (key === "1") {
           setTimeout(() => {
-            this[key].show = false
+            key = "0"
           }, 0)
           res = true
         }
       })
       return res
     },
-    closeClick() {
+    closeClick(data) {
+      this.show1 = "0"
+      this.show2 = "0"
       prompt.showToast({
         message: '点击幻灯片关闭'
       })

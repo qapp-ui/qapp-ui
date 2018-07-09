@@ -1,19 +1,19 @@
 <template>
   <div class="qui-titlebar-box">
-    <div class="titlebar" show="{{option.show}}">
-      <richtext if="option.richContent" class="rich-content" type="ux" >{{option.richContent}}</richtext>
-      <div else class="titlebar-content" style="background-color:{{option.backgroundColor}};opacity:{{option.backgroundOpacity}}">
+    <div class="titlebar" show="{{replaceShow}}">
+      <richtext if="richContent" class="rich-content" type="ux">{{richContent}}</richtext>
+      <div else class="titlebar-content" style="background-color:{{backgroundColor}};opacity:{{backgroundOpacity}}">
         <div class="bar" @click="leftAction">
-          <image if="option.leftIcon" class="left-image" src="{{option.leftIcon}}" />
-          <text elif="option.leftText" class="left-text" style="color:{{option.textColor}}">
-            {{option.leftText}}
+          <image if='!leftText&&leftIcon' class="left-image" src="{{leftIcon}} " />
+          <text elif="leftText " class="left-text " style="color:{{textColor}} ">
+            {{leftText}}
           </text>
         </div>
-        <text class="title" style="color:{{option.textColor}};text-align:{{option.titleAlign}}" >{{option.title}}</text>
-        <div class="bar" @click="rightAction">
-          <image if="option.rightIcon" class="right-image" src="{{option.rightIcon}}" />
-          <text elif="option.rightText" class="right-text" style="color:{{option.textColor}}">
-            {{option.rightText}}
+        <text class="title " style="color:{{textColor}};text-align:{{titleAlign}} ">{{title}}</text>
+        <div class="bar " @click="rightAction">
+          <image if="rightIcon" class="right-image " src="{{rightIcon}} " />
+          <text elif="rightText" class="right-text " style="color:{{textColor}} ">
+            {{rightText}}
           </text>
         </div>
       </div>
@@ -22,89 +22,122 @@
 </template>
 
 <style>
-.qui-titlebar-box {
-  flex: 1;
-}
+  .qui-titlebar-box {
+    flex: 1;
+  }
 
-.titlebar {
-  height: 144px;
-  width: 1080px;
-}
-.rich-content {
-  flex: 1;
-}
-.titlebar-content {
-  flex: 1;
-  justify-content: space-between;
-}
-.bar {
-  width: 132px;
-  padding: 0 36px;
-  align-items: center;
-}
-.title {
-  flex: 1;
-  font-size: 48px;
-  font-weight: bold;
-}
-.left-image {
-  width: 48px;
-  height: 72px;
-}
-.right-image {
-  margin-right: 12px;
-  width: 72px;
-  height: 72px;
-}
-.left-text,
-.right-text {
-  font-size: 30px;
-}
+  .titlebar {
+    height: 144px;
+    width: 1080px;
+  }
+
+  .rich-content {
+    flex: 1;
+  }
+
+  .titlebar-content {
+    flex: 1;
+    justify-content: space-between;
+  }
+
+  .bar {
+    width: 132px;
+    padding: 0 36px;
+    align-items: center;
+  }
+
+  .title {
+    flex: 1;
+    font-size: 48px;
+    font-weight: bold;
+  }
+
+  .left-image {
+    width: 48px;
+    height: 72px;
+  }
+
+  .right-image {
+    margin-right: 12px;
+    width: 72px;
+    height: 72px;
+  }
+
+  .left-text,
+  .right-text {
+    font-size: 30px;
+  }
 </style>
 
 <script>
   import router from '@system.router'
 
   export default {
-    props: ['option'],
+    props: {
+      richContent: String,
+      title: {
+        type: String,
+        default: "标题 "
+      },
+      titleAlign: {
+        type: String,
+        default: "center "
+      },
+      textColor: {
+        type: String,
+        default: "#333333 "
+      },
+      backgroundColor: {
+        type: String,
+        default: '#ffffff'
+      },
+      backgroundOpacity: {
+        type: String,
+        default: '1'
+      },
+      leftIcon: {
+        type: String,
+        default: 'data:image/webp;base64,UklGRs4BAABXRUJQVlA4WAoAAAAQAAAALwAARwAAQUxQSP0AAAABgGNt2zHnG+9nuok6LcG2bdu2bXMLWUA2kC6byOTXU93lVBHhwG3bMHKobXdPMQmXS2uLsZuzLKuS3IJlWdYPGrw5S1aNbUYbw5rWxrEmtUmsCW0Ka1ybxhrVZrFGtDmsYW0ea1BbxBrQlrD6tGWsXm0Vq0dbw+rS1rE6tU2sDm3LR61N28Zq0XawonHZnhP73xeXSdffTYa7XdXAzX+k6kEnqhZ0KvuvAZ2patC5quQELlQF6FKVg65VGehGlXCCtyJeDLpTRaB7VQh6UAWc0JPKAz2Lv1zQi8rhhF9VNuhNZYHexbfhLvLh7deQPi3LmjHkBRtOq/wmkXQGAFZQOCCqAAAAcAgAnQEqMABIAD5ZKI1Fo6MhnMwGqDgFhLSABr4KIDnZhvJIU/9KNWdoR6uGCRNtogk+n22x4nJSHHAxHupKRAzo42J0OUk1HQh2gAD+/K0qfsYAjvlWv6gSbfEnI7R4d08kVvlQX0h8BbBYW9fCnf9E5tMQtZpdorcG6gmwsXzF/RZv6jUt8dmcbUp7Q/j3dArkE/osugx2itYbf+8iqMhlvIrPsKsAAAA='
+      },
+      leftText: String,
+      rightIcon: String,
+      rightText: String,
+      defaultReturn: {
+        type: String,
+        default: '1'
+      },
+      visible: {
+        type: String,
+        default: '1'
+      }
+    },
     data() {
       return {
-        defaultData: {
-          richContent: '',
-          title: '标题',
-          titleAlign: 'center',
-          textColor: '#333333',
-          backgroundColor: '#ffffff',
-          backgroundOpacity: '1',
-          leftIcon: 'data:image/webp;base64,UklGRs4BAABXRUJQVlA4WAoAAAAQAAAALwAARwAAQUxQSP0AAAABgGNt2zHnG+9nuok6LcG2bdu2bXMLWUA2kC6byOTXU93lVBHhwG3bMHKobXdPMQmXS2uLsZuzLKuS3IJlWdYPGrw5S1aNbUYbw5rWxrEmtUmsCW0Ka1ybxhrVZrFGtDmsYW0ea1BbxBrQlrD6tGWsXm0Vq0dbw+rS1rE6tU2sDm3LR61N28Zq0XawonHZnhP73xeXSdffTYa7XdXAzX+k6kEnqhZ0KvuvAZ2patC5quQELlQF6FKVg65VGehGlXCCtyJeDLpTRaB7VQh6UAWc0JPKAz2Lv1zQi8rhhF9VNuhNZYHexbfhLvLh7deQPi3LmjHkBRtOq/wmkXQGAFZQOCCqAAAAcAgAnQEqMABIAD5ZKI1Fo6MhnMwGqDgFhLSABr4KIDnZhvJIU/9KNWdoR6uGCRNtogk+n22x4nJSHHAxHupKRAzo42J0OUk1HQh2gAD+/K0qfsYAjvlWv6gSbfEnI7R4d08kVvlQX0h8BbBYW9fCnf9E5tMQtZpdorcG6gmwsXzF/RZv6jUt8dmcbUp7Q/j3dArkE/osugx2itYbf+8iqMhlvIrPsKsAAAA=',
-          leftText: '',
-          rightIcon: '',
-          rightText: '',
-          defaultReturn: true,
-          show: true
-        }
+        replaceDefaultReturn: true,
+        replaceShow: true
       }
     },
     onInit() {
-      this.setDefault()
+      this.initialize()
     },
-    setDefault() {
-      Object.keys(this.defaultData).forEach(key => {
-        if (!this.option.hasOwnProperty(key)) {
-          this.$set(`option.${key}`, this.defaultData[key])
-        }
-      })
+    initialize() {
+      if (this.defaultReturn !== "1") {
+        this.replaceDefaultReturn = false
+      }
+      if (this.visible !== "1") {
+        this.replaceShow = false
+      }
     },
     leftAction() {
-      if (this.option.leftText || this.option.leftIcon) {
-        if (this.option.defaultReturn) {
+      if (this.leftText || this.leftIcon) {
+        if (this.replaceDefaultReturn) {
           router.back()
         }
         this.$emit('quiLeftclicked')
       }
     },
     rightAction() {
-      if (this.option.rightText || this.option.rightIcon) {
+      if (this.rightText || this.rightIcon) {
         this.$emit('quiRightclicked')
       }
     }

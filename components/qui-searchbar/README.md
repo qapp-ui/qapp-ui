@@ -18,38 +18,57 @@
 <template>
     <div class="page-doc">
       <div class="search-box">
-        <qui-searchbar id="search" option="{{searchData}}"></qui-searchbar>
-      </div>
+        <qui-searchbar id="search" placeholder='请输入关键字' @qui-search-focus="focus"
+         @qui-search-blur="blur" @qui-search-click="search" @qui-search-clear="clear"></qui-searchbar>
+    </div>
     <div>
 </template>
 
 <script>
-export default {
-    private: {
-      searchData: {
-        placeholder: '请输入关键字3',
-        barBackground: '#0988F0',
-        inputBackground: '#ffffff',
-        searchBtnColor: '#ffffff'
-      }
+  export default {
+    onInit() {
+      this.$page.setTitleBar({ text: 'Searchbar' })
+      setTimeout(() => {
+        this.$child("search").focus()
+      }, 1000);
+    },
+    focus(e){
+      prompt.showToast({
+        message: 'focus value:' + e.detail.value
+      })
+    },
+    blur(e) {
+      prompt.showToast({
+        message: 'blur value:' + e.detail.value
+      })
+    },
+    clear(){
+      prompt.showToast({
+        message: 'clear'
+      })
+    },
+    search(e) {
+      prompt.showToast({
+        message: 'value:' + e.detail.value
+      })
     }
-}
+  }
 </script>
 ```
 
 更详细代码可以参考 [qui-searchbar demo](https://github.com/qapp-ui/qapp-ui/blob/master/src/Searchbar/index.ux)
 
-### 参数 option
+### 参数
 
 | 属性名 | 类型 | 是否必填 | 默认值 | 描述 |
 |-------------|------------|--------|-----|-----|
+| visible | `String` | `N` |`1`| 是否显示 |
 | placeholder | `String` | `N` |`搜索`| 提示文本的内容 |
-| disabled | `Boolean` | `N` |`false`| 是否禁用 |
+| disabled | `String` | `N` |`0`| 是否禁用 |
 | barBackground | `String` |`N`| `#FFFFFF` | 背景色 |
 | inputBackground | `String` |`N`| `#E5E5E5` | 搜索输入框背景色 |
 | searchBtnColor | `String` |`N`| `#0988F0` | 搜索按钮颜色 |
-| width | `String` |`N`| `1080px` | 搜索框宽度 |
-| show | `Boolean` | `N` |`true`| 是否显示 |
+
 
 
 ### 事件

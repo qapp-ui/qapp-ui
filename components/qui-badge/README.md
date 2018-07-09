@@ -21,8 +21,8 @@
       <text class="text">带Fade动画的Badge(自定义样式)</text>
       <div class="qui-badge-page-item">
         <text class="btn" @click="addDelta('qui-badge-3',1)"> +1</text>
-        <qui-badge option="{{badgeData}}" id="qui-badge-3"></qui-badge>
-        <text class="btn" @click="addDelta('qui-badge-3', -1)"> -1</text>
+        <qui-badge animation-type='fade' height='100px' width='150px' border-radius='100px' font-size='50px' font-style='bold' background='#0F8DE8' text-color='#ffffff' badge="{{number}}" id="qui-badge-3"></qui-badge>
+        <text class="btn " @click="addDelta( 'qui-badge-3', -1) "> -1</text>
       </div>
     </div>
   <div>
@@ -31,17 +31,18 @@
 <script>
   export default {
     data: {
-      badgeData: {
-        animationType: 'fade',
-        height: '100',
-        width: '150',
-        borderRadius: '100',
-        fontSize: '50',
-        fontStyle: 'bold',
-        background: '#0F8DE8',
-        textColor: '#ffffff',
-        badge: 1,
-      }
+      number: "1"
+    },
+    onInit() {
+      this.$page.setTitleBar({text: 'Badge'})
+    },
+    addDelta(id, delta) {
+      this.$child(id).addDelta(delta)
+    },
+    change(data) {
+      prompt.showToast({
+        message: JSON.stringify(data.detail)
+      })
     }
   }
 </script>
@@ -50,7 +51,7 @@
 
 更详细代码可以参考 [qui-badge demo](https://github.com/qapp-ui/qapp-ui/blob/master/src/Badge/index.ux)
 
-### 参数 option
+### 参数
 
 | 属性名 | 类型 | 是否必填 | 默认值 | 描述 |
 |-------------|------------|--------|-----|-----|
@@ -69,6 +70,6 @@
 
 | 事件名 | 参数 | 描述 | 
 |-------|-----|-----|
-| qui-badge-change | `{value: this.option.badge}` | badge数据变化 |
+| qui-badge-change | `{value: this.badge}` | badge数据变化 |
 
 

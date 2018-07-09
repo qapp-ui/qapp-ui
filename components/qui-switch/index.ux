@@ -4,33 +4,37 @@
 <template>
   <div>
     <div class="qui-switch-box">
-      <label if="option.isLeft && option.label" style="margin-right: {{option.labelMargin}};font-size: {{option.labelFontSize}};color: {{option.labelColor}}" target="{{option.id}}" class="name name-left">{{option.label}}</label>
-      <stack class="checkbox {{option.disabled ? 'disabled' : ''}}" style="background-color: {{option.value ? option.checkedColor : option.checkColor}}" id="{{option.id}}" @click="evtAction">
-        <div class="thumb {{option.value ? 'open' : 'close'}}" style="background-color: {{option.value ? option.thumbCheckedColor : option.thumbCheckColor}}"></div>
+      <label if="replaceIsLeft && label" style="margin-right: {{labelMargin}};font-size: {{labelFontSize}};color: {{labelColor}}" target="{{id}}" class="name name-left">{{label}}</label>
+      <stack class="checkbox {{replaceDisabled ? 'disabled' : ''}}" style="background-color: {{replaceValue ? checkedColor : checkColor}}" id="{{id}}" @click="evtAction">
+        <div class="thumb {{replaceValue ? 'open' : 'close'}}" style="background-color: {{replaceValue ? thumbCheckedColor : thumbCheckColor}}"></div>
       </stack>
-      <label if="!option.isLeft && option.label" style="margin-left: {{option.labelMargin}};font-size: {{option.labelFontSize}};color: {{option.labelColor}}" target="{{option.id}}" class="name">{{option.label}}</label>
+      <label if="!replaceIsLeft && label" style="margin-left: {{labelMargin}};font-size: {{labelFontSize}};color: {{labelColor}}" target="{{id}}" class="name">{{label}}</label>
     </div>
   </div>
 </template>
 
 <style>
-  .qui-switch-box{
+  .qui-switch-box {
     align-items: center;
   }
+
   .checkbox {
     width: 156px;
     height: 76px;
     border-radius: 38px;
   }
+
   .disabled {
     opacity: .5;
   }
-  .thumb{
+
+  .thumb {
     margin: 4px;
     width: 68px;
     height: 68px;
     border-radius: 34px;
   }
+
   @keyframes open {
     from {
       transform: translateX(0);
@@ -39,11 +43,13 @@
       transform: translateX(80px);
     }
   }
+
   .open {
     animation-name: open;
     animation-duration: 200ms;
     animation-fill-mode: forwards;
   }
+
   @keyframes close {
     from {
       transform: translateX(80px);
@@ -52,6 +58,7 @@
       transform: translateX(0);
     }
   }
+
   .close {
     animation-name: close;
     animation-duration: 200ms;
@@ -61,43 +68,82 @@
 
 <script>
   export default {
-    props: ['option'],
-    data: {
-      defaultData: {
-        disabled: false,
-        value: false,
-        id: '',
-        label: '',
-        labelMargin: '30px',
-        labelFontSize: '44px',
-        labelColor: '#000000',
-        isLeft: false,
-        checkColor: '#C1C1C1',
-        checkedColor: '#2998F9',
-        thumbCheckColor: '#FFFFFF',
-        thumbCheckedColor: '#FFFFFF'
+    props: {
+      disabled: {
+        type: String,
+        default: '0'
+      },
+      value: {
+        type: String,
+        default: '0'
+      },
+      id: String,
+      label: String,
+      labelMargin: {
+        type: String,
+        default: '30px'
+      },
+      labelFontSize: {
+        type: String,
+        default: '44px'
+      },
+      labelColor: {
+        type: String,
+        default: '#000000'
+      },
+      isLeft: {
+        type: String,
+        default: '0'
+      },
+      checkColor: {
+        type: String,
+        default: '#C1C1C1'
+      },
+      checkedColor: {
+        type: String,
+        default: '#2998F9'
+      },
+      thumbCheckColor: {
+        type: String,
+        default: '#FFFFFF'
+      },
+      thumbCheckedColor: {
+        type: String,
+        default: '#FFFFFF'
       }
     },
+    data: {
+      replaceValue: false,
+      replaceDisabled: false,
+      replaceIsLeft: false
+    },
     onInit() {
-      this.setDefault()
+      this.initialize()
     },
     onReady() {
-      this.$watch('option.value', 'change')
+      this.$watch('value', 'initialize')
+      this.$watch('replaceValue', 'change')
     },
-    setDefault() {
-      for (var key in this.defaultData) {
-        if (this.defaultData[key] !== undefined && this.option && this.option[key] === undefined) {
-          this.$set(`option.${key}`, this.defaultData[key])
-        }
+    initialize() {
+      if (this.isLeft !== '0') {
+        this.replaceIsLeft = true
+      }
+      if (this.disabled !== '0') {
+        this.replaceDisabled = true
+      }
+      if (this.value !== '0') {
+        this.replaceValue = true
+      } else {
+        this.replaceValue = false
       }
     },
     evtAction() {
-      if (!this.option.disabled) {
-        this.option.value = !this.option.value
+      if (!this.replaceDisabled) {
+        this.replaceValue = !this.replaceValue
       }
     },
     change() {
-      this.$emit('quiSwitchChange', {id: this.option.id, value: this.option.value})
+      this.$emit('quiSwitchChange', { id: this.id, value: this.replaceValue ? '1' : '0' })
     }
   }
 </script>

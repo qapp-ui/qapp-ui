@@ -2,31 +2,31 @@
   <stack class="qui-indexlist">
     <list class="qui-indexlist-list" id="qui-indexlist">
       <block if="hot.length">
-        <list-item type="tag" class="qui-indexlist-tag {{option.hotType==='group'?'qui-indexlist-group-tag':''}}">
-          <text class="qui-indexlist-name">{{option.hotTitle}}</text>
+        <list-item type="tag" class="qui-indexlist-tag {{hotType==='group'?'qui-indexlist-group-tag':''}}">
+          <text class="qui-indexlist-name">{{hotTitle}}</text>
         </list-item>
-        <list-item type="hot" class="qui-indexlist-group-item {{option.showIndex?'qui-indexlist-item-showindex':''}}" if="option.hotType==='group'">
+        <list-item type="hot" class="qui-indexlist-group-item {{showIndex==='1'?'qui-indexlist-item-showindex':''}}" if="hotType==='group'">
           <div for="hot" @click="click($item,'hot')">
             <text>{{$item.name}}</text>
             <text class="qui-indexlist-group-desc">{{$item.desc}}</text>
           </div>
         </list-item>
-        <list-item type="item" else for="hot" @click="click($item,'hot')" class="qui-indexlist-item {{option.showIndex?'qui-indexlist-item-showindex':''}}">
+        <list-item type="item" else for="hot" @click="click($item,'hot')" class="qui-indexlist-item {{showIndex==='1'?'qui-indexlist-item-showindex':''}}">
           <text class="qui-indexlist-name">{{$item.name}}</text>
           <text class="qui-indexlist-desc">{{$item.desc}}</text>
         </list-item>
       </block>
-      <block for="list">
+      <block for="indexList">
         <list-item type="tag" class="qui-indexlist-tag" if="$item.tag">
           <text class="qui-indexlist-name">{{$item.tag}}</text>
         </list-item>
-        <list-item type="item" class="qui-indexlist-item {{option.showIndex?'qui-indexlist-item-showindex':''}}" @click="click($item,'')">
+        <list-item type="item" class="qui-indexlist-item {{showIndex==='1'?'qui-indexlist-item-showindex':''}}" @click="click($item,'')">
           <text class="qui-indexlist-name">{{$item.name}}</text>
           <text class="qui-indexlist-desc">{{$item.desc}}</text>
         </list-item>
       </block>
     </list>
-    <list class="qui-indexlist-sidebar" if="option.showIndex">
+    <list class="qui-indexlist-sidebar" if="showIndex==='1'">
       <list-item type="index" for="index" @click="scrollTo($idx)">
         <text>{{$item}}</text>
       </list-item>
@@ -157,78 +157,71 @@
 
 <script>
   /**
-   * option = {
-   *   list: [{
-   *     name: 'xxx',  //名称
-   *     desc: 'xxx',   //描述文本
-   *     key: 'xxx',   //排序字段
-   *     hot: true/false  //是否是热门
-   *     location: true/false  //是否是定位
-   *   }],
-   *   hotTitle: '热门',  //热门标签名
-   *   hotType: 'group', //热门选项类型
-   *   locationTitle: '定位',     //定位标签名
-   *   locationType: 'group', //定位选项类型
-   *   showIndex: true,  //显示侧边索引栏
-   *   onlyShowList: false   //是否只显示列表，不现实热门、定位
-   * }
+   * list: [{
+   *   name: 'xxx',  //名称
+   *   desc: 'xxx',   //描述文本
+   *   key: 'xxx',   //排序字段
+   *   hot: true/false  //是否是热门
+   * }],
+   * hotTitle: '热门',  //热门标签名
+   * hotType: 'group', //热门选项类型
+   * showIndex: '1'/'0',  //显示侧边索引栏
+   * onlyShowList: '1'/'0'   //是否只显示列表，不现实热门、定位
    */
   export default {
-    props: ['option'],
+    props: {
+      list: {
+        type: Array,
+        required: true,
+        default: []
+      },
+      hotTitle: {
+        type: String,
+        default: '热门'
+      },
+      hotType: {
+        type: String,
+        default: 'list'
+      },
+      showIndex: {
+        type: String,
+        default: '1'
+      },
+      onlyShowList: {
+        type: String,
+        default: '0'
+      }
+    },
     data() {
       return {
         index: [],
         hot: [],
-        list: [],
-        defaultOption: {
-          list: [],
-          hotTitle: '热门',
-          hotType: '',
-          showIndex: true,
-          onlyShowList: false
-        },
+        indexList: [],
         icon: 'data:image/webp;base64,UklGRqwEAABXRUJQVlA4WAoAAAAQAAAAHwAAHwAAQUxQSPgBAAAJV8SgkSQpdM8dj3/Ds4CIiMiDivzD+9CTnlJpZLKopWEZKq9ILXVfhgmVyKIbi4swQRobxPClLCzd0lNGRgBBkmTTVr1v27Zt27Zt2zbuqmfi3XvfW0JE/xPb8OKC1LDXw7XlF9xKvX6eLAwjrHDy+ToV1z4zBzFYYw5mfHAR+lCJbGY4nBmbSOVDKLZ+V+FIQt4+zv28BCT8yg+78XDOAs+xngeeET6OTWolkvmO3XsmUpmKdRpJeEcdNWfGWY0DfU9AprFExbB5jkb8T8UTP/UfgZ5vEhOFOQfpQ73vMd97o31IDuYC5BwtQ1b8HH4rSBl6jhRgTkU+0Fak6ouvKqQV/UBSMYchBhqPvKFvSDxqIGGYzxAv9BwJQoOQc9QLOcU8h0Sjo8iML74zyCgai8xiXkXq0Xmk6NP4LELm0QZkFfPtE20ByHck5shvJLCZ+zssTUg5+uBRe855rccDWoU0Y11HJnxRYzrBkTBtoP5jyBbW3wqkDvtGpPQPmwVkNAS78CGMJex+85E+7AaRnD9sNy5pjMeaVM3RNvZGCbLjidlrD6nA1XU/we2YO3zousFlNzIYhzOxFxnA9VcachGABp4gyd+4cTCIzDvwWES6j3Gr85XCYUZyeejBvZ8UpN1oQdL/cPMuG2fWI25vV6EVu9gCAABWUDggjgIAAPAOAJ0BKiAAIAA+kTyYR6WjoqEwCACwEglsAJ0yhHUHl/ygXodujxL/jvtu7QGCZ9QB+u3WAegB5W/sWfrz6Nlzjrt/7TNILUFi88wHMT+Of1v/je4H/FP6L/wf7T2AP2O9hP9WVwVfzij66SdF5sVeggYtTzi58PzrhULqj96IAP7/ncs7mmv4L4KuCgtfVzUs/dvxHLCiO5kXoP8xhakkxILGNzJ3XaF7y7HZ4VPq64CS3uRpwBeROTVf/jw0P/Zl+sbqdsf7of1f4rxFo15oIh+h0gX0XKSKyeyTPmaaI0hKiNPHLf8w/FlyCTRcDULFPCfxwmf/Vy9+YdNlf5Hxv+bL/i9ZMP3v+tgO8ONejpmy5QiaKHvcDMYVcN/g3zlZ6YThcd0I4NpatnA06DTXA3rw0zmXdJ+78Z0HN7nwlAkfbj+fkvwzjc/GvTGB4/EqudL0giCoSnu4XMTMhcWe6a/L7T7FGk+b++vv+VMmJV7JQKeTygKK+2Eh/U1ZoDt24SrKR/4PD/mVboc23C/4BgY0advrHRGIkU9nRKFS7/QisHe3zlrv/Kt5Ed85V8uH+x2MSwsxhADVsfFdrFeU7EOjrte2qkyTs+S5eOr2NELx0l4xDgyprqf8HUPF7fFBe8P+Jf5DOTPfWA13XHpTSaAXjpBtKjeD0eX6uHvjZzHZ/9/LrenVcbjzZcDxTZRwx5jrBux4BFAnJN1cvvCTpC9lJqfuzHp2iBPpeXyQcMagnvFg3GvOaOnkNpt827KCBbUNmKuwmewV/F+CBEusupKVtQ9li02bPa25IwXh/mk7fjvExK4Bp57/rv/ZTrxQ/7486aURnwmwHXmk5rnwOb27VR3oMromNiUgAA=='
       }
     },
     onInit() {
       //list必须放在最后，否则updateList会被调用多次
-      ['hotTitle', 'hotType', 'showIndex', 'onlyShowList', 'list'].forEach(key => {
-        let methodName = key.replace(/^\w/, function ($0) {
-          return `update${$0.toUpperCase()}`
-        })
-
-        this.$watch(`option.${key}`, methodName)
-        this[methodName]()
+      ['hotTitle', 'onlyShowList', 'list'].forEach(key => {
+        if (key === 'list') {
+          this.$watch(`${key}`, 'updateList')
+          this.updateList()
+        } else {
+          this.$watch(`${key}`, 'update')
+          this.update()
+        }
       })
     },
     updateList() {
-      console.log('------', this.option.hasOwnProperty('list'))
-
-      if (!this.option.hasOwnProperty('list')) {
-        this.$set('option.list', JSON.parse(JSON.stringify(this.defaultOption.list)))
-      } else {
-        //深拷贝数组
-        this.list = JSON.parse(JSON.stringify(this.option.list))
-        //排序
-        this.sortList()
-        //重置索引列表，hot和location
-        this.update()
-      }
-    },
-    updateHotTitle() {
-      !this.option.hasOwnProperty('hotTitle') ? this.$set('option.hotTitle', this.defaultOption.hotTitle) : this.update()
-    },
-    updateHotType() {
-      !this.option.hasOwnProperty('hotType') && this.$set('option.hotType', this.defaultOption.hotType)
-    },
-    updateShowIndex() {
-      !this.option.hasOwnProperty('showIndex') && this.$set('option.showIndex', this.defaultOption.showIndex)
-    },
-    updateOnlyShowList() {
-      !this.option.hasOwnProperty('onlyShowList') ? this.$set('option.onlyShowList', this.defaultOption.onlyShowList) : this.update()
+      //深拷贝数组
+      this.indexList = JSON.parse(JSON.stringify(this.list))
+      //排序
+      this.sortList()
+      //重置索引列表，hot和location
+      this.update()
     },
     sortList() {
-      this.list.sort(function (a, b) {
+      this.indexList.sort(function (a, b) {
         if (a.key < b.key) {
           return -1
         } else if (a.key > b.key) {
@@ -241,26 +234,26 @@
     update() {
       this.index = []
       this.hot = []
-      this.list.forEach(item => {
+      this.indexList.forEach(item => {
         //添加索引
         if (!this.index.length || this.index[this.index.length - 1] !== item.key[0]) {
           this.index.push(item.key[0])
           item.tag = item.key[0]
         }
         //添加hot
-        item.hot && !this.option.onlyShowList && this.hot.push(item)
+        item.hot && this.onlyShowList === '0' && this.hot.push(item)
       })
-      this.hot.length && this.index.unshift(this.option.hotTitle)
+      this.hot.length && this.index.unshift(this.hotTitle)
     },
     scrollTo(n) {
       let k = -1, to = 0, hot
       //热门所占用的item数目
-      hot = this.hot.length ? (this.option.hotType === 'group' ? 2 : this.hot.length + 1) : 0
+      hot = this.hot.length ? (this.hotType === 'group' ? 2 : this.hot.length + 1) : 0
 
       if (hot && !n) {    //热门
       } else {  //常规索引
         hot && n--
-        this.list.some(function (item, index) {
+        this.indexList.some(function (item, index) {
           if (item.tag) {
             k++
             if (k === n) {

@@ -1,23 +1,21 @@
 <import name="qui-overlay" src="../qui-overlay/index"></import>
 
 <template>
-  <div>
-    <qui-overlay option="{{overlay}}" @qui-overlay-click="overlayClick">
-      <div show="{{visible}}" class="qui-picker-box {{animationClass}}" style="animation-duration: {{animationDuration}}ms;">
-        <div class="bar">
-          <text class="cancel" @click="cancelClick">{{option.cancelText}}</text>
-          <text class="confirm" @click="confirmClick">{{option.confirmText}}</text>
-        </div>
-        <div class="list-box">
-          <list class="list" for="(index, data) in dataList" id="list{{index}}">
-            <list-item class="list-item" type="listitem" for="{{data}}" @click="setItems($idx, index)">
-              <text class="list-item-text {{selIndexs[index] === $idx ? 'text-selected':''}}">{{$item}}</text>
-            </list-item>
-          </list>
-        </div>
+  <qui-overlay visible="{{visible}}" background="{{background}}" @qui-overlay-click="overlayClick">
+    <div show="{{show}}" class="qui-picker-box {{animationClass}}" style="animation-duration: {{animationDuration}}ms;">
+      <div class="bar">
+        <text class="cancel" @click="cancelClick">{{cancelText}}</text>
+        <text class="confirm" @click="confirmClick">{{confirmText}}</text>
       </div>
-    </qui-overlay>
-  </div>
+      <div class="list-box">
+        <list class="list" for="(index, data) in dataList" id="list{{index}}">
+          <list-item class="list-item" type="listitem" for="{{data}}" @click="setItems($idx, index)">
+            <text class="list-item-text {{curSelIndexs[index] === $idx ? 'text-selected':''}}">{{$item}}</text>
+          </list-item>
+        </list>
+      </div>
+    </div>
+  </qui-overlay>
 </template>
 
 <style>
@@ -111,68 +109,73 @@
 
 <script>
   export default {
-    props: ['option'],
+    props: {
+      visible: {
+        type: String,
+        default: '0'
+      },
+      cancelText: {
+        type: String,
+        default: '取消'
+      },
+      confirmText: {
+        type: String,
+        default: '确定'
+      },
+      background: {
+        type: String,
+        default: 'rgba(0,0,0,0.4)'
+      },
+      list: {
+        type: Array,
+        default: []
+      },
+      selIndexs: {
+        type: Array,
+        default: []
+      },
+      type: {
+        type: String,
+        default: 'default'
+      }
+    },
     data() {
       return {
-        visible: this.option.show,
+        show: this.visible === '1',
         animationClass: '',
         animationDuration: 400,
         dataList: [],
-        selIndexs: [],
-        overlay: {
-          show: false,
-          autoClose: false,
-          background: ''
-        },
-        defaultData: {
-          show: false,
-          autoClose: true,
-          cancelText: '取消',
-          confirmText: '确定',
-          background: 'rgba(0,0,0,0.4)',
-          type: '',
-          list: [],
-          selIndexs: []
-        }
+        curSelIndexs: []
       }
     },
     onInit() {
       this.setDefault()
       this.setDataList()
-      this.setOverlayBg()
-      this.toggleShow(this.option.show)
+      this.toggleVisible(this.visible)
     },
     setDefault() {
-      Object.keys(this.defaultData).forEach(key => {
-        if (!this.option.hasOwnProperty(key)) {
-          this.$set(`option.${key}`, this.defaultData[key])
-        }
-        if (key === 'show') {
-          this.$watch(`option.${key}`, 'toggleShow')
-        } else if (key === 'background') {
-          this.$watch(`option.${key}`, 'setOverlayBg')
-        }
-      })
+      this.$watch('visible', 'toggleVisible')
     },
     setDataList() {
       let selIndexs = []
-      if (this.option.type === '') {
+      if (this.type === 'default') {
         // 非联动模式
-        this.option.list.forEach((item, idx) => {
+        this.list.forEach((item, idx) => {
           const datatype = Object.prototype.toString.call(item)
           if (datatype === '[object Array]') {
             this.dataList.push(item)
             selIndexs.push(0)
           }
         })
-      } else if (this.option.type === 'chain') {
+      } else if (this.type === 'chain') {
         // 多级联动模式
-        this.setChainList(0, this.option.list, this.option.selIndexs, selIndexs)
+        this.setChainList(0, this.list, this.selIndexs, selIndexs)
       }
-      if (this.option.selIndexs.length) {
-        this.selIndexs = this.option.selIndexs
+
+      if (this.selIndexs.length) {
+        this.curSelIndexs = [...this.selIndexs]
       } else {
-        this.selIndexs = selIndexs
+        this.curSelIndexs = selIndexs
       }
     },
     setChainList(idx, list, defaultIndexs, selIndexs) {
@@ -181,6 +184,7 @@
       this.dataList[idx] = []
       list.forEach((item, index) => {
         const datatype = Object.prototype.toString.call(item)
+
         if (datatype === '[object Object]') {
           this.dataList[idx].push(item.name)
           if ((defaultIndexs[idx] || 0) === index) {
@@ -190,51 +194,43 @@
         }
       })
     },
-    toggleShow(show) {
+    toggleVisible(visible) {
       if (this.timeoutId) clearTimeout(this.timeoutId)
 
-      this.option.show = show
-      this.overlay.show = show
-      if (show) {
-        this.visible = true
+      if (visible === '1') {
+        this.show = true
         this.animationClass = 'pickerenter'
       } else {
         this.animationClass = 'pickerleave'
         this.timeoutId = setTimeout(() => {
-          this.visible = false
+          this.show = false
         }, this.animationDuration - 200)
       }
     },
     setItems(subidx, idx) {
-      let selIndexs = this.selIndexs
+      let selIndexs = this.curSelIndexs
       if (selIndexs[idx] === subidx) return
       selIndexs[idx] = subidx
       for (var i = idx, set = selIndexs.length - 1; i < set; i++) {
         selIndexs[i + 1] = 0
       }
-      this.selIndexs = [...this.selIndexs]
+      this.curSelIndexs = [...this.curSelIndexs]
 
-      if (this.option.type === 'chain') {
+      if (this.type === 'chain') {
         // 多级联动模式
-        this.setChainList(0, this.option.list, this.selIndexs, [])
+        this.setChainList(0, this.list, this.curSelIndexs, [])
         this.dataList = [...this.dataList]
       }
     },
-    setOverlayBg() {
-      this.overlay.background = this.option.background
-    },
     cancelClick() {
-      this.option.show = false
       this.$emit('quiCancelClick')
     },
     confirmClick() {
-      this.option.show = false
-      this.$emit('quiConfirmClick', { selIndexs: this.selIndexs })
+      this.$emit('quiConfirmClick', {
+        selIndexs: this.curSelIndexs
+      })
     },
     overlayClick() {
-      if (this.option.autoClose) {
-        this.option.show = false
-      }
       this.$emit('quiOverlayClick')
     }
   }

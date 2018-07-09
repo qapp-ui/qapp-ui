@@ -6,28 +6,28 @@
     <input class="input-button" type="button" value="点击弹出顶部弹层" onclick="showpopup('top')" />
     <input class="input-button" type="button" value="点击弹出左侧弹层" onclick="showpopup('left')" />
     <input class="input-button" type="button" value="点击弹出右侧弹层" onclick="showpopup('right')" />
-    <qui-popup option="{{popupData1}}" @qui-overlay-click="overlayClick">
+    <qui-popup visible="{{popupData1.visible}}" position="{{popupData1.position}}" @qui-overlay-click="overlayClick">
       <div class="mask">
         <text class="mask-title">快应用</text>
         <text class="mask-txt">快应用是一套以前端开发技术栈为主进行应用开发的框架，采用流行的前端开发模式，贴合主流前端开发者的思维习惯，同时大幅提升应用的性能，提供大量前端环境无法使用的系统能力，以及很多第三方服务的对接能力。</text>
       </div>
     </qui-popup>
 
-    <qui-popup option="{{popupData2}}" @qui-overlay-click="overlayClick">
+    <qui-popup visible="{{popupData2.visible}}" position="{{popupData2.position}}" @qui-overlay-click="overlayClick">
       <div class="mask">
         <text class="mask-title">快应用</text>
         <text class="mask-txt">快应用是一套以前端开发技术栈为主进行应用开发的框架，采用流行的前端开发模式，贴合主流前端开发者的思维习惯，同时大幅提升应用的性能，提供大量前端环境无法使用的系统能力，以及很多第三方服务的对接能力。</text>
       </div>
     </qui-popup>
 
-    <qui-popup option="{{popupData3}}" @qui-overlay-click="overlayClick">
+    <qui-popup visible="{{popupData3.visible}}" position="{{popupData3.position}}" @qui-overlay-click="overlayClick">
       <div class="mask2">
         <text class="mask-title">快应用</text>
         <text class="mask-txt">快应用是一套以前端开发技术栈为主进行应用开发的框架，采用流行的前端开发模式，贴合主流前端开发者的思维习惯，同时大幅提升应用的性能，提供大量前端环境无法使用的系统能力，以及很多第三方服务的对接能力。</text>
       </div>
     </qui-popup>
 
-    <qui-popup option="{{popupData4}}" @qui-overlay-click="overlayClick">
+    <qui-popup visible="{{popupData4.visible}}" position="{{popupData4.position}}" @qui-overlay-click="overlayClick">
       <div class="mask2">
         <text class="mask-title">快应用</text>
         <text class="mask-txt">快应用是一套以前端开发技术栈为主进行应用开发的框架，采用流行的前端开发模式，贴合主流前端开发者的思维习惯，同时大幅提升应用的性能，提供大量前端环境无法使用的系统能力，以及很多第三方服务的对接能力。</text>
@@ -88,19 +88,19 @@
   export default {
     private: {
       popupData1: {
-        show: false,
+        visible: '0',
         position: 'bottom'
       },
       popupData2: {
-        show: false,
+        visible: '0',
         position: 'top'
       },
       popupData3: {
-        show: false,
+        visible: '0',
         position: 'left'
       },
       popupData4: {
-        show: false,
+        visible: '0',
         position: 'right'
       },
     },
@@ -109,32 +109,37 @@
     },
     showpopup(pos) {
       if (pos === 'bottom') {
-        this.popupData1.show = true
+        this.popupData1.visible = '1'
       }
       if (pos === 'top') {
-        this.popupData2.show = true
+        this.popupData2.visible = '1'
       }
       if (pos === 'left') {
-        this.popupData3.show = true
+        this.popupData3.visible = '1'
       }
       if (pos === 'right') {
-        this.popupData4.show = true
+        this.popupData4.visible = '1'
       }
     },
     onBackPress(){
       let res = false;
 
       ['popupData1','popupData2','popupData3','popupData4'].forEach(key => {
-        if (this[key].show) {
+        if (this[key].visible === '1') {
           setTimeout(() => {
-            this[key].show = false
+            this[key].visible = '0'
           }, 0)
           res = true
         }
       })
+
       return res
     },
     overlayClick() {
+      ['popupData1','popupData2','popupData3','popupData4'].forEach(key => {
+        this[key].visible = '0'
+      })
+      
       prompt.showToast({
         message: '点击蒙层'
       })

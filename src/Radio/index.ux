@@ -1,19 +1,19 @@
 <import name='qui-radio' src='@qapp-ui/qui-radio/index'></import>
 
 <template>
-    <div class="page-doc">
-      <div class="item-box">
-        <text class="item-tit">选中的值：{{data0.value}}</text>
-        <qui-radio option="{{data0}}"></qui-radio>
-      </div>
-      <div class="item-box">
-        <text class="item-tit">选中的值：{{data1.value}}</text>
-        <qui-radio option="{{data1}}" @qui-radio-change="callback"></qui-radio>
-      </div>
-      <div class="item-box">
-        <text class="item-tit" @click="evtEmit">点击我试试(自定义样式)</text>
-        <qui-radio option="{{data2}}"></qui-radio>
-      </div>
+  <div class="page-doc">
+    <div class="item-box">
+      <text class="item-tit">选中的值：{{value1}}</text>
+      <qui-radio value='apple' options="{{data0}}" @qui-radio-change="callback1"></qui-radio>
+    </div>
+    <div class="item-box">
+      <text class="item-tit">选中的值：{{value2}}</text>
+      <qui-radio value='牛肉' options="{{data1}}" is-right="1" has-border="0" @qui-radio-change="callback2"></qui-radio>
+    </div>
+    <div class="item-box ">
+      <text class="item-tit " @click="evtEmit">点击我试试(自定义样式)</text>
+      <qui-radio thumb-checked-color='red' checked-border-color='red' options="{{data2}}" value="{{value3}}" @qui-radio-change="callback3"></qui-radio>
+    </div>
     <div>
 </template>
 
@@ -23,12 +23,14 @@
     flex-direction: column;
     background-color: #eeeeee;
   }
+
   .item-box {
     flex-direction: column;
     border-color: #bbbbbb;
     border-bottom-width: 1px;
     margin-bottom: 60px;
   }
+
   .item-tit {
     justify-content: space-between;
     padding: 30px 40px;
@@ -42,56 +44,54 @@
 <script>
   export default {
     data: {
-      data0: {
-        value: 'apple',
-        options: [
-          {
-            disabled: true,
-            label: '苹果',
-            value: 'apple'
-          },
-          {
-            disabled: false,
-            label: '香蕉',
-            value: 'banana'
-          },
-          {
-            disabled: false,
-            label: '芒果',
-            value: 'mango'
-          }
-        ]
-      },
-      data1: {
-        value: '牛肉',
-        options: ['牛肉', '猪肉'],
-        isRight: true,
-        isBorder: false
-      },
-      data2: {
-        value: '',
-        options: [
-          {
-            label: '男',
-            value: 1
-          },
-          {
-            label: '女',
-            value: 2
-          }
-        ],
-        thumbCheckedColor: 'red',
-        checkedBorderColor: 'red'
-      }
+      value1: '',
+      value2: '',
+      value3: '',
+      data0: [
+        {
+          disabled: true,
+          label: '苹果',
+          value: 'apple'
+        },
+        {
+          disabled: false,
+          label: '香蕉',
+          value: 'banana'
+        },
+        {
+          disabled: false,
+          label: '芒果',
+          value: 'mango'
+        }
+      ],
+      data1: ['牛肉', '猪肉'],
+      data2: [
+        {
+          label: '男',
+          value: '1'
+        },
+        {
+          label: '女',
+          value: '2'
+        }
+      ]
     },
     onInit() {
+      this.value1 = this.data0[0].value
+      this.value2 = '牛肉'
       this.$page.setTitleBar({ text: 'Radio' })
     },
     evtEmit() {
-      this.data2.value = 2
+      this.value3 = "2"
     },
-    callback(data) {
-      console.log(JSON.stringify(data.detail))
+    callback1(data) {
+      this.value1 = data.detail.values
+    },
+    callback2(data) {
+      this.value2 = data.detail.values
+    },
+    callback3(data) {
+      this.value3 = data.detail.values
     }
   }
 </script>

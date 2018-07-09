@@ -1,6 +1,6 @@
 <template>
   <div class="qui-overlay">
-    <div class="{{className}}" style="background-color: {{option.background}}" show="{{visible}}" @click="overlayClick">
+    <div class="{{className}}" style="background-color: {{background}}" show="{{show}}" @click="overlayClick">
       <div @click="interceptor">
         <slot></slot>
       </div>
@@ -35,7 +35,7 @@
     animation-name: quioverlayleave;
   }
 
-  .qui-overlay > div {
+  .qui-overlay>div {
     position: fixed;
     left: 0;
     right: 0;
@@ -47,7 +47,7 @@
     animation-fill-mode: forwards;
   }
 
-  .qui-overlay > div > div {
+  .qui-overlay>div>div {
     flex-direction: column;
     align-items: center;
   }
@@ -55,62 +55,42 @@
 
 <script>
   /**
-   * option = {
-   *   show: true/false,   //是否显示
-   *   background: 'rgba(0,0,0,.4)',   //遮罩层背景色
-   *   autoClose: true/false  //点击遮罩层是否自动关闭
-   * }
+   * visible: '1'/'0',   //是否显示
+   * background: 'rgba(0,0,0,.4)'   //遮罩层背景色
    */
   export default {
-    props: [
-      'option'
-    ],
-    data() {
-      return {
-        visible: false,
-        className: '',
-        defaultOption: {
-          show: false,
-          background: 'rgba(0,0,0,0.4)',
-          autoClose: true
-        }
+    props: {
+      visible: {
+        type: String,
+        default: '0'
+      },
+      background: {
+        type: String,
+        default: 'rgba(0,0,0,0.4)'
       }
     },
+    data: {
+      show: false,
+      className: ''
+    },
     onInit() {
-      Object.keys(this.defaultOption).forEach(key => {
-        let methodName = key.replace(/^\w/, function ($0) {
-          return `update${$0.toUpperCase()}`
-        })
+      this.$watch('visible', 'updateVisible')
+      this.updateVisible()
+    },
+    updateVisible() {
+      if (this.timeoutId) clearTimeout(this.timeoutId)  //防止更改太快
 
-        this.$watch(`option.${key}`, methodName)
-        this[methodName]()
-      })
-    },
-    updateBackground() {
-      !this.option.hasOwnProperty('background') && this.$set('option.background', this.defaultOption.background)
-    },
-    updateAutoClose() {
-      !this.option.hasOwnProperty('autoClose') && this.$set('option.autoClose', this.defaultOption.autoClose)
-    },
-    updateShow() {
-      if (!this.option.hasOwnProperty('show')) {
-        this.$set('option.show', this.defaultOption.show)
+      if (this.visible === '1') {
+        this.show = true
+        this.className = 'qui-overlay-enter'
       } else {
-        clearTimeout(this.timeoutId)  //防止option.show更改太快
-
-        if (this.option.show) {
-          this.visible = true
-          this.className = 'qui-overlay-enter'
-        } else {
-          this.className = 'qui-overlay-leave'
-          this.timeoutId = setTimeout(() => {
-            this.visible = false
-          }, 500)
-        }
+        this.className = 'qui-overlay-leave'
+        this.timeoutId = setTimeout(() => {
+          this.show = false
+        }, 500)
       }
     },
     overlayClick() {
-      this.option.autoClose && (this.option.show = false)
       this.$emit('quiOverlayClick')
     },
     interceptor() {  //拦截click事件

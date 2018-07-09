@@ -1,77 +1,56 @@
 <import name='qui-stepper' src='@qapp-ui/qui-stepper/index'></import>
 
 <template>
-    <div class="page-doc">
-      <div class="stepper-box">
-        <text class="stepper-txt">参数：（默认值：1, 步长：1，最新值：1，最大值：10）</text>
-        <qui-stepper option="{{stepperData1}}" @qui-value-changed="valueChange"
-          @qui-min-over="minOver" @qui-max-over="maxOver"></qui-stepper>
-      </div>
-
-      <div class="stepper-box">
-        <text class="stepper-txt">参数：（默认值:10, 步长：2，最新值：5，最大值：15，只读状态）</text>
-        <qui-stepper option="{{stepperData2}}" @qui-value-changed="valueChange"
-          @qui-min-over="minOver" @qui-max-over="maxOver"></qui-stepper>
-      </div>
-
-      <div class="stepper-box">
-        <text class="stepper-txt">参数：（默认值:1，禁用状态）</text>
-        <qui-stepper option="{{stepperData3}}" @qui-value-changed="valueChange"
-          @qui-min-over="minOver" @qui-max-over="maxOver"></qui-stepper>
-      </div>
+  <div class="page-doc">
+    <div class="stepper-box">
+      <text class="stepper-txt">参数：（默认值：1, 步长：1，最新值：1，最大值：10）</text>
+      <qui-stepper default-value="1" step="1" min="0" max="10" @qui-value-changed="valueChange" @qui-min-over="minOver" @qui-max-over="maxOver"></qui-stepper>
+    </div>
+    <div class="stepper-box">
+      <text class="stepper-txt">参数：（默认值:10, 步长：2，最新值：5，最大值：15，只读状态）</text>
+      <qui-stepper default-value="10" step="2" min="5" max="15" read-only="1" @qui-value-changed="valueChange" @qui-min-over="minOver" @qui-max-over="maxOver"></qui-stepper>
+    </div>
+    <div class="stepper-box">
+      <text class="stepper-txt">参数：（默认值:1，禁用状态）</text>
+      <qui-stepper default-value="1" disabled="1" @qui-value-changed="valueChange" @qui-min-over="minOver" @qui-max-over="maxOver"></qui-stepper>
+    </div>
     <div>
 </template>
 
 <style>
-.page-doc {
-  flex: 1;
-  flex-direction: column;
-  background-color: #ffffff;
-}
-.stepper-box {
-  padding-bottom: 100px;
-  flex-direction: column;
-  align-items: center;
-  border-bottom-width: 1px;
-  border-style: solid;
-  border-color: #666666;
-}
-.stepper-txt {
-  width: 800px;
-  margin-top: 50px;
-  margin-bottom: 50px;
-  font-size: 40px;
-  color: rgb(102, 102, 102);
-}
+  .page-doc {
+    flex: 1;
+    flex-direction: column;
+    background-color: #ffffff;
+  }
+
+  .stepper-box {
+    padding-bottom: 100px;
+    flex-direction: column;
+    align-items: center;
+    border-bottom-width: 1px;
+    border-style: solid;
+    border-color: #666666;
+  }
+
+  .stepper-txt {
+    width: 800px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    font-size: 40px;
+    color: rgb(102, 102, 102);
+  }
 </style>
 
 <script>
   import prompt from '@system.prompt'
 
   export default {
-    private: {
-      stepperData1: {
-        defaultValue: 1,
-        step: 1,
-        min: 0,
-        max: 10
-      },
-      stepperData2: {
-        defaultValue: 10,
-        step: 2,
-        min: 5,
-        max: 15,
-        readOnly: true
-      },
-      stepperData3: {
-        defaultValue: 1,
-        disabled: true
-      }
-    },
+
     onInit() {
       this.$page.setTitleBar({ text: 'Stepper' })
     },
-    valueChange(e){
+    valueChange(e) {
       prompt.showToast({
         message: 'value change :' + e.detail.value
       })
@@ -81,7 +60,7 @@
         message: 'min over :' + e.detail.value
       })
     },
-    maxOver(e){
+    maxOver(e) {
       prompt.showToast({
         message: 'max over :' + e.detail.value
       })

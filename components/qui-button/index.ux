@@ -1,6 +1,8 @@
 <template>
-  <div class="qui-button-box {{isActived ? 'active':''}}" style="{{btnStyleObj}}" @click="clicked">
-    <text class="qui-button-txt" style="{{textStyleObj}}">{{option.text}}</text>
+  <div>
+    <div class="qui-button-box {{isActived ? 'active':''}}" style="backgroundColor:{{backgroundColor}};borderWidth:{{borderWidth}};width:{{width}};height:{{height}};borderColor:{{borderColor}};borderRadius:{{borderRadius}};opacity:{{opacity}}" @click="clicked">
+      <text class="qui-button-txt" style="color:{{color}};fontSize:{{fontSize}}">{{text}}</text>
+    </div>
   </div>
 </template>
 
@@ -29,74 +31,67 @@
 
 <script>
   export default {
-    props: ['option'],
+    props: {
+      tid: {
+        type: String
+      },
+      backgroundColor: {
+        type: String,
+        default: '#0F8DE8'
+      },
+      borderColor: String,
+      borderWidth: {
+        type: String,
+        default: '0px'
+      },
+      borderRadius: {
+        type: String,
+        default: '12px'
+      },
+      width: {
+        type: String,
+        default: '300px'
+      },
+      height: {
+        type: String,
+        default: '100px'
+      },
+      text: {
+        type: String,
+        default: '按钮'
+      },
+      disabled: {
+        type: String,
+        default: "0"
+      },
+      color: {
+        type: String,
+        default: '#000000'
+      },
+      fontSize: {
+        type: String,
+        default: '36px'
+      }
+    },
     data: {
-      defaultData: {
-        text: '按钮',
-        disabled: false
-      },
-      defaultBtnStyle: {
-        backgroundColor: '#0F8DE8',
-        borderColor: '',
-        borderWidth: '0px',
-        borderRadius: '12px',
-        width: '300px',
-        height: '100px'
-      },
-      defaultTextStyle: {
-        color: '#000000',
-        fontSize: '36px'
-      },
       isActived: false,
-      btnStyleObj: {},
-      textStyleObj: {}
+      opacity: 1,
+      wide: "0px"
     },
     onInit() {
-      this.setDefault()
-    },
-    setDefault() {
-      Object.keys(this.defaultData).forEach(key => {
-        if (!this.option.hasOwnProperty(key)) {
-          this.$set(`option.${key}`, this.defaultData[key])
-        }
-      })
-
-      if (!this.option.btnStyle) this.$set('option.btnStyle', {})
-      Object.keys(this.defaultBtnStyle).forEach(bkey => {
-        if (!this.option.btnStyle.hasOwnProperty(bkey)) {
-          this.$set(`option.btnStyle.${bkey}`, this.defaultBtnStyle[bkey])
-        }
-        this.$watch(`option.btnStyle.${bkey}`, 'setBtnStyleObj')
-      })
-
-      if (!this.option.textStyle) this.$set('option.textStyle', {})
-      Object.keys(this.defaultTextStyle).forEach(tkey => {
-        if (!this.option.textStyle.hasOwnProperty(tkey)) {
-          this.$set(`option.textStyle.${tkey}`, this.defaultTextStyle[tkey])
-        }
-        this.$watch(`option.textStyle.${tkey}`, 'setTextStyleObj')
-      })
-
-      this.setBtnStyleObj()
-      this.setTextStyleObj()
-    },
-    setBtnStyleObj() {
-      const btnStyle = this.option.btnStyle
-      if (this.option.disabled) {
-        btnStyle.opacity = '0.2'
-        btnStyle.borderWidth = '0px'
+      if (this.disabled !== "0") {
+        this.opacity = '0.2',
+          this.wide = "0px"
       }
-      this.btnStyleObj = btnStyle
-    },
-    setTextStyleObj() {
-      this.textStyleObj = this.option.textStyle
     },
     clicked() {
       this.isActived = true
       setTimeout(() => {
         this.isActived = false
       }, 300)
-      this.$emit('quiClicked', this.option)
+      this.$emit('quiClicked', {
+        tid: this.tid
+      })
     }
   }
 </script>

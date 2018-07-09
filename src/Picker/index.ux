@@ -7,36 +7,37 @@
     <input class="input-button" type="button" value="3列数据" onclick="showpicker('3')" />
     <input class="input-button" type="button" value="3列数据(多级联动)" onclick="showpicker('4')" />
 
-    <qui-picker option="{{pickerData1}}" @qui-overlay-click="overlayClick"
-    @qui-cancel-click="cancelClick" @qui-confirm-click="confirmClick"></qui-picker>
+    <qui-picker visible="{{pickerData1.visible}}" cancel-text="{{pickerData1.cancelText}}" confirm-text="{{pickerData1.confirmText}}"
+      background="{{pickerData1.background}}" list="{{pickerData1.list}}" @qui-overlay-click="overlayClick"
+      @qui-cancel-click="cancelClick" @qui-confirm-click="confirmClick"></qui-picker>
 
-    <qui-picker option="{{pickerData2}}" @qui-overlay-click="overlayClick"
-    @qui-cancel-click="cancelClick" @qui-confirm-click="confirmClick"></qui-picker>
+    <qui-picker visible="{{pickerData2.visible}}" list="{{pickerData2.list}}" @qui-overlay-click="overlayClick" @qui-cancel-click="cancelClick"
+      @qui-confirm-click="confirmClick"></qui-picker>
 
-    <qui-picker option="{{pickerData3}}" @qui-overlay-click="overlayClick"
-    @qui-cancel-click="cancelClick" @qui-confirm-click="confirmClick"></qui-picker>
+    <qui-picker visible="{{pickerData3.visible}}" list="{{pickerData3.list}}" @qui-overlay-click="overlayClick" @qui-cancel-click="cancelClick"
+      @qui-confirm-click="confirmClick"></qui-picker>
 
-    <qui-picker option="{{pickerData4}}" @qui-overlay-click="overlayClick"
-    @qui-cancel-click="cancelClick" @qui-confirm-click="confirmClick"></qui-picker>
+    <qui-picker visible="{{pickerData4.visible}}" type="{{pickerData4.type}}" sel-indexs="{{pickerData4.selIndexs}}" list="{{pickerData4.list}}"
+      @qui-overlay-click="overlayClick" @qui-cancel-click="cancelClick" @qui-confirm-click="confirmClick"></qui-picker>
   </div>
 </template>
 
 <style>
-.page-doc {
-  flex: 1;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-color: #eeeeee;
-}
+  .page-doc {
+    flex: 1;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #eeeeee;
+  }
 
-.input-button {
-  width: 800px;
-  height: 100px;
-  background-color: #0F8DE8;
-  margin-bottom: 100px;
-  color: #ffffff;
-}
+  .input-button {
+    width: 800px;
+    height: 100px;
+    background-color: #0F8DE8;
+    margin-bottom: 100px;
+    color: #ffffff;
+  }
 </style>
 
 <script>
@@ -45,48 +46,47 @@
   export default {
     private: {
       pickerData1: {
-        show: false,
+        visible: '0',
         cancelText: 'cancel',
         confirmText: 'OK',
         background: 'rgba(0,0,0,0.1)',
-        autoClose: false,
         list: [
-          ['北京','上海','广州','杭州','南京','深圳','成都','天津','郑州']
+          ['北京', '上海', '广州', '杭州', '南京', '深圳', '成都', '天津', '郑州']
         ]
       },
       pickerData2: {
-        show: false,
+        visible: '0',
         list: [
-          ['北京','上海','广州','杭州','南京','深圳','成都','天津','郑州'],
-          ['8:00','9:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00','17:00']
+          ['北京', '上海', '广州', '杭州', '南京', '深圳', '成都', '天津', '郑州'],
+          ['8:00', '9:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00']
         ]
       },
       pickerData3: {
-        show: false,
+        visible: '0',
         list: [
-          ['北京','上海','广州','杭州','南京','深圳','成都','天津','郑州'],
-          ['8:00','9:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00','17:00'],
-          ['上午','中午','下午']
+          ['北京', '上海', '广州', '杭州', '南京', '深圳', '成都', '天津', '郑州'],
+          ['8:00', '9:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00'],
+          ['上午', '中午', '下午']
         ]
       },
       pickerData4: {
-        show: false,
+        visible: '0',
         type: 'chain',
-        selIndexs: [1,0,1],
+        selIndexs: [1, 0, 1],
         list: [{
           name: '北京',
           children: [{
             name: '北京市',
             children: [{
               name: '昌平区',
-            },{
+            }, {
               name: '朝阳区',
-            },{
+            }, {
               name: '大兴区',
-            },{
+            }, {
               name: '东城区',
             }]
-	        }]
+          }]
         },
         {
           name: '福建省',
@@ -94,11 +94,11 @@
             name: '福州市',
             children: [{
               name: '仓山区',
-            },{
+            }, {
               name: '福清市',
-            },{
+            }, {
               name: '鼓楼区',
-            },{
+            }, {
               name: '晋安区',
             }]
           },
@@ -106,9 +106,9 @@
             name: '龙岩市',
             children: [{
               name: '连城县',
-            },{
+            }, {
               name: '上杭县',
-            },{
+            }, {
               name: '武平县',
             }]
           },
@@ -116,12 +116,12 @@
             name: '南平市',
             children: [{
               name: '光泽县',
-            },{
+            }, {
               name: '建瓯市',
-            },{
+            }, {
               name: '建阳区',
             }]
-	        }]
+          }]
         },
         {
           name: '广东省',
@@ -129,14 +129,14 @@
             name: '中山市',
             children: [{
               name: '南头镇',
-            },{
+            }, {
               name: '小榄镇',
-            },{
+            }, {
               name: '神湾镇',
-            },{
+            }, {
               name: '东凤镇',
             }]
-	        }]
+          }]
         },
         {
           name: '广西壮族自治区',
@@ -144,25 +144,25 @@
             name: '北海市',
             children: [{
               name: '海城区',
-            },{
+            }, {
               name: '合浦县',
-            },{
+            }, {
               name: '铁山港区',
-            },{
+            }, {
               name: '银海区',
             }]
-	        }, {
+          }, {
             name: '百色市',
             children: [{
               name: '德保县',
-            },{
+            }, {
               name: '靖西市',
-            },{
+            }, {
               name: '乐业县',
-            },{
+            }, {
               name: '隆林各族自治县',
             }]
-	        }]
+          }]
         },
         ]
       }
@@ -171,14 +171,14 @@
       this.$page.setTitleBar({ text: 'Picker' })
     },
     showpicker(idx) {
-      this[`pickerData${idx}`].show = true
+      this[`pickerData${idx}`].visible = '1'
     },
-    onBackPress(){
+    onBackPress() {
       let res = false;
-      ['pickerData1','pickerData2','pickerData3','pickerData4'].forEach(key => {
-        if (this[key].show) {
+      ['pickerData1', 'pickerData2', 'pickerData3', 'pickerData4'].forEach(key => {
+        if (this[key].visible === '1') {
           setTimeout(() => {
-            this[key].show = false
+            this[key].visible = '0'
           }, 0)
           res = true
         }
@@ -186,18 +186,26 @@
       return res
     },
     overlayClick() {
+      this.changeVisible()
       prompt.showToast({
         message: '点击蒙层'
       })
     },
     cancelClick() {
+      this.changeVisible()
       prompt.showToast({
         message: '点击取消'
       })
     },
-    confirmClick(e) {
+    confirmClick(evt) {
+      this.changeVisible()
       prompt.showToast({
-        message: '点击确定' + JSON.stringify(e.detail.selIndexs || [])
+        message: '点击确定' + JSON.stringify(evt.detail.selIndexs || [])
+      })
+    },
+    changeVisible() {
+      ['pickerData1', 'pickerData2', 'pickerData3', 'pickerData4'].forEach(key => {
+        this[key].visible = '0'
       })
     }
   }

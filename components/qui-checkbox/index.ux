@@ -3,38 +3,43 @@
 
 <template>
   <div class="qui-checkbox-box">
-    <block for="(index, row) in option.options">
-      <div if="!(index === 0) && option.isBorder" class="border-top"></div>
-      <div class="item {{option.isRight ? 'is-right' : ''}} {{row.disabled ? 'disabled' : ''}}" @click="clickAction(row)">
-        <text class="name" if="option.isRight" style="font-size: {{option.labelFontSize}};color: {{option.labelColor}}">{{row.label || row}}</text>
-        <stack class="checkbox" style="background-color: {{option.checked[index] ? option.checkedColor : option.checkColor}};border-color: {{option.checked[index] ? option.checkedBorderColor : option.checkBorderColor}}">
-          <div class="thumb {{option.checked[index] ? 'open' : 'close'}}" style="border-color: {{option.checked[index] ? option.thumbCheckedColor : option.thumbCheckColor}}"></div>
+    <block for="(index, row) in options">
+      <div if="!(index === 0) && replaceHasBorder" class="border-top"></div>
+      <div class="item {{replaceIsRight ? 'is-right' : ''}} {{row.disabled ? 'disabled' : ''}}" @click="clickAction(row)">
+        <text class="name" if="replaceIsRight" style="font-size: {{labelFontSize}};color: {{labelColor}}">{{row.label || row}}</text>
+        <stack class="checkbox" style="background-color: {{replaceChecked[index] ? checkedColor : checkColor}};border-color: {{replaceChecked[index] ? checkedBorderColor : checkBorderColor}}">
+          <div class="thumb {{replaceChecked[index] ? 'open' : 'close'}}" style="border-color: {{replaceChecked[index] ? thumbCheckedColor : thumbCheckColor}}"></div>
         </stack>
-        <text class="name" if="!option.isRight" style="margin-left: {{option.labelMargin}};font-size: {{option.labelFontSize}};color: {{option.labelColor}}">{{row.label || row}}</text>
+        <text class="name" if="!replaceIsRight" style="margin-left: {{labelMargin}};font-size: {{labelFontSize}};color: {{labelColor}}">{{row.label || row}}</text>
       </div>
     </block>
   </div>
 </template>
 
 <style>
-  .qui-checkbox-box{
+  .qui-checkbox-box {
     flex-direction: column;
     background-color: #ffffff;
   }
+
   .border-top {
     margin-left: 20px;
     height: 1px;
     background-color: #bbbbbb;
   }
+
   .item {
     padding: 30px 40px;
   }
+
   .is-right {
     justify-content: space-between;
   }
+
   .disabled .checkbox {
     opacity: .5;
   }
+
   .checkbox {
     align-items: center;
     justify-content: center;
@@ -43,6 +48,7 @@
     border-radius: 30px;
     border-width: 4px;
   }
+
   .thumb {
     border-right-width: 4px;
     border-bottom-width: 4px;
@@ -51,6 +57,7 @@
     transform: rotate(45deg);
     margin-top: -8px;
   }
+
   @keyframes open {
     from {
       transform: scale(0);
@@ -59,11 +66,13 @@
       transform: scale(1);
     }
   }
+
   .open {
     animation-name: open;
     animation-duration: 0ms;
     animation-fill-mode: forwards;
   }
+
   @keyframes close {
     from {
       transform: scale(1);
@@ -72,6 +81,7 @@
       transform: scale(0);
     }
   }
+
   .close {
     animation-name: close;
     animation-duration: 0ms;
@@ -81,40 +91,90 @@
 
 <script>
   export default {
-    props: ['option'],
-    data: {
-      defaultData: {
-        values: [],
-        checked: [],
-        options: [],
-        labelMargin: '30px',
-        labelFontSize: '44px',
-        labelColor: '#000000',
-        isRight: false,
-        isBorder: true,
-        checkColor: '#FFFFFF',
-        checkedColor: '#2998F9',
-        checkBorderColor: '#CACBCC',
-        checkedBorderColor: '#2998F9',
-        thumbCheckColor: 'transparent',
-        thumbCheckedColor: '#FFFFFF'
+    props: {
+      values: {
+        type: Array,
+        default: []
+      },
+      checked: {
+        type: Array,
+        default: []
+      },
+      options: {
+        type: Array,
+        default: []
+      },
+      labelMargin: {
+        type: String,
+        default: '30px'
+      },
+      labelFontSize: {
+        type: String,
+        default: "44px"
+      },
+      labelColor: {
+        type: String,
+        default: '#000000'
+      },
+      isRight: {
+        type: String,
+        default: '0'
+      },
+      hasBorder: {
+        type: String,
+        default: '1'
+      },
+      checkColor: {
+        type: String,
+        default: '#FFFFFF'
+      },
+      checkedColor: {
+        type: String,
+        default: '#2998F9'
+      },
+      checkBorderColor: {
+        type: String,
+        default: '#CACBCC'
+      },
+      checkedBorderColor: {
+        type: String,
+        default: '#2998F9'
+      },
+      thumbCheckColor: {
+        type: String,
+        default: 'transparent'
+      },
+      thumbCheckedColor: {
+        type: String,
+        default: '#FFFFFF'
+      },
+    },
+    data() {
+      return {
+        replaceIsRight: false,
+        replaceHasBorder: true,
+        replaceChecked: this.checked,
+        replaceValues: this.values
       }
     },
     onInit() {
-      this.setDefault()
+      this.initialize()
+      this.updateChecked()
       this.$on('evtCast', this.updateArr)
     },
     onReady() {
-      this.$watch('option.values', 'change')
-      this.$watch('option.values', 'updateChecked')
+      this.$watch('values', 'initialize')
+      this.$watch('replaceValues', 'change')
+      this.$watch('replaceValues', 'updateChecked')
     },
-    setDefault() {
-      for (var key in this.defaultData) {
-        if (this.defaultData[key] !== undefined && this.option && this.option[key] === undefined) {
-          this.$set(`option.${key}`, this.defaultData[key])
-        }
+    initialize() {
+      if (this.isRight !== "0") {
+        this.replaceIsRight = true
       }
-      this.updateChecked()
+      if (this.hasBorder !== "1") {
+        this.replaceHasBorder = false
+      }
+      this.replaceValues = [...this.values]
     },
     clickAction(data) {
       if (typeof data === 'object') {
@@ -127,41 +187,42 @@
       }
     },
     updateChecked() {
-      for (let i = 0, a = this.option.options.length; i < a; i++) {
-        this.option.checked.splice(i, 1, false)
-        for (let j = 0, b = this.option.values.length; j < b; j++) {
-          let val = this.option.options[i].value || this.option.options[i]
-          if (b > 0 && val === this.option.values[j]) {
-            this.option.checked.splice(i, 1, true)
+      for (let i = 0, a = this.options.length; i < a; i++) {
+        this.replaceChecked.splice(i, 1, false)
+        for (let j = 0, b = this.replaceValues.length; j < b; j++) {
+          let val = this.options[i].value || this.options[i]
+          if (b > 0 && val === this.replaceValues[j]) {
+            this.replaceChecked.splice(i, 1, true)
             break
           }
         }
       }
     },
     updateArr(params) {
-      let data = typeof params === 'object' ? params.detail.params : params
-      if (this.checkInArr(this.option.values, data)) {
-        this.option.values.forEach( (val, idx)=> {
+      let data = (typeof params === 'object' ? params.detail.params : params)
+      if (this.checkInArr(this.replaceValues, data)) {
+        this.replaceValues.forEach((val, idx) => {
           if (val === data) {
-            this.option.values.splice(idx, 1)
+            this.replaceValues.splice(idx, 1)
           }
         })
       }
       else {
-        this.option.values.push(data)
+        this.replaceValues.push(data)
       }
+
     },
     checkInArr(arr, data) {
       let isExist = false
-      for (var i=0,len=arr.length; i<len; i++){
-        if (arr[i]===data) {
+      for (var i = 0, len = arr.length; i < len; i++) {
+        if (arr[i] === data) {
           isExist = true
         }
       }
       return isExist
     },
     change() {
-      this.$emit('quiCheckboxChange', {values: this.option.values})
+      this.$emit('quiCheckboxChange', { values: this.replaceValues })
     }
   }
 </script>

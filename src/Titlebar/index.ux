@@ -1,38 +1,39 @@
 <import name='qui-titlebar' src='@qapp-ui/qui-titlebar/index'></import>
 
 <template>
-    <div class="page-doc">
-      <div class="titlebar-box ">
-        <qui-titlebar option="{{titleData1}}"></qui-titlebar>
-      </div>
+  <div class="page-doc">
+    <div class="titlebar-box ">
+      <qui-titlebar title='标题1(默认配置)'></qui-titlebar>
+    </div>
 
-      <div class="titlebar-box">
-        <qui-titlebar option="{{titleData2}}"></qui-titlebar>
-      </div>
+    <div class="titlebar-box">
+      <qui-titlebar title='标题2(title靠左)' title-align='left'></qui-titlebar>
+    </div>
 
-      <div class="titlebar-box">
-        <qui-titlebar option="{{titleData3}}" @qui-leftclicked="leftClick" @qui-rightclicked="rightClick"></qui-titlebar>
-      </div>
+    <div class="titlebar-box">
+      <qui-titlebar title='标题3(左右侧带icon)' left-icon='/Common/img/back.webp' right-icon='/Common/img/more.webp' default-return="0" @qui-leftclicked="leftClick" @qui-rightclicked="rightClick"></qui-titlebar>
+    </div>
 
-      <div class="titlebar-box ">
-        <qui-titlebar option="{{titleData4}}" ></qui-titlebar>
-      </div>
+    <div class="titlebar-box ">
+      <qui-titlebar title='标题4(自定义样式)' left-text='返回' right-text='更多' text-color='#ffffff' background-color='#0F8DE8' background-opacity='0.5'></qui-titlebar>
+    </div>
 
-      <div class="titlebar-box ">
-        <qui-titlebar option="{{titleData5}}"></qui-titlebar>
-      </div>
+    <div class="titlebar-box ">
+      <qui-titlebar rich-content="{{titleData}}"></qui-titlebar>
+    </div>
     <div>
 </template>
 
 <style>
-.page-doc {
-  flex: 1;
-  flex-direction: column;
-  background-color: #eeeeee;
-}
-.titlebar-box {
-  margin-bottom: 80px;
-}
+  .page-doc {
+    flex: 1;
+    flex-direction: column;
+    background-color: #eeeeee;
+  }
+
+  .titlebar-box {
+    margin-bottom: 80px;
+  }
 </style>
 
 <script>
@@ -40,33 +41,7 @@
 
   export default {
     private: {
-      titleData1: {
-        title: '标题1(默认配置)'
-      },
-      titleData2: {
-        title: '标题2(title靠左)',
-        titleAlign: 'left'
-      },
-      titleData3: {
-        title: '标题3(左右侧带icon)',
-        leftIcon: '/Common/img/back.webp',
-        rightIcon: '/Common/img/more.webp',
-        defaultReturn: false
-      },
-      titleData4: {
-        title: '标题4(自定义样式)',
-        leftIcon: '',
-        leftText: '返回',
-        rightIcon: '',
-        rightText: '更多',
-        textColor: '#ffffff',
-        backgroundColor: '#0F8DE8',
-        backgroundOpacity: '0.5'
-      },
-      titleData5: {
-        richContent:
-          '<text style="height:144px;width:1080px;background-image:url(/Common/img/linearbg.webp);text-align:center;font-size:50px;">标题5(自定义富文本内容)</text>'
-      }
+      titleData: '<text style="height:144px;width:1080px;background-image:url(/Common/img/linearbg.webp);text-align:center;font-size:50px;">标题5(自定义富文本内容)</text>'
     },
     onInit() {
       this.$page.setTitleBar({ text: 'Titlebar' })
