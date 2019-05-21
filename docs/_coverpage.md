@@ -7,5 +7,3 @@
 
 [GitHub](https://github.com/qapp-ui/qapp-ui)
 [文档](#QAPP-UI)
-
-![](linear-gradient(to left bottom, hsl(66, 100%, 85%) 0%,hsl(40, 100%, 85%) 100%))
